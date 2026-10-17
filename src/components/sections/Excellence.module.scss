@@ -1,0 +1,113 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  height: u(774);
+  background: #fff;
+}
+
+.inner {
+  @include container;
+  position: relative;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: u(80);
+  left: u(-3);
+  width: u(700);
+  font-size: u(55);
+  font-weight: 700;
+  line-height: u(60);
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  position: absolute;
+  top: u(132);
+  left: u(853);
+  width: u(800);
+  font-size: u(18);
+  line-height: u(29);
+  color: var(--ink-soft);
+}
+
+.photo {
+  position: absolute;
+  top: u(238);
+  left: u(2);
+  border-radius: u(12);
+}
+
+.stats {
+  position: absolute;
+  top: u(238);
+  left: u(850);
+  display: grid;
+  grid-template-columns: repeat(3, u(264));
+  gap: u(20) u(20);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: u(200);
+  padding-top: u(41);
+  border: 1px solid #e6e6e6;
+  border-radius: u(12);
+  background: #fff;
+
+  strong {
+    letter-spacing: 0;
+    margin-top: u(12);
+    font-size: u(40);
+    font-weight: 700;
+    line-height: u(48);
+    color: var(--ink);
+  }
+
+  span {
+    letter-spacing: 0;
+    font-size: u(22);
+    line-height: u(32);
+    color: var(--slate);
+    text-align: center;
+  }
+}
+
+@include below($bp-lg) {
+  .section {
+    height: auto;
+    padding: 48px 0;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-inline: 24px;
+  }
+
+  .title,
+  .lead,
+  .stats {
+    position: static;
+    width: auto;
+  }
+
+  .title {
+    font-size: clamp(32px, 6vw, 55px);
+    line-height: 1.1;
+  }
+
+  .photo {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .stats {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}

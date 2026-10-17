@@ -1,0 +1,119 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  height: u(729);
+  background: #fff;
+}
+
+.inner {
+  @include container;
+  position: relative;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: u(128);
+  left: u(0);
+  font-size: u(55);
+  font-weight: 700;
+  line-height: u(60);
+  letter-spacing: -0.02em;
+}
+
+.text {
+  position: absolute;
+  top: u(337);
+  left: 0;
+  width: u(480);
+  font-size: u(18);
+  line-height: u(29);
+  color: var(--ink-soft);
+}
+
+.cta {
+  position: absolute;
+  top: u(553);
+  left: 0;
+}
+
+.list {
+  position: absolute;
+  top: u(105);
+  left: u(531);
+  width: u(536);
+  height: u(520);
+  padding: u(38) u(42) 0 u(35);
+  background: #fff7ec;
+
+  li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: u(72);
+    padding-left: u(22);
+    border-bottom: 1px solid #f0e2d0;
+    font-size: u(22);
+    letter-spacing: 0;
+  }
+
+  li span {
+    position: absolute;
+    left: u(99);
+  }
+}
+
+.photo {
+  position: absolute;
+  top: u(105);
+  left: u(1079);
+  border-radius: u(8);
+}
+
+@include below($bp-lg) {
+  .section {
+    height: auto;
+    padding: 48px 24px;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    height: auto;
+  }
+
+  .title,
+  .text,
+  .cta,
+  .list {
+    position: static;
+    width: auto;
+  }
+
+  .title {
+    font-size: clamp(32px, 6vw, 55px);
+    line-height: 1.1;
+  }
+
+  .list {
+    height: auto;
+    padding: 16px 24px;
+
+    li {
+      gap: 20px;
+      padding-left: 0;
+    }
+
+    li span {
+      position: static;
+    }
+  }
+
+  .photo {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 596px;
+  }
+}

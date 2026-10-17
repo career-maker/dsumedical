@@ -1,0 +1,64 @@
+@use "@/styles/tokens" as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: u(14);
+  width: var(--w, auto);
+  height: u(50);
+  padding: 0 u(20);
+  border-radius: u(4);
+  font-size: u(18);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: filter 0.2s, transform 0.2s;
+
+  &:hover {
+    filter: brightness(1.06);
+  }
+
+  @include below($bp-lg) {
+    width: auto;
+  }
+}
+
+.primary {
+  color: #fff;
+  background: var(--gradient-cta);
+}
+
+.soft {
+  color: var(--ink);
+  background: var(--peach);
+  border-color: rgba(239, 103, 17, 0.45);
+}
+
+.outline {
+  color: #fff;
+  background: rgba(255, 109, 0, 0.14);
+  border-color: rgba(255, 109, 0, 0.55);
+}
+
+.glass {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.14);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.white {
+  color: var(--red);
+  background: #fff;
+}
+
+.gray {
+  color: var(--ink);
+  background: #d9d9d9;
+}
+
+.light {
+  color: var(--ink);
+  background: #f5f5f5;
+}

@@ -1,0 +1,225 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  position: relative;
+  height: u(824);
+  overflow: hidden;
+  background: #f6ede8;
+}
+
+.pattern i {
+  position: absolute;
+  background: #fff;
+  clip-path: polygon(
+    36.9% 0,
+    63.1% 0,
+    63.1% 36.9%,
+    100% 36.9%,
+    100% 63.1%,
+    63.1% 63.1%,
+    63.1% 100%,
+    36.9% 100%,
+    36.9% 63.1%,
+    0 63.1%,
+    0 36.9%,
+    36.9% 36.9%
+  );
+}
+
+.inner {
+  @include container;
+  position: relative;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: u(64);
+  inset-inline: 0;
+  font-size: u(55);
+  font-weight: 700;
+  line-height: u(60);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.sub {
+  position: absolute;
+  top: u(137);
+  left: u(440);
+  width: u(800);
+  font-size: u(18);
+  line-height: u(29);
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.tabs {
+  position: absolute;
+  top: u(228);
+  left: u(344);
+  display: flex;
+  width: u(995);
+  height: u(57);
+  border-radius: u(8);
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.tab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: u(12);
+  font-size: u(18);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.tabOn {
+  background: var(--gradient-cta);
+  color: #fff;
+}
+
+.cards {
+  position: absolute;
+  top: u(347);
+  left: u(3);
+  display: grid;
+  grid-template-columns: repeat(4, u(404.3));
+  gap: u(18);
+}
+
+.card {
+  position: relative;
+  height: u(400);
+  border-radius: u(8);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  h3 {
+    position: absolute;
+    top: u(229);
+    left: u(22);
+    font-size: u(20);
+    font-weight: 700;
+    line-height: u(30);
+    letter-spacing: 0;
+  }
+
+  p {
+    position: absolute;
+    top: u(265);
+    left: u(22);
+    width: u(326);
+    font-size: u(18);
+    line-height: u(29);
+    color: var(--ink-soft);
+  }
+}
+
+.photo {
+  width: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: u(139);
+  left: u(21);
+  display: grid;
+  place-items: center;
+  width: u(72);
+  height: u(72);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dc2725, #fb7a15);
+  box-shadow: 0 0 0 u(4) #fff;
+}
+
+.next {
+  position: absolute;
+  right: u(24);
+  bottom: u(20);
+  display: grid;
+  place-items: center;
+  width: u(39);
+  height: u(39);
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: var(--orange);
+}
+
+.nextOn {
+  background: var(--orange);
+  color: #fff;
+}
+
+.empty {
+  position: absolute;
+  top: u(400);
+  inset-inline: 0;
+  text-align: center;
+  color: var(--slate);
+}
+
+@include below($bp-lg) {
+  .section {
+    height: auto;
+    padding: 48px 24px;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    height: auto;
+  }
+
+  .title,
+  .sub,
+  .tabs,
+  .cards,
+  .empty {
+    position: static;
+    width: auto;
+  }
+
+  .title {
+    font-size: clamp(32px, 6vw, 55px);
+  }
+
+  .tabs {
+    height: auto;
+    flex-wrap: wrap;
+
+    button {
+      flex: 1 1 140px;
+      min-height: 48px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+  }
+
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .card {
+    height: auto;
+    padding-bottom: 72px;
+
+    h3,
+    p,
+    .badge {
+      position: static;
+      margin: 12px 20px 0;
+    }
+
+    p {
+      width: auto;
+    }
+  }
+}

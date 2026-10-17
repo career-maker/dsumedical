@@ -1,0 +1,78 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  height: u(369);
+  background: #fff;
+}
+
+.inner {
+  @include container;
+  position: relative;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: u(79);
+  inset-inline: 0;
+  font-size: u(55);
+  font-weight: 700;
+  line-height: u(60);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.sub {
+  position: absolute;
+  top: u(169);
+  inset-inline: 0;
+  font-size: u(18);
+  line-height: u(29);
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.actions {
+  position: absolute;
+  top: u(229);
+  left: u(322);
+  display: flex;
+  gap: u(15);
+
+  a {
+    height: u(52);
+  }
+}
+
+@include below($bp-lg) {
+  .section {
+    height: auto;
+    padding: 48px 24px;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    text-align: center;
+  }
+
+  .title,
+  .sub,
+  .actions {
+    position: static;
+  }
+
+  .title {
+    font-size: clamp(28px, 6vw, 50px);
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    a {
+      gap: 12px;
+    }
+  }
+}

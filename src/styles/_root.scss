@@ -1,0 +1,23 @@
+@use "tokens" as *;
+
+:root {
+  --orange: #ef6711;
+  --orange-bright: #ff6d00;
+  --red: #dc2725;
+  --ink: #212121;
+  --ink-soft: #333333;
+  --slate: #4a5565;
+  --cream: #fff7ed;
+  --peach: #ffeadb;
+  --gradient-cta: linear-gradient(90deg, #dc2725 0%, #fb7a15 100%);
+  --gradient-card: linear-gradient(135deg, #dc2725 0%, #fb7a15 100%);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --u: clamp(0.75px, calc(100vw / 1920), 1px);
+}
+
+
+@media (max-width: #{$bp-lg - 0.02px}) {
+  :root {
+    --u: 1px;
+  }
+}

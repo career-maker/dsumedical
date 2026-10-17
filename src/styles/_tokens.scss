@@ -1,0 +1,23 @@
+// Design tokens sampled from the Figma/PDF export (1920px canvas).
+$container: 1680px;
+$bp-lg: 1280px;
+$bp-md: 960px;
+$bp-sm: 640px;
+
+@mixin container {
+  width: u(1680);
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+@mixin below($bp) {
+  @media (max-width: #{$bp - 0.02px}) {
+    @content;
+  }
+}
+
+// Design px -> fluid unit. 1920px canvas scales down to 1440px width, then stays (min --u).
+@function u($n) {
+  @return calc(#{$n} * var(--u));
+}
+

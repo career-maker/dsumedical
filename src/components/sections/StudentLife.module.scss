@@ -1,0 +1,151 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  height: u(1168);
+  background: #e9f4ff;
+}
+
+.inner {
+  @include container;
+  position: relative;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: u(79);
+  left: u(-4);
+  font-size: u(55);
+  font-weight: 700;
+  line-height: u(60);
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  position: absolute;
+  top: u(160);
+  left: u(1);
+  font-size: u(18);
+  line-height: u(29);
+  color: var(--ink-soft);
+}
+
+.explore {
+  position: absolute;
+  top: u(137);
+  right: u(2);
+  height: u(50);
+}
+
+.grid li {
+  position: absolute;
+  border-radius: u(8);
+  overflow: hidden;
+
+  span {
+    position: absolute;
+    left: u(21);
+    bottom: u(16);
+    z-index: 1;
+    color: #fff;
+    font-size: u(22);
+    font-weight: 500;
+    line-height: u(26);
+    letter-spacing: 0;
+  }
+
+  &:has(span)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.55) 100%);
+  }
+}
+
+.photo {
+  width: 100%;
+}
+
+.g_campus {
+  top: u(232.6);
+  left: u(-4);
+  width: u(683);
+}
+
+.g_hostel {
+  top: u(232.6);
+  left: u(704);
+  width: u(405);
+}
+
+.g_library {
+  top: u(232.6);
+  left: u(1134);
+  width: u(544.5);
+}
+
+.g_students {
+  top: u(487.6);
+  left: u(1134);
+  width: u(544.5);
+}
+
+.g_hall {
+  top: u(742.2);
+  left: u(-4);
+  width: u(405);
+}
+
+.g_group {
+  top: u(742.2);
+  left: u(421);
+  width: u(405);
+}
+
+.g_sports {
+  top: u(742.2);
+  left: u(846);
+  width: u(830);
+}
+
+@include below($bp-lg) {
+  .section {
+    height: auto;
+    padding: 48px 24px;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    height: auto;
+  }
+
+  .title,
+  .sub,
+  .explore,
+  .grid {
+    position: static;
+    width: auto;
+  }
+
+  .explore {
+    justify-self: start;
+  }
+
+  .title {
+    font-size: clamp(30px, 6vw, 50px);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 12px;
+
+    li {
+      position: relative;
+      inset: auto;
+      width: auto;
+    }
+  }
+}

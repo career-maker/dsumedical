@@ -1,0 +1,54 @@
+@use "@/styles/tokens" as *;
+
+.rail {
+  position: fixed;
+  top: u(480);
+  right: u(-3);
+  z-index: 30;
+  width: u(59);
+
+  @media (max-height: 860px) {
+    top: 12vh;
+  }
+
+  @include below($bp-md) {
+    display: none;
+  }
+}
+
+.enquire {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: u(55);
+  height: u(168);
+  margin-left: 1px;
+  border-radius: u(8) 0 0 u(8);
+  background: linear-gradient(180deg, #dc2725 0%, #fb7a15 100%);
+  color: #fff;
+  font-size: u(18);
+  font-weight: 500;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.panel {
+  margin-top: u(13);
+  padding: u(10) 0;
+  border-radius: u(8) 0 0 u(8);
+  background: #fff;
+  box-shadow: 0 0 u(10) rgba(0, 0, 0, 0.12);
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: u(51);
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

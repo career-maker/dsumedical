@@ -1,0 +1,18 @@
+@use "@/styles/tokens" as *;
+
+.frame {
+  position: relative;
+  width: var(--w);
+  max-width: 100%;
+  overflow: hidden;
+
+  @include below($bp-lg) {
+    width: 100%;
+  }
+}
+
+.img {
+  position: absolute;
+  max-width: none;
+  object-fit: fill;
+}

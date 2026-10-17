@@ -1,0 +1,164 @@
+@use "root";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-roboto), Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.36px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// ---- Interaction polish: hover animations for every link and button ----
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+a,
+button {
+  transition: translate 0.35s $ease, scale 0.35s $ease, box-shadow 0.35s $ease, filter 0.35s $ease,
+    background-color 0.3s, color 0.3s, border-color 0.3s, background-size 0.4s $ease;
+}
+
+a img,
+button img {
+  transition: scale 0.35s $ease, rotate 0.5s $ease, filter 0.35s $ease;
+}
+
+@media (hover: hover) {
+  // Text links: underline draws in from the left.
+  :where(a:not(:has(img, svg)):not([class*="btn"])) {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+
+    &:hover {
+      background-size: 100% 1px;
+    }
+  }
+
+  // Icon / logo-only links.
+  a:has(img):not([class*="btn"]):hover img,
+  button:hover > img {
+    scale: 1.12;
+  }
+
+  // Buttons-as-links (CTAs): lift, glow, shimmer sweep, icon spin.
+  :where(a[class*="btn"]) {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+      translate: -120% 0;
+      transition: translate 0.7s $ease;
+    }
+
+    &:hover {
+      translate: 0 -3px;
+      box-shadow: 0 10px 22px rgba(220, 39, 37, 0.28);
+      filter: brightness(1.05);
+
+      &::after {
+        translate: 120% 0;
+      }
+
+      svg,
+      img {
+        rotate: 90deg;
+      }
+    }
+
+    &:active {
+      translate: 0 -1px;
+      scale: 0.98;
+    }
+  }
+
+  // Tabs, list rows, arrows and other buttons.
+  button:not([aria-expanded]):hover {
+    translate: 0 -2px;
+    filter: brightness(1.04);
+  }
+
+  button:not([aria-expanded]):active {
+    scale: 0.97;
+  }
+
+  [role="tab"][aria-selected="false"]:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(239, 103, 17, 0.35);
+}
