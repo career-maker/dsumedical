@@ -1,0 +1,87 @@
+@use "@/styles/tokens" as *;
+
+.ticker {
+  display: flex;
+  height: u(50);
+  font-size: u(16);
+  color: #fff;
+}
+
+.label {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: u(18);
+  width: u(241);
+  padding-left: u(36);
+  background: linear-gradient(90deg, #dc2725 0%, #fb7a15 100%);
+  font-weight: 500;
+}
+
+.track {
+  flex: 1;
+  overflow: hidden;
+  background: linear-gradient(90deg, #b52a1c 0%, #dd7227 100%);
+
+  // Hovering anywhere on the strip freezes it so an item can be read.
+  &:hover .slide {
+    animation-play-state: paused;
+  }
+}
+
+.slide {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  padding-left: u(44);
+  animation: marquee 60s linear infinite;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: u(20);
+    margin-right: u(8);
+    padding: u(6) u(14) u(6) u(14);
+    border-radius: u(30);
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: default;
+    transition: background-color 0.2s, color 0.2s;
+
+    svg {
+      transition: rotate 0.4s, scale 0.3s;
+    }
+
+    &:hover {
+      background: #fff;
+      color: var(--red);
+      font-weight: 500;
+
+      svg {
+        rotate: 90deg;
+        scale: 1.25;
+      }
+    }
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@include below($bp-lg) {
+  .label {
+    width: auto;
+    padding: 0 16px;
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    animation-duration: 240s;
+  }
+}

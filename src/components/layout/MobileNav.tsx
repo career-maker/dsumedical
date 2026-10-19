@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/ui/SmartLink";
 import { useEffect, useId, useState } from "react";
 import styles from "./MobileNav.module.scss";
 
-type NavItem = { label: string; href: string };
+type NavItem = { label: string; href: string; children?: NavItem[] };
 
 export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
   const [open, setOpen] = useState(false);
@@ -31,13 +31,24 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
       >
         <span aria-hidden="true" className={open ? styles.barsOpen : styles.bars} />
       </button>
-      <nav id={panelId} className={styles.panel} hidden={!open} aria-label="Mobile">
+      <nav id={panelId} className={styles.panel} hidden={!open} aria-label="Mobile" data-lenis-prevent>
         <ul>
           {items.map((i) => (
             <li key={i.label}>
               <Link href={i.href} onClick={() => setOpen(false)}>
                 {i.label}
               </Link>
+              {i.children && (
+                <ul className={styles.sub}>
+                  {i.children.map((c) => (
+                    <li key={c.label}>
+                      <Link href={c.href} onClick={() => setOpen(false)}>
+                        {c.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

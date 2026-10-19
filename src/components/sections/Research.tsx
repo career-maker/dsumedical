@@ -1,8 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { researchChecks, researchTiles } from "@/data/research";
 import styles from "./Research.module.scss";
+
+const tileHref: Record<string, string> = {
+  "research-labs": "/research#criw",
+  "research-projects": "/research#ongoing",
+  "research-clinical": "/research#ongoing",
+  "research-publications": "/research#published-articles",
+  "research-conferences": "/research#student-research",
+  "research-grants": "/research#ongoing",
+};
 
 export function Research() {
   return (
@@ -32,6 +42,7 @@ export function Research() {
             <li key={t.photo} className={styles[t.photo.replace("research-", "t_")]}>
               <Photo name={t.photo} alt={t.alt} cover={t.cover} sizes="304px" className={styles.tilePhoto} />
               <span>{t.label}</span>
+              <Link prefetch={false} href={tileHref[t.photo]} className="stretch-link" aria-label={t.label} />
             </li>
           ))}
         </ul>

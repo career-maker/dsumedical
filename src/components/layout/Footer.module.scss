@@ -125,7 +125,7 @@
   padding-left: u(20);
   border: 1px solid var(--orange);
   border-radius: u(4);
-  background: rgba(239, 103, 17, 0.06);
+  background: transparent;
   font-size: u(18);
   font-weight: 500;
   letter-spacing: 0;
@@ -135,10 +135,41 @@
   top: u(42);
   left: u(748);
   display: flex;
-  gap: u(37);
+  align-items: center;
+  gap: u(18);
 
+  // Equal square cells so every glyph is centred on the same line and axis.
   a {
-    display: block;
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: u(40);
+    height: u(40);
+  }
+
+  // Red variant sits on top and only shows on hover/focus.
+  .soc,
+  .socHover {
+    grid-area: 1 / 1;
+    transition: opacity 0.2s, scale 0.25s;
+  }
+
+  .socHover {
+    opacity: 0;
+  }
+
+  a:hover .soc,
+  a:focus-visible .soc {
+    opacity: 0;
+  }
+
+  a:hover .socHover,
+  a:focus-visible .socHover {
+    opacity: 1;
+  }
+
+  a:hover img {
+    scale: 1.12;
   }
 }
 
@@ -157,7 +188,7 @@
   width: u(224);
   height: u(46);
   border-radius: u(4);
-  background: var(--orange);
+  background: #c2490a; // darker than --orange so white text passes AA contrast
   color: #fff;
   font-size: u(16);
   font-weight: 500;
@@ -235,5 +266,83 @@
 
   .about p {
     width: auto;
+  }
+}
+
+// Accordion heading: reads as a plain heading on desktop.
+.fold {
+  display: block;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: default;
+  pointer-events: none;
+}
+
+.chev {
+  display: none;
+}
+
+.foldPanel {
+  display: contents;
+}
+
+@include below($bp-lg) {
+  .col1,
+  .col2,
+  .col3 {
+    border-bottom: 1px solid #ecdcc6;
+  }
+
+  .fold {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 0;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .chev {
+    display: block;
+    transition: rotate 0.25s;
+  }
+
+  .fold[aria-expanded="true"] .chev {
+    rotate: 180deg;
+  }
+
+  .foldPanel {
+    display: none;
+    padding-bottom: 14px;
+  }
+
+  .foldOpen {
+    display: block;
+  }
+
+  .col1 ul,
+  .col2 ul,
+  .col3 .name {
+    margin-top: 0;
+  }
+
+  .col1 ul li,
+  .col2 ul li {
+    height: auto;
+    padding-block: 8px;
+  }
+
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .about {
+    margin-top: 24px;
   }
 }

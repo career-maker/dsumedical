@@ -80,7 +80,6 @@
 
 .hot {
   color: #fff;
-  background: linear-gradient(160deg, #dc2725 0%, #e7431f 45%, #fb7a15 100%);
 }
 
 .photo {
@@ -94,6 +93,7 @@
 }
 
 .head {
+  position: relative;
   display: flex;
   align-items: center;
   gap: u(25);
@@ -110,10 +110,6 @@
   height: u(58);
   font-size: u(18);
   line-height: u(29);
-}
-
-.hot .text {
-  width: u(440);
 }
 
 
@@ -140,7 +136,6 @@
 }
 
 .hot .chips {
-  margin-top: u(17);
   border-color: rgba(255, 255, 255, 0.3);
 
   li {
@@ -196,8 +191,7 @@
     height: auto;
   }
 
-  .text,
-  .hot .text {
+  .text {
     width: auto;
     height: auto;
   }
@@ -207,8 +201,7 @@
     padding-bottom: 32px;
   }
 
-  .chips,
-  .hot .chips {
+  .chips {
     height: auto;
     margin-top: 20px;
   }
@@ -217,5 +210,81 @@
     position: static;
     width: 100%;
     margin-top: 20px;
+  }
+}
+
+// The red gradient is a layer that fades in (gradients cannot be transitioned directly), so a card
+// never flashes dark text on a white or dark-red base mid-change.
+.card {
+  position: relative;
+  transition: color 0.15s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #dc2725 0%, #e7431f 45%, #fb7a15 100%);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  > * {
+    position: relative;
+  }
+
+  &.hot::before {
+    opacity: 1;
+  }
+
+  .chips,
+  .chips li {
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+
+  .cta {
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      background: var(--gradient-cta);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 u(8) u(18) rgba(220, 39, 37, 0.3);
+    }
+  }
+
+  // On the red card the white button flips to cream, never to a dark fill.
+  &.hot .cta:hover {
+    background: var(--cream);
+    border-color: transparent;
+    color: var(--red);
+  }
+}
+
+.photo {
+  overflow: hidden;
+}
+
+// Both icon variants stay mounted (display:none would stop them loading) so the swap is instant.
+.icoW,
+.hot .icoO {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hot .icoW {
+  position: static;
+  opacity: 1;
+}
+
+@include below($bp-lg) {
+  .cards {
+    @include carousel(84%);
+  }
+}
+
+@include tablet {
+  .cards {
+    @include rail-basis(46%);
   }
 }

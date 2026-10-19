@@ -1,0 +1,278 @@
+import type { PageDef, Block } from "./types";
+import { external } from "../nav";
+
+const policyNav: Block = {
+  t: "links",
+  title: "Related policies",
+  items: [
+    { label: "PwBD Committee", href: "/university/policies/pwbd-committee" },
+    { label: "Anti-Ragging Policy", href: "/university/policies/anti-ragging" },
+    { label: "Prevention of Sexual Harassment", href: "/university/policies/prevention-of-sexual-harassment" },
+    { label: "Grievance Redressal Committee", href: "/university/policies/grievance-redressal" },
+  ],
+};
+
+const committeeTable = (title: string): Block => ({
+  t: "table",
+  title,
+  lead: "Membership as notified by the institution. Names and designations are updated once the signed notification is supplied.",
+  cols: ["Member", "Designation", "Role in committee", "Affiliation"],
+  rows: [
+    ["To be updated", "Chairperson", "Chair", "CDSIMER"],
+    ["To be updated", "Member Secretary", "Convenor", "CDSIMER"],
+    ["To be updated", "Faculty Representative", "Member", "CDSIMER"],
+    ["To be updated", "Student Representative", "Member", "CDSIMER"],
+  ],
+});
+
+const policy = (
+  slug: string,
+  title: string,
+  lead: string,
+  intro: string[],
+  rules: string[],
+  responsibilities: string[],
+  tableTitle: string,
+): PageDef => ({
+  slug: `university/policies/${slug}`,
+  title,
+  eyebrow: "University · Policies",
+  lead,
+  hero: "about.jpg",
+  heroAlt: "CDSIMER campus",
+  blocks: [
+    { t: "text", title: "Introduction", body: intro },
+    { t: "text", title: "Key provisions", body: ["The institution follows the provisions below, in line with applicable regulations."], bullets: rules, tone: "cream" },
+    { t: "text", title: "Responsibilities and procedure", body: ["Responsibilities of the institution, the committee and individual members are outlined here."], bullets: responsibilities },
+    committeeTable(tableTitle),
+    { t: "docs", title: "Official documents", items: [{ title: `${title} – official notification`, type: "PDF" }] },
+    policyNav,
+    { t: "cta", title: "Need to raise a concern?", text: "Reach the committee through the key contacts page. Every report is handled with confidentiality.", actions: [{ label: "Key Contacts", href: "/contact/key-contacts" }] },
+  ],
+});
+
+export const university: PageDef[] = [
+  {
+    slug: "university",
+    title: "University",
+    eyebrow: "CDSIMER · Dayananda Sagar University",
+    lead: "Institutional information, policies, regulatory disclosures and recognitions of CDSIMER.",
+    hero: "about.jpg",
+    heroAlt: "CDSIMER campus",
+    blocks: [
+      {
+        t: "cards",
+        title: "Explore the university",
+        cols: 3,
+        items: [
+          { title: "About CDSIMER", text: "Vision, mission, legacy, accreditations and leadership.", href: "/university/about" },
+          { title: "Policies", text: "PwBD, anti-ragging, POSH and grievance redressal.", href: "/university/policies" },
+          { title: "NMC", text: "National Medical Commission disclosures and conduct documents.", href: "/university/nmc" },
+          { title: "Awards", text: "Awards and recognitions earned by the institution.", href: "/university/awards" },
+          { title: "Library", text: "Collections, services and learning spaces.", href: "/library" },
+          { title: "Gallery", text: "Campus, hospital and academic life, module-wise.", href: "/gallery" },
+        ],
+      },
+      { t: "links", title: "External systems", items: [{ label: "About DSU", href: external.dsu }, { label: "ERP Login", href: external.erp }, { label: "AEBAS Dashboard", href: external.aebas }, { label: "Hostel", href: external.hostel }] },
+    ],
+  },
+  {
+    slug: "university/about",
+    title: "About CDSIMER",
+    eyebrow: "University",
+    lead: "Dr. Chandramma Dayananda Sagar Institute of Medical Education & Research, part of Dayananda Sagar University.",
+    hero: "hero.jpg",
+    heroAlt: "Smiling medical student holding textbooks on the CDSIMER campus",
+    actions: [{ label: "Explore Programs", href: "/programs", variant: "primary" }, { label: "Apply Now", href: "/admissions", variant: "glass" }],
+    blocks: [
+      {
+        t: "text",
+        eyebrow: "Who we are",
+        title: "About CDSIMER",
+        body: [
+          "CDSIMER at Dayananda Sagar University delivers quality medical education through experienced faculty, modern infrastructure, clinical exposure, and a strong focus on research and patient care.",
+          "Students train in a 900+ bed teaching hospital and learn within a 140-acre integrated smart campus, preparing to become compassionate, competent healthcare leaders.",
+        ],
+        image: "about.jpg",
+        alt: "CDSIMER campus",
+        actions: [{ label: "About DSU", href: external.dsu, variant: "soft" }],
+      },
+      {
+        t: "cards",
+        id: "vision",
+        title: "Vision, Mission & Core Values",
+        lead: "Drawn from the official Vision & Mission document.",
+        tone: "cream",
+        cols: 3,
+        items: [
+          { title: "Vision", text: "To be a centre of excellence in medical education, research and patient care. Final wording follows the official document." },
+          { title: "Mission", text: "To nurture ethical, skilled physicians and researchers who serve society. Final wording follows the official document." },
+          { title: "Core Values", text: "Compassion, integrity, excellence, inclusiveness and service. Final wording follows the official document." },
+        ],
+      },
+      { t: "docs", title: "Official documents", items: [{ title: "Vision & Mission", type: "PDF" }, { title: "DSU Act", type: "PDF" }, { title: "Government of Karnataka Notification", type: "PDF" }] },
+      {
+        t: "profiles",
+        id: "founders",
+        title: "Founding Legends",
+        lead: "The Sagar Group’s healthcare journey began in the 1960s with Dr. Chandramma D. Sagar and grew under Dr. D. Hemachandra Sagar and Dr. Premachandra Sagar.",
+        items: [
+          { name: "Dr. Chandramma D. Sagar", role: "Founder, healthcare journey" },
+          { name: "Dr. D. Hemachandra Sagar", role: "Leadership" },
+          { name: "Dr. Premachandra Sagar", role: "Leadership" },
+        ],
+      },
+      {
+        t: "steps",
+        id: "journey",
+        title: "Our Journey",
+        tone: "cream",
+        items: [
+          { label: "1960s", title: "Healthcare roots", text: "Dr. Chandramma D. Sagar begins the Sagar Group’s healthcare work." },
+          { label: "Growth", title: "Institution building", text: "Leadership expands care and education under Dr. D. Hemachandra Sagar and Dr. Premachandra Sagar." },
+          { label: "Today", title: "CDSIMER", text: "A medical institute with a teaching hospital, research programmes and a university campus." },
+        ],
+      },
+      {
+        t: "cards",
+        title: "Why CDSIMER?",
+        cols: 4,
+        items: [
+          { title: "Clinical exposure from day one", text: "Early patient contact across departments." },
+          { title: "Experienced faculty", text: "Mentors from clinical and academic backgrounds." },
+          { title: "Advanced simulation labs", text: "Skills practised safely before the ward." },
+          { title: "Smart campus", text: "140 acres of integrated learning and living space." },
+        ],
+      },
+      {
+        t: "cards",
+        title: "Accreditations & Recognitions",
+        lead: "Only confirmed approvals are shown.",
+        tone: "cream",
+        cols: 4,
+        items: [
+          { title: "NAAC A+", text: "University accreditation." },
+          { title: "NABH", text: "Accredited hospital." },
+          { title: "NABL", text: "Accredited laboratory." },
+          { title: "NMC", text: "Recognised medical college." },
+        ],
+      },
+      {
+        t: "stats",
+        title: "Key Highlights",
+        items: [
+          { value: "150+", label: "MBBS Seats" },
+          { value: "30+", label: "Super Specialities" },
+          { value: "200+", label: "Research Publications" },
+          { value: "900+", label: "Teaching Hospital Beds" },
+        ],
+      },
+      {
+        t: "profiles",
+        id: "leadership",
+        title: "Leadership",
+        tone: "cream",
+        items: [
+          { name: "Chancellor", role: "Dayananda Sagar University" },
+          { name: "Vice Chancellor", role: "Dayananda Sagar University" },
+          { name: "Dean", role: "CDSIMER" },
+        ],
+      },
+      {
+        t: "profiles",
+        id: "administration",
+        title: "Administration",
+        items: [
+          { name: "Medical Superintendent", role: "Teaching hospital" },
+          { name: "Registrar", role: "Administration" },
+          { name: "Controller of Examinations", role: "Examinations" },
+        ],
+      },
+      { t: "cta", title: "Be part of CDSIMER", text: "Explore our programmes or take the first step towards admission.", actions: [{ label: "Explore Programs", href: "/programs" }, { label: "Apply Now", href: "/admissions" }, { label: "Contact Us", href: "/contact", variant: "soft" }] },
+    ],
+  },
+  {
+    slug: "university/policies",
+    title: "Policies",
+    eyebrow: "University",
+    lead: "Institutional policies and statutory committees that protect and support students, staff and patients.",
+    hero: "about.jpg",
+    heroAlt: "CDSIMER campus",
+    blocks: [
+      {
+        t: "cards",
+        title: "Policies & committees",
+        cols: 2,
+        items: [
+          { title: "PwBD Committee", text: "Support and accessibility for persons with benchmark disabilities.", href: "/university/policies/pwbd-committee" },
+          { title: "Anti-Ragging Policy", text: "Zero-tolerance policy and the Anti-Ragging Committee.", href: "/university/policies/anti-ragging" },
+          { title: "Prevention of Sexual Harassment", text: "Internal Committee and complaint procedure.", href: "/university/policies/prevention-of-sexual-harassment" },
+          { title: "Grievance Redressal Committee", text: "How to raise and track a grievance.", href: "/university/policies/grievance-redressal" },
+        ],
+      },
+    ],
+  },
+  policy(
+    "pwbd-committee",
+    "PwBD Committee",
+    "Ensuring an inclusive campus for persons with benchmark disabilities.",
+    ["The PwBD Committee oversees accessibility, reasonable accommodation and support for students and staff with benchmark disabilities."],
+    ["Barrier-free access to classrooms, hospital and hostels", "Reasonable accommodation in learning and assessment", "Confidential handling of requests"],
+    ["Receive and review accommodation requests", "Coordinate with faculty and administration", "Report periodically to the Dean"],
+    "PwBD Committee members",
+  ),
+  policy(
+    "anti-ragging",
+    "Anti-Ragging Policy",
+    "Zero tolerance for ragging, in line with UGC and NMC regulations.",
+    ["Ragging in any form is prohibited on campus, in the hospital and in hostels. The Anti-Ragging Committee and Squad monitor and act on every complaint."],
+    ["Anti-ragging undertaking by students and parents at admission", "Prompt action and disciplinary measures for violations", "Helpline and complaint channels available round the clock"],
+    ["Orientation and awareness for new students", "Surprise checks of hostels and common areas", "Prompt reporting to authorities where required"],
+    "Anti-Ragging Committee",
+  ),
+  policy(
+    "prevention-of-sexual-harassment",
+    "Prevention of Sexual Harassment",
+    "A safe, respectful campus and workplace for everyone.",
+    ["The Internal Committee addresses complaints of sexual harassment in accordance with the POSH Act and applicable regulations."],
+    ["Confidential, time-bound complaint process", "Protection from retaliation", "Regular awareness programmes"],
+    ["Receive and inquire into complaints", "Recommend action to the competent authority", "Submit annual reports"],
+    "Internal Committee",
+  ),
+  policy(
+    "grievance-redressal",
+    "Grievance Redressal Committee",
+    "A fair and timely process to resolve student and staff grievances.",
+    ["The Grievance Redressal Committee reviews academic, administrative and personal grievances and recommends resolution."],
+    ["Written or online submission of grievances", "Acknowledgement and tracking of every case", "Right to appeal to the Dean"],
+    ["Hear all parties fairly", "Resolve within stipulated timelines", "Maintain confidential records"],
+    "Grievance Redressal Committee",
+  ),
+  {
+    slug: "university/nmc",
+    title: "NMC",
+    eyebrow: "University",
+    lead: "National Medical Commission disclosures, conduct documents and mandatory information.",
+    hero: "about.jpg",
+    heroAlt: "CDSIMER campus",
+    blocks: [
+      { t: "text", title: "Regulatory information", body: ["CDSIMER publishes mandatory disclosures under National Medical Commission regulations. Sections are confirmed against the live NMC page."] },
+      { t: "docs", title: "Documents", tone: "cream", items: [{ title: "Vision & Mission", type: "PDF" }, { title: "Code of Conduct", type: "PDF" }] },
+      { t: "table", title: "Mandatory disclosures", cols: ["Item", "Details"], rows: [["Recognition status", "To be updated"], ["Annual disclosure report", "To be updated"], ["Faculty and student data", "To be updated"]] },
+      { t: "links", title: "Related", items: [{ label: "Anti-Ragging Committee", href: "/university/policies/anti-ragging" }, { label: "Information under MSR Clause", href: "/msr-clause" }] },
+    ],
+  },
+  {
+    slug: "university/awards",
+    title: "Awards",
+    eyebrow: "University",
+    lead: "Awards and recognitions earned by CDSIMER, its faculty and students.",
+    hero: "life-hall.jpg",
+    heroAlt: "Convocation hall",
+    blocks: [
+      { t: "text", title: "Recognition of excellence", body: ["Award details are published once confirmed by the institution."] },
+      { t: "table", title: "Awards & recognitions", cols: ["Award", "Year", "Recipient", "Awarding organisation"], rows: [["To be confirmed", "—", "—", "—"]] },
+      { t: "cta", title: "Celebrate with us", text: "See more from campus life.", actions: [{ label: "View Gallery", href: "/gallery" }] },
+    ],
+  },
+];

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Photo } from "@/components/ui/Photo";
 import { studentLife } from "@/data/news";
@@ -22,6 +23,7 @@ export function StudentLife() {
             <li key={s.photo} className={styles[s.photo.replace("life-", "g_")]}>
               <Photo name={s.photo} alt={s.alt} sizes="(max-width: 960px) 100vw, 683px" className={styles.photo} />
               {s.label && <span>{s.label}</span>}
+              <Link prefetch={false} href="/gallery" className="stretch-link" aria-label={s.label || s.alt} />
             </li>
           ))}
         </ul>

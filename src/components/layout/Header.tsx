@@ -2,44 +2,57 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
+import { SmartLink } from "@/components/ui/SmartLink";
+import { external, navLeft, navRight, topLeft, topRight } from "@/data/nav";
+import type { NavLink } from "@/data/nav";
+import { HeaderScroll } from "./HeaderScroll";
 import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.scss";
 
-const topLeft = ["Info under MSR Clause B.1.11", "NMC"];
-const topRight = ["Hostel", "University Examination", "Career", "AEBAS Dashboard"];
-const navLeft = [
-  { label: "Programs", href: "/programs", chevron: true },
-  { label: "Hospital", href: "/hospital" },
-  { label: "Department", href: "/department" },
-  { label: "Research", href: "/research" },
-];
-const navRight = [
-  { label: "University", href: "/university" },
-  { label: "Contact", href: "/contact" },
-];
+
+function NavItem({ item }: { item: NavLink }) {
+  return (
+    <div className={styles.item}>
+      <SmartLink href={item.href} className={styles.navLink}>
+        {item.label}
+        {item.children && <Icon name="chevron-down" />}
+      </SmartLink>
+      {item.children && (
+        <ul className={styles.drop}>
+          {item.children.map((c) => (
+            <li key={c.label}>
+              <SmartLink href={c.href}>{c.label}</SmartLink>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 export function Header() {
   return (
-    <header className={styles.wrap}>
+    <header className={styles.wrap} data-site-header>
+      <HeaderScroll />
       <div className={styles.topbar}>
         <div className={styles.topInner}>
           <ul className={styles.topList}>
             {topLeft.map((t) => (
-              <li key={t}>
-                <Link href="/">{t}</Link>
+              <li key={t.label}>
+                <SmartLink href={t.href}>{t.label}</SmartLink>
               </li>
             ))}
           </ul>
           <ul className={styles.topList}>
             {topRight.map((t) => (
-              <li key={t}>
-                <Link href="/">{t}</Link>
+              <li key={t.label}>
+                <SmartLink href={t.href}>{t.label}</SmartLink>
               </li>
             ))}
             <li>
-              <Link href="/" className={styles.erp}>
+              <SmartLink href={external.erp} className={styles.erp}>
                 <Icon name="erp" /> ERP Login
-              </Link>
+              </SmartLink>
             </li>
           </ul>
         </div>
@@ -47,25 +60,24 @@ export function Header() {
       <div className={styles.bar}>
         <div className={styles.barInner}>
           <nav className={styles.navLeft} aria-label="Primary">
-            <Link href="/" aria-label="Home">
+            <Link prefetch={false} href="/" aria-label="Home">
               <Icon name="home" />
             </Link>
             {navLeft.map((n) => (
-              <Link key={n.label} href={n.href} className={styles.navLink}>
-                {n.label}
-                {n.chevron && <Icon name="chevron-down" />}
-              </Link>
+              <NavItem key={n.label} item={n} />
             ))}
           </nav>
-          <Link href="/" className={styles.logos} aria-label="Dayananda Sagar University and CDSIMER">
-            <Icon name="dsu-lockup" className={styles.dsu} />
-            <Image src="/images/logo-cdsimer.png" alt="CDSIMER" width={183} height={73} priority />
-          </Link>
+          <div className={styles.logos}>
+            <SmartLink href={external.dsu} aria-label="Dayananda Sagar University">
+              <Icon name="dsu-lockup" className={styles.dsu} />
+            </SmartLink>
+            <Link prefetch={false} href="/" aria-label="CDSIMER home">
+              <Image src="/images/logo-cdsimer.png" alt="CDSIMER" width={183} height={73} preload />
+            </Link>
+          </div>
           <nav className={styles.navRight} aria-label="Secondary">
             {navRight.map((n) => (
-              <Link key={n.label} href={n.href} className={styles.navLink}>
-                {n.label}
-              </Link>
+              <NavItem key={n.label} item={n} />
             ))}
             <a href="tel:+916366885501" className={styles.phone}>
               <Icon name="phone-header" /> 6366 885 501
@@ -74,7 +86,7 @@ export function Header() {
               Admissions
             </Button>
           </nav>
-          <MobileNav items={[...navLeft, ...navRight]} cta={{ label: "Admissions", href: "/admissions" }} />
+          <MobileNav items={[...navLeft, ...navRight, ...topRight.slice(1, 3), ...topLeft.slice(0, 1)]} cta={{ label: "Admissions", href: "/admissions" }} />
         </div>
       </div>
     </header>

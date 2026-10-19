@@ -70,6 +70,28 @@
   text-align: left;
 }
 
+.row {
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, translate 0.3s;
+
+  &:hover:not(.active) {
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.22);
+    translate: u(8) 0;
+  }
+}
+
+// Opacity only: a transform here would become the containing block of the absolutely
+// positioned facts/button and shove them out of place while the animation runs.
+.swap {
+  animation: swap 0.4s ease-out;
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+  }
+}
+
 .active {
   border-color: #fff;
   background: #fff;
@@ -146,6 +168,7 @@
     display: flex;
     align-items: center;
     gap: u(10);
+    white-space: nowrap;
     padding-inline: u(30);
     border-left: 1px solid rgba(255, 255, 255, 0.35);
   }
@@ -209,4 +232,74 @@
     inset: auto;
     max-width: 374px;
   }
+}
+
+@include below($bp-lg) {
+  .row {
+    height: 56px;
+    font-size: 18px;
+    padding-left: 16px;
+    gap: 16px;
+  }
+
+  .cardBody {
+    padding: 28px 22px;
+  }
+
+  .cardTitle {
+    font-size: 32px;
+    height: auto;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 0;
+
+    li {
+      padding: 0 18px 0 0;
+      border-left: 0;
+      font-size: 17px;
+    }
+  }
+
+  .photo {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+// Both icon variants stay mounted (display:none would stop them loading) so the swap is instant.
+.row {
+  position: relative;
+}
+
+.icoO,
+.active .icoW {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.active .icoO {
+  position: static;
+  opacity: 1;
+}
+
+@include tablet {
+  .inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "title photo"
+      "lead photo"
+      "list photo"
+      "card card";
+    gap: 20px 32px;
+  }
+
+  .title { grid-area: title; }
+  .lead { grid-area: lead; }
+  .list { grid-area: list; }
+  .photo { grid-area: photo; align-self: start; }
+  .card { grid-area: card; }
 }

@@ -60,7 +60,7 @@
 }
 
 .next {
-  right: u(61);
+  right: u(51);
 }
 
 .content {
@@ -116,54 +116,6 @@
 .ticker {
   position: absolute;
   inset: auto 0 0;
-  display: flex;
-  height: u(50);
-  font-size: u(16);
-}
-
-.label {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: u(18);
-  width: u(241);
-  padding-left: u(36);
-  background: linear-gradient(90deg, #dc2725 0%, #fb7a15 100%);
-  font-weight: 500;
-}
-
-.track {
-  flex: 1;
-  overflow: hidden;
-  background: linear-gradient(90deg, #b52a1c 0%, #dd7227 100%);
-}
-
-.slide {
-  display: flex;
-  width: max-content;
-  height: 100%;
-  align-items: center;
-  padding-left: u(44);
-  animation: marquee 60s linear infinite;
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: u(20);
-    padding-right: u(20);
-    font-weight: 400;
-    white-space: nowrap;
-  }
-
-  &:hover {
-    animation-play-state: paused;
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 @include below($bp-lg) {
@@ -227,10 +179,86 @@
   .ticker {
     position: relative;
   }
+}
 
-  .label {
-    width: auto;
-    padding: 0 16px;
+@include below($bp-lg) {
+  .hero {
+    min-height: min(760px, calc(100svh - 72px));
+  }
+
+  .shade {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 38%, rgba(0, 0, 0, 0) 66%);
+  }
+
+  .content {
+    padding: 200px 24px 24px;
+    gap: 14px;
+  }
+
+  .badges {
     gap: 10px;
+  }
+
+  .badge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .nabl {
+    width: 42px;
+    height: 42px;
+    margin: 0;
+  }
+
+  .title {
+    font-size: clamp(24px, 7vw, 40px);
+    line-height: 1.15;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 440px;
+    gap: 10px;
+
+    a {
+      width: 100%;
+      height: 46px;
+      padding: 0 10px;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    a svg,
+    a img {
+      display: none;
+    }
+
+    // Third action is reachable from the bottom bar / menu; keep the hero to two clear choices.
+    a:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+// Non-original slides come in other aspect ratios: fill the stage instead of using the fixed design width.
+.cover {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+// Busier photos need a stronger scrim behind the left-aligned copy.
+.cover + .shade {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.45) 38%, rgba(0, 0, 0, 0) 68%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 45%);
+}
+
+@include below($bp-lg) {
+  .cover + .shade {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 38%, rgba(0, 0, 0, 0) 66%);
   }
 }

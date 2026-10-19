@@ -1,0 +1,81 @@
+@use "@/styles/tokens" as *;
+
+.hero {
+  position: relative;
+  min-height: u(560);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #fff;
+  background: #222;
+}
+
+.bg {
+  object-fit: cover;
+  object-position: 70% 30%;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0.1) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent 40%);
+}
+
+.inner {
+  @include container;
+  position: relative;
+  z-index: 2;
+  padding-top: u(230);
+  padding-bottom: u(70);
+
+  @include below($bp-lg) {
+    padding: 56px 24px 40px;
+  }
+}
+
+.crumbs {
+  margin-bottom: u(20);
+  font-size: 15px;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+
+.eyebrow {
+  margin-bottom: u(12);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffb27a;
+}
+
+.title {
+  max-width: u(1000);
+  font-size: clamp(34px, calc(60 * var(--u)), 60px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.lead {
+  max-width: u(760);
+  margin-top: u(18);
+  font-size: u(20);
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: u(16);
+  margin-top: u(30);
+}
+
+.title,
+.lead,
+.crumbs {
+  overflow-wrap: anywhere;
+}

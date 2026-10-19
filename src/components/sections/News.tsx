@@ -45,7 +45,7 @@ export function News() {
                 <time className={styles.date}>{n.date}</time>
                 <h3>{n.title}</h3>
                 <p>{n.text}</p>
-                <Link href="/news" className={styles.more}>
+                <Link prefetch={false} href="/news" className={styles.more}>
                   READ MORE &gt;
                 </Link>
               </li>

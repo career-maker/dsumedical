@@ -105,6 +105,50 @@
     display: block;
     width: 100%;
     height: 100%;
+    overflow: visible;
+    transition: scale 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .disc {
+    fill: rgba(255, 255, 255, 0.8);
+    transition: fill 0.3s;
+  }
+
+  .tri {
+    fill: #777;
+    transition: fill 0.3s;
+  }
+
+  // Ripple ring so the control reads as live.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    animation: ring 2.2s ease-out infinite;
+  }
+
+  &:hover svg,
+  &:focus-visible svg {
+    scale: 1.22;
+  }
+
+  &:hover .disc,
+  &:focus-visible .disc {
+    fill: #fff;
+  }
+
+  &:hover .tri,
+  &:focus-visible .tri {
+    fill: var(--orange);
+  }
+}
+
+@keyframes ring {
+  to {
+    scale: 1.9;
+    opacity: 0;
   }
 }
 
@@ -147,17 +191,51 @@
   overflow: hidden;
 }
 
-.slider button:first-child {
-  opacity: 0.4;
-  filter: grayscale(1);
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  scale: 1.06;
+  transition: opacity 0.6s ease, scale 2.4s ease-out;
 }
 
+.slideOn {
+  opacity: 1;
+  scale: 1;
+}
+
+// Bare vector arrows (design): left muted, right orange, no box.
 .slider {
   position: absolute;
   right: u(14);
   bottom: u(10);
+  z-index: 2;
   display: flex;
   gap: u(8);
+
+  button {
+    display: grid;
+    place-items: center;
+    width: u(40);
+    height: u(36);
+    color: var(--orange);
+    transition: color 0.3s, scale 0.3s;
+
+    &:first-child {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    svg {
+      width: u(22);
+      height: auto;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+    }
+
+    &:hover {
+      color: #fff;
+      scale: 1.15;
+    }
+  }
 }
 
 @include below($bp-lg) {
@@ -193,18 +271,100 @@
     gap: 24px;
   }
 
+  // Tablet: text block on top, the two photos side by side, badges centred beneath.
+  .inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "title title"
+      "lead lead"
+      "grid grid"
+      "actions actions"
+      "video portrait"
+      "badges badges";
+    gap: 28px 24px;
+  }
+
+  .title { grid-area: title; }
+  .lead { grid-area: lead; max-width: 640px; }
+  .grid { grid-area: grid; }
+  .actions { grid-area: actions; }
+  .video { grid-area: video; }
+  .portrait { grid-area: portrait; }
+  .badges { grid-area: badges; }
+
   .video,
   .portrait {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: 421px;
+    max-width: none;
     height: auto;
-    aspect-ratio: 421 / 578;
+    aspect-ratio: 4 / 5;
+  }
+
+  .play {
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
   }
 
   .badges {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 421px;
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+}
+
+@include below($bp-sm) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "lead" "grid" "actions" "video" "portrait" "badges";
+  }
+
+  .video,
+  .portrait {
+    aspect-ratio: 5 / 4;
+  }
+}
+
+.grid li {
+  transition: translate 0.3s, color 0.3s;
+
+  &:hover {
+    translate: u(8) 0;
+    color: var(--orange);
+
+    img {
+      scale: 1.15;
+    }
+  }
+
+  img {
+    transition: scale 0.3s;
+  }
+}
+
+.badges li {
+  img {
+    transition: scale 0.4s cubic-bezier(0.22, 1, 0.36, 1), rotate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover img {
+    scale: 1.18;
+    rotate: -6deg;
+  }
+}
+
+@include below($bp-lg) {
+  .actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  // Badge icons are sized in design px; keep them inside their cells.
+  .badges img {
+    max-width: 100%;
+    height: auto;
   }
 }

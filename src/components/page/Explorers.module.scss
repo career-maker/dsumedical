@@ -1,0 +1,263 @@
+@use "@/styles/tokens" as *;
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: u(11);
+  margin-bottom: u(40);
+
+  button {
+    height: u(52);
+    padding: 0 u(28);
+    border: 1px solid #d5d3d3;
+    border-radius: u(4);
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: u(18);
+    font-weight: 500;
+  }
+
+  .on {
+    border-color: transparent;
+    background: var(--gradient-cta);
+    color: #fff;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: u(18);
+
+  @include below($bp-lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include below($bp-sm) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: u(8);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  h3 {
+    font-size: u(20);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  p {
+    margin-top: u(8);
+    font-size: u(17);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  time {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--orange);
+  }
+}
+
+a.card:hover {
+  translate: 0 -4px;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+}
+
+.img {
+  position: relative;
+  display: block;
+  aspect-ratio: 404 / 200;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.body {
+  display: block;
+  padding: u(22);
+}
+
+.more {
+  display: inline-block;
+  margin-top: u(14);
+  font-weight: 500;
+  color: var(--orange);
+}
+
+// gallery
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: u(16);
+
+  @include below($bp-sm) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  li,
+  button {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: u(10);
+    overflow: hidden;
+  }
+
+  img {
+    object-fit: cover;
+    transition: scale 0.5s;
+  }
+
+  button:hover img {
+    scale: 1.06;
+  }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.full {
+  position: relative;
+  width: min(90vw, 1100px);
+  height: min(80vh, 760px);
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.close,
+.nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 32px;
+  line-height: 1;
+  color: #fff;
+}
+
+.close {
+  top: 20px;
+  right: 20px;
+}
+
+.nav {
+  top: 50%;
+  margin-top: -24px;
+}
+
+.prev {
+  left: 16px;
+}
+
+.next {
+  right: 16px;
+}
+
+// forms
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: u(22) u(24);
+  max-width: u(1000);
+  padding: u(36);
+  border-radius: u(12);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+
+  label {
+    display: grid;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  input:not([type="checkbox"]),
+  select,
+  textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d5d3d3;
+    border-radius: 4px;
+    background: #fff;
+    font: inherit;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  @include below($bp-sm) {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+  }
+}
+
+.full2 {
+  grid-column: 1 / -1;
+}
+
+.consent {
+  display: flex !important;
+  align-items: center;
+  gap: 10px !important;
+  font-weight: 400 !important;
+
+  a {
+    color: var(--orange);
+  }
+}
+
+.submit {
+  grid-column: 1 / -1;
+  justify-self: start;
+  height: u(52);
+  padding: 0 u(40);
+  border-radius: u(4);
+  background: var(--gradient-cta);
+  font-size: u(18);
+  font-weight: 500;
+  color: #fff;
+}
+
+.success {
+  max-width: u(700);
+  padding: u(40);
+  border-radius: u(12);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+
+  h3 {
+    font-size: u(28);
+    font-weight: 700;
+  }
+
+  p {
+    margin: u(10) 0 u(20);
+  }
+
+  button {
+    color: var(--orange);
+    font-weight: 500;
+  }
+}

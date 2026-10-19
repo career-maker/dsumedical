@@ -149,3 +149,79 @@
     }
   }
 }
+
+.grid li {
+  transition: translate 0.35s, box-shadow 0.35s;
+
+  img {
+    transition: scale 0.6s;
+  }
+
+  &:hover,
+  &:focus-within {
+    translate: 0 u(-6);
+    box-shadow: 0 u(14) u(26) rgba(0, 0, 0, 0.2);
+
+    img {
+      scale: 1.07;
+    }
+  }
+}
+
+@include below($bp-lg) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    height: auto;
+
+    li {
+      position: relative;
+      inset: auto;
+      width: auto;
+      height: auto;
+    }
+
+    li {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    li:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 9;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto !important;
+    }
+
+    .photo img {
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+    }
+  }
+}
+
+@include below($bp-lg) {
+  .grid {
+    @include carousel(74%);
+
+    li,
+    li:first-child {
+      grid-column: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+}
+
+@include tablet {
+  .grid {
+    @include rail-basis(44%);
+  }
+}

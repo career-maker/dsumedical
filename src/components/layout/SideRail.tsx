@@ -14,7 +14,7 @@ export function SideRail() {
   const external = (href: string) => href.startsWith("http");
   return (
     <aside className={styles.rail} aria-label="Quick actions">
-      <Link href="/enquiry" className={styles.enquire}>
+      <Link prefetch={false} href="/enquiry" className={styles.enquire}>
         <span>Enquire Now</span>
       </Link>
       <ul className={styles.panel}>
@@ -25,7 +25,7 @@ export function SideRail() {
                 <Icon name={a.icon} />
               </a>
             ) : (
-              <Link href={a.href} aria-label={a.label}>
+              <Link prefetch={false} href={a.href} aria-label={a.label}>
                 <Icon name={a.icon} />
               </Link>
             )}

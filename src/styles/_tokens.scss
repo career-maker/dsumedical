@@ -1,6 +1,6 @@
 // Design tokens sampled from the Figma/PDF export (1920px canvas).
 $container: 1680px;
-$bp-lg: 1280px;
+$bp-lg: 1140px;
 $bp-md: 960px;
 $bp-sm: 640px;
 
@@ -16,8 +16,64 @@ $bp-sm: 640px;
   }
 }
 
-// Design px -> fluid unit. 1920px canvas scales down to 1440px width, then stays (min --u).
+// Design px -> fluid unit. 1920px canvas scales down to 1140px width, then stays (min --u).
 @function u($n) {
   @return calc(#{$n} * var(--u));
 }
 
+
+// Mobile card rail: a full-bleed, scroll-snapping row inside a section that has 24px side padding.
+@mixin carousel($w: 78%) {
+  display: flex;
+  grid-template-columns: none;
+  grid-auto-rows: auto;
+  gap: 14px;
+  overflow-x: auto;
+  // Top/bottom room so hover lifts and shadows are not clipped by the scroll container.
+  margin: -14px -24px -4px;
+  padding: 14px 24px 16px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    flex: 0 0 $w;
+    min-width: 0;
+    width: auto;
+    scroll-snap-align: start;
+  }
+}
+
+
+// Tablet band: below the desktop layout but wide enough for multi-column grids.
+@mixin tablet {
+  @media (min-width: #{$bp-sm}) and (max-width: #{$bp-lg - 0.02px}) {
+    @content;
+  }
+}
+
+// Undo the mobile carousel rail with a plain grid.
+@mixin rail-off($cols) {
+  display: grid;
+  grid-template-columns: repeat($cols, minmax(0, 1fr));
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  scroll-snap-type: none;
+
+  > * {
+    flex: none;
+  }
+}
+
+// Rail that still scrolls but shows more than one card.
+@mixin rail-basis($w) {
+  > * {
+    flex-basis: $w;
+  }
+}

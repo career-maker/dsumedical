@@ -29,7 +29,7 @@ export function Photo({ name, alt, src, sizes, priority, className, cover, posit
       style={{ aspectRatio: `${cw} / ${ch}`, "--w": `calc(${cw} * var(--u))` } as CSSProperties}
     >
       {cover ? (
-        <Image src={file} alt={alt} fill sizes={sizes} priority={priority} style={{ objectFit: "cover", objectPosition: position }} />
+        <Image src={file} alt={alt} fill sizes={sizes} preload={priority} style={{ objectFit: "cover", objectPosition: position }} />
       ) : (
         <Image
           src={file}
@@ -37,7 +37,7 @@ export function Photo({ name, alt, src, sizes, priority, className, cover, posit
           width={Math.round(iw)}
           height={Math.round(ih)}
           sizes={sizes}
-          priority={priority}
+          preload={priority}
           className={styles.img}
           style={{
             left: `${((ix - cx) / cw) * 100}%`,

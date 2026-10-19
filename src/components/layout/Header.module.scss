@@ -1,15 +1,32 @@
 @use "@/styles/tokens" as *;
 
 .wrap {
-  position: absolute;
+  --topbar: #{u(45)};
+  position: fixed;
   inset: 0 0 auto;
   z-index: 20;
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  // Scrolled: the thin top strip slips away and the main bar turns solid.
+  &[data-stuck="true"] {
+    translate: 0 calc(-1 * var(--topbar));
+
+    .bar {
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  // Scrolling down: the whole header leaves; any scroll up brings it back.
+  &[data-hidden="true"] {
+    translate: 0 -100%;
+  }
 }
 
 .topbar {
   height: u(45);
   color: #fff;
-  background: linear-gradient(90deg, #440a03 0%, #b81c1c 100%);
+  background: linear-gradient(90deg, #440a03 0%, #7b1b1b 52%, #b81c1c 100%);
   font-size: u(16);
   line-height: u(45);
   letter-spacing: 0;
@@ -43,6 +60,7 @@
   display: inline-flex;
   align-items: center;
   gap: u(8);
+  translate: 0 u(2);
 }
 
 .bar {
@@ -63,7 +81,7 @@
   display: flex;
   align-items: center;
   gap: u(48);
-  font-size: u(18);
+  font-size: u(18.8);
   font-weight: 500;
 }
 
@@ -76,6 +94,147 @@
   display: inline-flex;
   align-items: center;
   gap: u(6);
+}
+
+.item {
+  position: relative;
+  padding-block: u(20);
+}
+
+.drop {
+  position: absolute;
+  top: calc(100% - #{u(6)});
+  left: u(-24);
+  z-index: 30;
+  min-width: u(270);
+  padding: u(10);
+  border-radius: u(14);
+  border-top: u(3) solid var(--orange);
+  background: #fff;
+  box-shadow: 0 u(20) u(44) rgba(60, 20, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  font-size: u(16);
+  letter-spacing: 0;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 u(10);
+  transition: opacity 0.28s, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
+
+  // Notch pointing at the parent link.
+  &::before {
+    content: "";
+    position: absolute;
+    top: u(-10);
+    left: u(40);
+    width: u(16);
+    height: u(16);
+    rotate: 45deg;
+    border-radius: u(3) 0 0 0;
+    background: #fff;
+    border-top: u(3) solid var(--orange);
+    border-left: u(3) solid var(--orange);
+    box-sizing: border-box;
+  }
+
+  li {
+    position: relative;
+    opacity: 0;
+    translate: u(-8) 0;
+    transition: opacity 0.3s, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: u(16);
+    padding: u(12) u(16);
+    border-radius: u(9);
+    background-image: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.25s, color 0.25s, padding 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 22%;
+      bottom: 22%;
+      width: u(3);
+      border-radius: 3px;
+      background: var(--gradient-cta);
+      scale: 1 0;
+      transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &::after {
+      content: "\2192";
+      color: var(--orange);
+      opacity: 0;
+      translate: u(-8) 0;
+      transition: opacity 0.25s, translate 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &:hover,
+    &:focus-visible {
+      padding-left: u(24);
+      color: var(--orange);
+      background: var(--cream);
+
+      &::before {
+        scale: 1 1;
+      }
+
+      &::after {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+  }
+}
+
+.item:hover .drop,
+.item:focus-within .drop {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+
+  li {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @for $i from 1 through 8 {
+    li:nth-child(#{$i}) {
+      transition-delay: #{0.03s * $i};
+    }
+  }
+}
+
+.navRight .drop {
+  left: auto;
+  right: u(-24);
+
+  &::before {
+    left: auto;
+    right: u(40);
+  }
+}
+
+.navLink img {
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item:hover .navLink img,
+.item:focus-within .navLink img {
+  rotate: 180deg;
+  scale: 1;
+}
+
+.item:hover > .navLink,
+.item:focus-within > .navLink {
+  color: var(--orange);
 }
 
 .logos {
@@ -95,9 +254,47 @@
   border: 1px solid rgba(255, 109, 0, 0.55);
   border-radius: u(4);
   background: rgba(255, 109, 0, 0.14);
-  font-size: u(16);
+  font-size: u(17);
   font-weight: 500;
   white-space: nowrap;
+}
+
+.phone {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+
+  img {
+    transition: filter 0.3s;
+  }
+
+  &:hover {
+    border-color: transparent;
+    background: var(--gradient-cta);
+    color: #fff;
+    box-shadow: 0 u(8) u(20) rgba(220, 39, 37, 0.3);
+
+    img {
+      filter: brightness(0) invert(1);
+      scale: 1;
+      animation: ring 0.9s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes ring {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+
+  15%,
+  45% {
+    rotate: -18deg;
+  }
+
+  30%,
+  60% {
+    rotate: 18deg;
+  }
 }
 
 .admissions {
@@ -107,7 +304,9 @@
 
 @include below($bp-lg) {
   .wrap {
-    position: relative;
+    --topbar: 0px;
+    position: sticky;
+    top: 0;
   }
 
   .topbar {
@@ -117,7 +316,7 @@
   .bar {
     position: relative;
     height: auto;
-    padding: 12px 16px;
+    padding: 12px 24px;
     background: #fff;
   }
 

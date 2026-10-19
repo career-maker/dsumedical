@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/data/iconMeta";
+import { FoldCol } from "./FoldCol";
 import styles from "./Footer.module.scss";
 
 const quickLinks = [
@@ -27,28 +28,25 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <nav className={styles.col1} aria-labelledby="footer-quick">
-          <h2 id="footer-quick">Quick Links</h2>
+        <FoldCol as="nav" className={styles.col1} id="footer-quick" title="Quick Links">
           <ul>
             {quickLinks.map((l) => (
               <li key={l.label}>
-                <Link href={l.href}>{l.label}</Link>
+                <Link prefetch={false} href={l.href}>{l.label}</Link>
               </li>
             ))}
           </ul>
-        </nav>
-        <nav className={styles.col2} aria-labelledby="footer-dept">
-          <h2 id="footer-dept">Departments</h2>
+        </FoldCol>
+        <FoldCol as="nav" className={styles.col2} id="footer-dept" title="Departments">
           <ul>
             {departments.map((d) => (
               <li key={d}>
-                <Link href="/department">{d}</Link>
+                <Link prefetch={false} href="/department">{d}</Link>
               </li>
             ))}
           </ul>
-        </nav>
-        <address className={styles.col3}>
-          <h2>Contact Us</h2>
+        </FoldCol>
+        <FoldCol as="address" className={styles.col3} id="footer-contact" title="Contact Us">
           <p className={styles.name}>
             Dr. Chandramma Dayananda Sagar
             <br />
@@ -62,7 +60,7 @@ export function Footer() {
             <Icon name="phone-footer" />
             1800 425 9900
           </a>
-        </address>
+        </FoldCol>
         <div className={styles.about}>
           <Image src="/images/logo-cdsimer-footer.png" alt="CDSIMER" width={237} height={95} className={styles.logo} />
           <p>
@@ -82,13 +80,14 @@ export function Footer() {
             {socials.map((s) => (
               <li key={s.label}>
                 <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
-                  <Icon name={s.icon} />
+                  <Icon name={s.icon} className={styles.soc} />
+                  <Icon name={`${s.icon}-r` as IconName} className={styles.socHover} />
                 </a>
               </li>
             ))}
           </ul>
           <Icon name="dsu-lockup" size={176} className={styles.dsu} />
-          <Link href="/brochure" className={styles.brochure}>
+          <Link prefetch={false} href="/brochure" className={styles.brochure}>
             <Icon name="download-btn" />
             Download Brochure
           </Link>
@@ -97,12 +96,15 @@ export function Footer() {
         <div className={styles.legal}>
           <p>© 2026 DSU. All Rights Reserved.</p>
           <p className={styles.policies}>
-            <Link href="/privacy">Privacy Policy</Link>
+            <Link prefetch={false} href="/privacy">Privacy Policy</Link>
             <span aria-hidden="true">|</span>
-            <Link href="/terms">Terms&amp;Conditions</Link>
+            <Link prefetch={false} href="/terms">Terms&amp;Conditions</Link>
           </p>
           <p className={styles.credit}>
-            Designed By: <Icon name="intersmart" />
+            Designed By:{" "}
+            <a href="https://www.intersmartsolution.com/" target="_blank" rel="noopener noreferrer" aria-label="Intersmart Solution">
+              <Icon name="intersmart" />
+            </a>
           </p>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { iconMeta, type IconName } from "@/data/iconMeta";
 
 type IconProps = {
@@ -13,15 +12,19 @@ export function Icon({ name, size, className, flip }: IconProps) {
   const { w, h } = iconMeta[name];
   const width = size ?? w;
   const height = size ? (h * size) / w : h;
+  // Plain <img>: these are small pre-sized PNGs, so the optimizer adds nothing, and next/image's dev
+  // check warns whenever a fluid (calc) width rounds differently from the intrinsic width attribute.
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={`/icons/${name}.png`}
       alt=""
-      width={Math.round(width * 100) / 100}
-      height={Math.round(height * 100) / 100}
+      width={Math.round(width)}
+      height={Math.round(height)}
+      loading="lazy"
+      decoding="async"
       className={className}
       style={{ width: `calc(${width} * var(--u))`, height: "auto", ...(flip ? { transform: "scaleX(-1)" } : {}) }}
-      unoptimized
       aria-hidden="true"
     />
   );

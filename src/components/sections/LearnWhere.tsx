@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
@@ -29,6 +30,7 @@ export function LearnWhere() {
             <li key={f.label}>
               <Icon name={f.icon} />
               <span>{f.label}</span>
+              <Link prefetch={false} href="/hospital" className="stretch-link" aria-label={f.label} />
             </li>
           ))}
         </ul>

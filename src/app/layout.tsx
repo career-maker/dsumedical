@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { Preloader } from "@/components/ui/Preloader";
+import { SmoothScroll } from "@/components/ui/SmoothScroll";
+import { TitleReveal } from "@/components/ui/TitleReveal";
 import "@/styles/globals.scss";
 
 const roboto = Roboto({
@@ -19,7 +22,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={roboto.variable}>
-      <body>{children}</body>
+      <body>
+        <Preloader />
+        <TitleReveal />
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

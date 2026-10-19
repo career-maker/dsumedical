@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   gap: u(14);
-  width: var(--w, auto);
+  min-width: var(--w, 0);
   height: u(50);
   padding: 0 u(20);
   border-radius: u(4);

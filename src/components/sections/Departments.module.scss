@@ -68,15 +68,39 @@
 }
 
 .tab {
+  position: relative;
   display: flex;
-  flex: 1;
+  flex: none;
   align-items: center;
   justify-content: center;
   gap: u(12);
   font-size: u(18);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--ink);
+
+  // Content-sized tabs from the design, with hairline dividers between idle neighbours.
+  &:nth-child(1) { width: u(194); }
+  &:nth-child(2) { width: u(222); }
+  &:nth-child(3) { width: u(181); }
+  &:nth-child(4) { width: u(249); }
+  &:nth-child(5) { width: u(149); }
+
+  & + &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: u(26);
+    width: 1px;
+    translate: 0 -50%;
+    background: #e0e0e0;
+  }
+}
+
+.tabOn::before,
+.tabOn + .tab::before {
+  display: none;
 }
 
 .tabOn {
@@ -105,7 +129,7 @@
     position: absolute;
     top: u(229);
     left: u(22);
-    font-size: u(20);
+    font-size: u(21);
     font-weight: 700;
     line-height: u(30);
     letter-spacing: 0;
@@ -115,7 +139,7 @@
     position: absolute;
     top: u(265);
     left: u(22);
-    width: u(326);
+    width: u(345);
     font-size: u(18);
     line-height: u(29);
     color: var(--ink-soft);
@@ -124,6 +148,15 @@
 
 .photo {
   width: 100%;
+}
+
+// The design wraps each description at its own width.
+.card:nth-child(2) p {
+  width: u(358);
+}
+
+.card:nth-child(3) p {
+  width: u(367);
 }
 
 .badge {
@@ -152,9 +185,52 @@
   color: var(--orange);
 }
 
-.nextOn {
-  background: var(--orange);
-  color: #fff;
+.cover {
+  position: relative;
+  aspect-ratio: 404.3 / 189;
+  border-radius: u(8) u(8) 0 0;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    transition: scale 0.6s;
+  }
+}
+
+.overlay {
+  padding: 0;
+  background-image: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card {
+  transition: translate 0.35s, box-shadow 0.35s;
+
+  &:hover,
+  &:focus-within {
+    translate: 0 u(-6);
+    box-shadow: 0 u(14) u(28) rgba(0, 0, 0, 0.14);
+
+    h3 {
+      color: var(--orange);
+    }
+
+    .cover img {
+      scale: 1.07;
+    }
+
+    .next {
+      background: var(--orange);
+      color: #fff;
+      translate: u(4) 0;
+    }
+  }
+}
+
+.next {
+  transition: background-color 0.3s, color 0.3s, translate 0.3s;
 }
 
 .empty {
@@ -218,8 +294,76 @@
       margin: 12px 20px 0;
     }
 
-    p {
+    p,
+    &:nth-child(n) p {
       width: auto;
     }
+  }
+}
+
+@include below($bp-lg) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 8px;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      border-radius: 6px;
+      white-space: nowrap;
+      font-size: 16px;
+    }
+
+    button:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+@include below($bp-lg) {
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    button,
+    button:last-child {
+      flex: none;
+      padding-inline: 18px;
+      grid-column: auto;
+    }
+  }
+
+  .cards {
+    @include carousel(78%);
+  }
+}
+
+@include tablet {
+  .cards {
+    @include rail-off(2);
+    gap: 18px;
+  }
+}
+
+// Design-width tabs only apply on the desktop layout.
+@include below($bp-lg) {
+  .tab:nth-child(n) {
+    width: auto;
+  }
+
+  .tab::before {
+    display: none;
   }
 }

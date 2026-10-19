@@ -22,7 +22,7 @@ export function Button({ href, variant = "primary", children, icon, className, w
   const trailing =
     icon === undefined ? (dotsVariants.includes(variant) ? <Dots color={variant === "white" ? "#dc2725" : "#fff"} /> : null) : icon;
   return (
-    <Link href={href} className={`${styles.btn} ${styles[variant]} ${className ?? ""}`}
+    <Link prefetch={false} href={href} className={`${styles.btn} ${styles[variant]} ${className ?? ""}`}
       style={width ? ({ "--w": `calc(${width} * var(--u))` } as CSSProperties) : undefined}
     >
       <span>{children}</span>

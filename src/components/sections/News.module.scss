@@ -37,8 +37,9 @@
 .tabs {
   position: absolute;
   top: u(269);
-  left: u(540);
+  inset-inline: 0;
   display: flex;
+  justify-content: center;
   gap: u(11);
 }
 
@@ -92,16 +93,13 @@
     position: absolute;
     top: u(479);
     left: 0;
-    width: u(580);
+    width: u(547);
     font-size: u(18);
     line-height: u(29);
     color: var(--ink-soft);
   }
 }
 
-.card:nth-child(3) p {
-  width: u(545);
-}
 
 .photo {
   width: 100%;
@@ -196,5 +194,83 @@
       margin-top: 12px;
       white-space: normal;
     }
+  }
+}
+
+.card {
+  .photo {
+    overflow: hidden;
+    transition: translate 0.4s, box-shadow 0.4s;
+  }
+
+  h3 {
+    transition: color 0.3s;
+  }
+
+  .more {
+    transition: translate 0.3s;
+  }
+
+  &:hover {
+    h3 {
+      color: var(--red);
+    }
+
+    .photo {
+      translate: 0 u(-6);
+      box-shadow: 0 u(14) u(24) rgba(0, 0, 0, 0.18);
+    }
+
+    .more {
+      translate: u(6) 0;
+    }
+  }
+}
+
+@include below($bp-lg) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+
+    .tab {
+      width: auto;
+      min-height: 48px;
+      font-size: 16px;
+    }
+
+    .tab:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card {
+    height: auto;
+
+    h3,
+    p,
+    .date,
+    .more {
+      position: static;
+      width: auto;
+      margin-top: 10px;
+      white-space: normal;
+    }
+  }
+}
+
+@include below($bp-lg) {
+  .cards {
+    @include carousel(82%);
+  }
+}
+
+@include tablet {
+  .cards {
+    @include rail-basis(46%);
   }
 }

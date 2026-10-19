@@ -8,6 +8,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  // Keeps layout still when the preloader toggles page scrolling.
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -20,6 +22,11 @@ body {
   color: var(--ink);
   background: #fff;
   overflow-x: hidden;
+
+  // Room for the mobile bottom action bar.
+  @media (max-width: 959px) {
+    padding-bottom: 68px;
+  }
   -webkit-font-smoothing: antialiased;
 }
 
@@ -123,7 +130,6 @@ button img {
     }
 
     &:hover {
-      translate: 0 -3px;
       box-shadow: 0 10px 22px rgba(220, 39, 37, 0.28);
       filter: brightness(1.05);
 
@@ -138,14 +144,12 @@ button img {
     }
 
     &:active {
-      translate: 0 -1px;
       scale: 0.98;
     }
   }
 
   // Tabs, list rows, arrows and other buttons.
   button:not([aria-expanded]):hover {
-    translate: 0 -2px;
     filter: brightness(1.04);
   }
 
@@ -161,4 +165,157 @@ button img {
 a:focus-visible,
 button:focus-visible {
   box-shadow: 0 0 0 3px rgba(239, 103, 17, 0.35);
+}
+
+// Stretched link: makes a whole positioned card clickable.
+.stretch-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 0;
+  background-image: none;
+}
+
+// ---- Premium title reveal: set up by <TitleReveal /> (adds [data-reveal], then [data-reveal="in"]). ----
+[data-reveal] {
+  opacity: 0;
+  translate: 0 0.4em;
+  scale: 0.98;
+  filter: blur(10px);
+  transition: opacity 0.9s $ease, translate 1s $ease, scale 1s $ease, filter 0.9s $ease;
+  will-change: opacity, translate, filter;
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+}
+
+// Preloader: nothing moves until the inline script adds .pl-open.
+#pl {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: linear-gradient(90deg, #440a03 0%, #b81c1c 100%);
+
+  .pl-circle {
+    display: grid;
+    place-items: center;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  img {
+    width: 150px;
+    height: auto;
+  }
+
+  &.pl-open {
+    animation: pl-lift 0.2s ease 0.3s forwards;
+
+    .pl-circle {
+      animation: pl-flood 0.45s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+    }
+
+    img {
+      animation: pl-fade 0.15s ease forwards;
+    }
+  }
+}
+
+@keyframes pl-flood {
+  to {
+    scale: 22;
+  }
+}
+
+@keyframes pl-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pl-lift {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pl.pl-open,
+  #pl.pl-open .pl-circle,
+  #pl.pl-open img {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}
+
+// Below-the-fold sections skip style/layout/paint until they approach the viewport.
+main > section:not(:first-child),
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+// Lenis (smooth scroll) base rules.
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+// Inner-page scroll reveal (set up by <InnerMotion />): below-the-fold block parts rise and fade in, staggered.
+[data-rv=""] {
+  opacity: 0;
+  translate: 0 32px;
+}
+
+// Reveal props are staggered; transform/shadow/border stay instant so hover lifts on the same element still work.
+[data-rv] {
+  transition: opacity 0.7s $ease, translate 0.8s $ease, transform 0.35s $ease, box-shadow 0.35s $ease, border-color 0.3s;
+  transition-delay: calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms), 0s, 0s, 0s;
+}
+
+[data-rv="in"] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rv] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
 }

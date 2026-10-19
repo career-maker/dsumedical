@@ -1,0 +1,931 @@
+@use "@/styles/tokens" as *;
+
+// Inner-page blocks, styled like the homepage: white surfaces, 1px #e6e6e6 borders, 8-12px radii,
+// soft shadow, orange only on hover/active. Grids are auto-fit and cards stretch to the row, so any
+// item count or text length keeps rows aligned. Type has a px floor for laptop/tablet widths.
+@function fs($n, $min) {
+  @return max(#{$min}px, calc(#{$n} * var(--u)));
+}
+
+$line: #e6e6e6;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+.section {
+  padding-block: max(52px, u(90));
+  background: #fff;
+  scroll-margin-top: 60px;
+}
+
+.cream {
+  background: var(--cream);
+}
+
+.wrap {
+  @include container;
+
+  @include below($bp-lg) {
+    padding-inline: 24px;
+  }
+}
+
+.wide {
+  width: u(1680);
+}
+
+// ---- section heading ----
+.head {
+  max-width: u(880);
+  margin-bottom: max(28px, u(44));
+
+  h2 {
+    font-size: clamp(28px, calc(48 * var(--u)), 48px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    margin-top: 14px;
+    font-size: fs(18, 16);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+// ---- text + image split ----
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: max(32px, u(80));
+  align-items: center;
+
+  @include below($bp-md) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+.single {
+  grid-template-columns: minmax(0, u(1100));
+}
+
+.flip .media {
+  order: -1;
+
+  @include below($bp-md) {
+    order: 0;
+  }
+}
+
+.copy {
+  min-width: 0;
+
+  h2 {
+    font-size: clamp(28px, calc(48 * var(--u)), 48px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p:not(.eyebrow) {
+    margin-top: 16px;
+    font-size: fs(18, 16);
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+}
+
+.bullets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 10px 28px;
+  margin-top: 22px;
+
+  li {
+    position: relative;
+    padding-left: 22px;
+    font-size: fs(17, 15);
+    line-height: 1.55;
+    color: var(--ink-soft);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.6em;
+      left: 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+  }
+}
+
+// Photo fills the column height so a short image never leaves a gap beside long copy.
+.media {
+  position: relative;
+  align-self: stretch;
+  min-height: 320px;
+  max-height: 640px;
+  border-radius: u(12);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+
+  img {
+    object-fit: cover;
+  }
+
+  @include below($bp-md) {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.center {
+  justify-content: center;
+}
+
+// ---- grids / cards ----
+.grid {
+  --min: 290px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+  gap: max(16px, u(24));
+
+  > li {
+    min-width: 0;
+  }
+}
+
+.c2 {
+  --min: 440px;
+}
+
+.c3 {
+  --min: 310px;
+}
+
+.c4 {
+  --min: 240px;
+}
+
+// Same recipe as the homepage cards: white, hairline border, soft shadow, orange on hover.
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: $shadow;
+  transition: box-shadow 0.25s, border-color 0.25s, translate 0.25s;
+
+  h3 {
+    font-size: fs(22, 18);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: fs(17, 15);
+    line-height: 1.65;
+    color: var(--slate);
+  }
+
+  // Orange rule that grows on hover.
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    background: var(--gradient-cta);
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+a.card:hover,
+a.card:focus-visible {
+  translate: 0 -3px;
+  border-color: rgba(239, 103, 17, 0.45);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+
+  &::after {
+    width: 100%;
+  }
+}
+
+.cardImg {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: var(--peach);
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: max(20px, u(28)) max(20px, u(26));
+}
+
+.tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--peach);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+.more {
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+// ---- stats: the homepage stat tile ----
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: max(14px, u(20));
+
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: max(24px, u(36)) max(16px, u(20));
+    border: 1px solid $line;
+    border-radius: u(12);
+    background: #fff;
+    text-align: center;
+  }
+
+  strong {
+    font-size: clamp(30px, calc(44 * var(--u)), 44px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  span {
+    margin-top: 8px;
+    font-size: fs(19, 15);
+    line-height: 1.4;
+    color: var(--slate);
+  }
+}
+
+// ---- steps: horizontal timeline, wraps to more rows for long lists ----
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: max(20px, u(32)) max(18px, u(28));
+  list-style: none;
+
+  li {
+    position: relative;
+    min-width: 0;
+    padding-top: 56px;
+    border-top: 2px solid #f0d6c2;
+  }
+
+  h3 {
+    font-size: fs(22, 18);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: fs(17, 15);
+    line-height: 1.65;
+    color: var(--slate);
+  }
+}
+
+.dot {
+  position: absolute;
+  top: -19px;
+  left: 0;
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding-inline: 12px;
+  border: 2px solid var(--orange);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--orange);
+}
+
+// ---- profiles ----
+.profile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: $shadow;
+
+  h3 {
+    margin-top: 18px;
+    padding-inline: max(18px, u(24));
+    font-size: fs(21, 18);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  p {
+    padding-inline: max(18px, u(24));
+    margin-top: 6px;
+    font-size: fs(16, 15);
+    line-height: 1.6;
+    color: var(--slate);
+  }
+
+  > :last-child {
+    padding-bottom: max(20px, u(26));
+  }
+}
+
+// No photo yet: compact row with a small initials badge instead of an empty portrait.
+.plain {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  align-items: center;
+  gap: 2px 18px;
+  padding: max(18px, u(24));
+
+  .avatar {
+    grid-row: span 3;
+    width: 68px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    font-size: 22px;
+    color: var(--orange);
+  }
+
+  h3,
+  p {
+    padding-inline: 0;
+    margin-top: 0;
+  }
+
+  > :last-child {
+    padding-bottom: 0;
+  }
+}
+
+.role {
+  color: var(--orange) !important;
+  font-weight: 500;
+}
+
+// Portrait slot: photo when supplied, soft initials until then.
+.avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--peach);
+  font-size: clamp(36px, calc(54 * var(--u)), 54px);
+  font-weight: 700;
+  color: rgba(239, 103, 17, 0.55);
+
+  img {
+    object-fit: cover;
+    object-position: 50% 20%;
+  }
+}
+
+// ---- documents ----
+.doc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  height: 100%;
+  padding: max(18px, u(24));
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  box-shadow: $shadow;
+
+  > div {
+    flex: 1 1 150px;
+    min-width: 0;
+  }
+
+  h3 {
+    font-size: fs(18, 16);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  p {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--slate);
+  }
+}
+
+.file {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 56px;
+  border-radius: 6px;
+  background: var(--peach);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.dl,
+.pending {
+  flex: 1 1 100%;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.dl {
+  background-image: none;
+  color: var(--orange);
+
+  &::after {
+    content: " \2192";
+  }
+
+  &:hover {
+    color: var(--red);
+  }
+}
+
+.pending {
+  color: #8a8a8a;
+}
+
+// ---- table ----
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  box-shadow: $shadow;
+}
+
+.table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: fs(17, 15);
+
+  th,
+  td {
+    padding: 15px 22px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #efefef;
+  }
+
+  th {
+    background: var(--peach);
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+
+  tbody tr:hover {
+    background: #fffaf5;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  td a {
+    color: var(--orange);
+  }
+
+  @include below($bp-sm) {
+    min-width: 0;
+
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    tr,
+    td {
+      display: block;
+    }
+
+    tr {
+      border-bottom: 1px solid #efefef;
+    }
+
+    td {
+      border: 0;
+      padding: 8px 16px;
+
+      &::before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// ---- faq ----
+.faq {
+  display: grid;
+  max-width: u(1100);
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  overflow: hidden;
+
+  details + details {
+    border-top: 1px solid $line;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 26px;
+    font-size: fs(19, 16);
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--orange);
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: "+";
+      flex: none;
+      font-size: 24px;
+      line-height: 1;
+      color: var(--orange);
+    }
+  }
+
+  details[open] summary::after {
+    content: "\2013";
+  }
+
+  p {
+    padding: 0 26px 22px;
+    font-size: fs(17, 15);
+    line-height: 1.7;
+    color: var(--slate);
+  }
+}
+
+// ---- address / map / chips ----
+.address {
+  display: grid;
+  gap: 6px;
+  max-width: u(760);
+  padding: max(20px, u(30));
+  border: 1px solid $line;
+  border-radius: u(10);
+  background: #fff;
+  box-shadow: $shadow;
+  font-style: normal;
+  font-size: fs(19, 16);
+  line-height: 1.55;
+
+  a {
+    color: var(--orange);
+  }
+}
+
+.map {
+  aspect-ratio: 16 / 7;
+  border-radius: u(12);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @include below($bp-sm) {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+// Pills like the homepage department tabs.
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid $line;
+    border-radius: 999px;
+    background: #fff;
+    background-image: none;
+    box-shadow: $shadow;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    &:hover {
+      border-color: transparent;
+      background: var(--gradient-cta);
+      color: #fff;
+    }
+  }
+}
+
+// ---- in-page jump bar ----
+.jump {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  border-bottom: 1px solid $line;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+
+  ul {
+    @include container;
+    display: flex;
+    gap: max(20px, u(36));
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include below($bp-lg) {
+      padding-inline: 24px;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 16px 0 13px;
+    border-bottom: 3px solid transparent;
+    background-image: none;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--slate);
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+  }
+}
+
+// ---- cta: the homepage closing band ----
+.cta {
+  padding-block: max(52px, u(90));
+  background: var(--cream);
+  text-align: center;
+
+  h2 {
+    font-size: clamp(28px, calc(48 * var(--u)), 48px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    max-width: u(780);
+    margin: 14px auto 0;
+    font-size: fs(18, 16);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+}
+
+// Tablet: fixed two-column rhythm; a lone last card spans the row instead of leaving a hole.
+@include tablet {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    > li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+// Unbroken long strings (URLs, pasted text) must wrap instead of widening the page.
+.section,
+.cta,
+.jump {
+  h2,
+  h3,
+  summary,
+  strong,
+  li,
+  a,
+  p,
+  span {
+    overflow-wrap: anywhere;
+  }
+}
+
+// ---- content + side photo (faq, forms, address) ----
+.aside {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: max(32px, u(72));
+  align-items: stretch;
+
+  @include below($bp-md) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+.asideMain {
+  min-width: 0;
+}
+
+// Photo stretches to the height of the content beside it, so a short form/FAQ never leaves a blank column.
+.sideMedia {
+  position: relative;
+  min-height: 360px;
+  max-height: 760px;
+  border-radius: u(12);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+
+  img {
+    object-fit: cover;
+    transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.28));
+    pointer-events: none;
+  }
+
+  &:hover img {
+    scale: 1.06;
+  }
+
+  @include below($bp-md) {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+// ---- hover motion ----
+.media img {
+  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media:hover img {
+  scale: 1.05;
+}
+
+.cardImg img {
+  transition: scale 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+a.card:hover .cardImg img,
+a.card:focus-visible .cardImg img {
+  scale: 1.07;
+}
+
+.card .more {
+  transition: translate 0.3s;
+}
+
+a.card:hover .more {
+  translate: 6px 0;
+}
+
+// li-level items use transform/shadow (the scroll reveal owns `translate` on the same element).
+.stats li,
+.profile,
+.doc,
+.steps li {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.3s;
+}
+
+.stats li:hover,
+.profile:hover,
+.doc:hover {
+  transform: translateY(-5px);
+  border-color: rgba(239, 103, 17, 0.5);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+.stats strong {
+  transition: color 0.3s;
+}
+
+.stats li:hover strong {
+  color: var(--orange);
+}
+
+.profile .avatar img {
+  transition: scale 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.profile:hover .avatar img {
+  scale: 1.07;
+}
+
+.steps li:hover .dot {
+  background: var(--gradient-cta);
+  border-color: transparent;
+  color: #fff;
+  scale: 1.1;
+}
+
+.dot {
+  transition: background-color 0.3s, color 0.3s, scale 0.3s;
+}
+
+.bullets li {
+  transition: translate 0.25s, color 0.25s;
+
+  &:hover {
+    translate: 6px 0;
+    color: var(--ink);
+  }
+}
+
+.file {
+  transition: scale 0.3s, background-color 0.3s;
+}
+
+.doc:hover .file {
+  scale: 1.08;
+  background: #ffd9bf;
+}

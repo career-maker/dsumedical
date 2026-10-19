@@ -2,53 +2,162 @@
 
 .rail {
   position: fixed;
-  top: u(480);
+  // Vertically centred in the viewport (rail is 443 design-px tall); never rises into the header.
+  top: max(190px, calc(50vh - #{u(221.5)}));
   right: u(-3);
   z-index: 30;
   width: u(59);
 
-  @media (max-height: 860px) {
-    top: 12vh;
+  @media (max-height: 480px) {
+    .panel {
+      display: none;
+    }
   }
 
-  @include below($bp-md) {
-    display: none;
-  }
 }
 
 .enquire {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: u(55);
-  height: u(168);
-  margin-left: 1px;
+  // Rests at the design size (56 visible; the extra 10px sits off-screen) and slides out on hover.
+  width: u(66);
+  padding-right: u(10);
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s, filter 0.3s;
+  height: u(166);
   border-radius: u(8) 0 0 u(8);
-  background: linear-gradient(180deg, #dc2725 0%, #fb7a15 100%);
+  background: linear-gradient(90deg, #dc2725 0%, #fb7a15 100%);
+  box-shadow: 0 u(4) u(12) rgba(220, 39, 37, 0.25);
   color: #fff;
   font-size: u(18);
   font-weight: 500;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  letter-spacing: 0;
+  line-height: 1;
+
+  &:hover,
+  &:focus-visible {
+    translate: u(-10) 0;
+    box-shadow: 0 u(6) u(22) rgba(220, 39, 37, 0.55);
+    filter: brightness(1.08);
+
+    span {
+      letter-spacing: 0.06em;
+    }
+  }
+
+  span {
+    transition: letter-spacing 0.35s;
+    // Reads bottom-to-top; only the text rotates so the gradient keeps its direction.
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
 }
 
+// Panel is 263px tall in the design: rows 57 / 57 / 52 / 52 / 45 with inset hairline dividers.
 .panel {
-  margin-top: u(13);
-  padding: u(10) 0;
+  margin-top: u(14);
+  width: u(56);
+  border: 1px solid #e8e8e8;
+  border-right: 0;
   border-radius: u(8) 0 0 u(8);
   background: #fff;
-  box-shadow: 0 0 u(10) rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 u(10) rgba(0, 0, 0, 0.1);
 
   li {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: u(51);
+    height: u(52);
+  }
+
+  li:nth-child(-n + 2) {
+    height: u(57);
+    padding-top: u(7);
+  }
+
+  li:last-child {
+    height: u(45);
+  }
+
+  li + li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: u(11);
+    right: u(12);
+    height: 1px;
+    background: #c9e3ea;
   }
 
   a {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Mobile / tablet: the rail becomes a bottom action bar (Enquire Now + quick actions).
+@include below($bp-md) {
+  .rail {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    width: auto;
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+    background: #fff;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.12);
+
+    .panel {
+      display: flex;
+    }
+  }
+
+  .enquire {
+    flex: 1;
+    width: auto;
+    height: 44px;
+    padding: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    translate: none;
+
+    &:hover,
+    &:focus-visible {
+      translate: none;
+    }
+
+    span {
+      writing-mode: horizontal-tb;
+      rotate: none;
+    }
+  }
+
+  .panel {
+    flex: none;
+    margin: 0;
+    width: auto;
+    gap: 2px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+
+    li,
+    li:nth-child(-n + 2),
+    li:last-child {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+    }
+
+    li + li::before {
+      display: none;
+    }
   }
 }
