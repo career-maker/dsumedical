@@ -302,7 +302,7 @@ a.card:focus-visible {
     color: var(--ink);
   }
 
-  span {
+  li > span {
     margin-top: 8px;
     font-size: fs(19, 15);
     line-height: 1.4;
