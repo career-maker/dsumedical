@@ -187,7 +187,10 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
         <textarea name="message" rows={4} />
       </label>
       <label className={`${styles.full2} ${styles.consent}`}>
-        <input type="checkbox" required /> I agree to be contacted and to the <Link prefetch={false} href="/privacy">Privacy Policy</Link>.
+        <input type="checkbox" required />
+        <span>
+          I agree to be contacted and to the <Link prefetch={false} href="/privacy">Privacy Policy</Link>.
+        </span>
       </label>
       <button type="submit" className={styles.submit}>
         Submit

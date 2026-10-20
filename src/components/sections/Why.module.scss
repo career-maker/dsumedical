@@ -317,14 +317,25 @@
 }
 
 @include below($bp-sm) {
+  .section {
+    padding: 44px 20px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.6vw, 32px);
+  }
+
   .inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "title" "lead" "grid" "actions" "video" "portrait" "badges";
+    gap: 22px 12px;
   }
 
   .video,
   .portrait {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 3 / 4;
+  }
+
+  .badges img {
+    max-height: 70px;
   }
 }
 

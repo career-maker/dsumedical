@@ -367,3 +367,19 @@
     display: none;
   }
 }
+
+@include below($bp-sm) {
+  .section {
+    padding: 44px 20px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.6vw, 32px);
+    line-height: 1.15;
+  }
+
+  .cards {
+    @include rail-off(1);
+    gap: 18px;
+  }
+}

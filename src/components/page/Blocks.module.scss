@@ -480,7 +480,7 @@ a.card:focus-visible {
   height: 56px;
   border-radius: 6px;
   background: var(--peach);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--red);
 }
@@ -928,4 +928,135 @@ a.card:hover .more {
 .doc:hover .file {
   scale: 1.08;
   background: #ffd9bf;
+}
+
+// ---- phones ----
+@include below($bp-sm) {
+  .section {
+    padding-block: 40px;
+  }
+
+  .wrap {
+    padding-inline: 20px;
+  }
+
+  .head {
+    margin-bottom: 22px;
+
+    h2 {
+      font-size: clamp(24px, 7vw, 30px);
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .copy h2,
+  .cta h2 {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  .copy p:not(.eyebrow) {
+    font-size: 16px;
+  }
+
+  .grid,
+  .steps {
+    gap: 14px;
+  }
+
+  .cardBody {
+    padding: 18px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+
+    li {
+      padding: 20px 8px;
+    }
+
+    strong {
+      font-size: 28px;
+    }
+
+    li > span {
+      font-size: 14px;
+    }
+  }
+
+  .steps {
+    gap: 28px;
+
+    li {
+      padding-top: 50px;
+    }
+  }
+
+  .doc {
+    padding: 16px;
+  }
+
+  .faq summary {
+    padding: 16px 18px;
+    font-size: 16px;
+  }
+
+  .faq p {
+    padding: 0 18px 18px;
+    font-size: 15px;
+  }
+
+  .row {
+    margin-top: 24px;
+
+    > * {
+      flex: 1 1 100%;
+    }
+  }
+
+  .cta {
+    padding-block: 44px;
+  }
+
+  .jump a {
+    padding: 13px 0 10px;
+    font-size: 14px;
+  }
+
+  .address {
+    padding: 18px;
+    font-size: 16px;
+  }
+}
+
+// Phones: steps become a vertical timeline (dot on a left rail).
+@include below($bp-sm) {
+  .steps {
+    gap: 0;
+    padding-left: 4px;
+
+    li {
+      padding: 0 0 26px 44px;
+      border-top: 0;
+      border-left: 2px solid #f0d6c2;
+      margin-left: 18px;
+
+      &:last-child {
+        padding-bottom: 0;
+        border-left-color: transparent;
+      }
+    }
+  }
+
+  .dot {
+    top: -2px;
+    left: -19px;
+    min-width: 36px;
+    height: 36px;
+    padding-inline: 8px;
+    font-size: 11px;
+  }
 }

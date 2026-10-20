@@ -266,3 +266,33 @@
     }
   }
 }
+
+@include below($bp-sm) {
+  .section {
+    padding: 44px 20px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.6vw, 32px);
+    line-height: 1.15;
+  }
+
+  .mosaic {
+    @include rail-off(2);
+    gap: 10px;
+
+    li span {
+      left: 12px;
+      right: 8px;
+      bottom: 10px;
+      max-width: none;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+  }
+
+  .checks ul {
+    gap: 14px;
+    padding: 20px;
+  }
+}

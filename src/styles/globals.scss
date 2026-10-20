@@ -319,3 +319,10 @@ html.lenis body {
     transition: none;
   }
 }
+
+// Fixed bottom action bar on phones/tablets: reserve its height so it never hides the footer.
+@media (max-width: 1139.98px) {
+  body {
+    padding-bottom: 68px;
+  }
+}

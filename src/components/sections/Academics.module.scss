@@ -303,3 +303,19 @@
   .photo { grid-area: photo; align-self: start; }
   .card { grid-area: card; }
 }
+
+@include below($bp-sm) {
+  .section {
+    padding: 44px 20px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.6vw, 32px);
+    line-height: 1.15;
+  }
+
+  .photo {
+    max-width: 260px;
+    margin-inline: auto;
+  }
+}

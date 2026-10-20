@@ -262,3 +262,32 @@
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 38%, rgba(0, 0, 0, 0) 66%);
   }
 }
+
+// Phone layout: shorter hero, face-centred crop, two full-width actions that never overflow.
+@include below($bp-sm) {
+  .hero {
+    min-height: min(560px, calc(100svh - 110px));
+  }
+
+  .bg {
+    object-position: 58% 12%;
+  }
+
+  .content {
+    padding: 110px 20px 24px;
+    gap: 14px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.4vw, 32px);
+  }
+
+  .actions {
+    max-width: none;
+
+    a {
+      min-width: 0;
+      font-size: 15px;
+    }
+  }
+}

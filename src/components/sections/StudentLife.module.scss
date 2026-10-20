@@ -225,3 +225,23 @@
     @include rail-basis(44%);
   }
 }
+
+@include below($bp-sm) {
+  .section {
+    padding: 44px 20px;
+  }
+
+  .title {
+    font-size: clamp(26px, 7.6vw, 32px);
+    line-height: 1.15;
+  }
+
+  .grid {
+    @include rail-off(2);
+    gap: 10px;
+
+    > :first-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
