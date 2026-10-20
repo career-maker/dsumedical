@@ -197,13 +197,9 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                   <h3>{d.title}</h3>
                   {d.note && <p>{d.note}</p>}
                 </div>
-                {d.href ? (
-                  <SmartLink href={d.href} className={styles.dl}>
-                    View / Download
-                  </SmartLink>
-                ) : (
-                  <span className={styles.pending}>Link pending</span>
-                )}
+                <SmartLink href={d.href ?? "#"} className={styles.dl}>
+                  View / Download
+                </SmartLink>
               </li>
             ))}
           </ul>

@@ -345,3 +345,10 @@
     display: none;
   }
 }
+
+// Phones/tablets: the open menu must sit above the fixed bottom action bar.
+@include below($bp-lg) {
+  .wrap {
+    z-index: 60;
+  }
+}

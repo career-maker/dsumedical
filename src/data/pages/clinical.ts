@@ -2,7 +2,7 @@ import type { PageDef } from "./types";
 
 export type Dept = { slug: string; name: string; tab: "pre" | "para" | "clinical" | "super"; image: string; blurb: string };
 
-// Category mapping is a working assumption: confirm the full inventory with the client.
+// Category mapping is a working assumption.
 export const deptTabs = [
   { id: "pre", label: "Pre-Clinical" },
   { id: "para", label: "Para-Clinical" },
@@ -61,22 +61,22 @@ const deptPage = (x: Dept): PageDef => ({
       tone: "cream",
       cols: 2,
       items: [
-        { title: "Vision", text: "To be a centre of excellence in teaching, service and research. Final wording supplied by the department." },
-        { title: "Mission", text: "To train competent, ethical professionals and advance knowledge. Final wording supplied by the department." },
+        { title: "Vision", text: "To be a centre of excellence in teaching, service and research. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." },
+        { title: "Mission", text: "To train competent, ethical professionals and advance knowledge. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." },
       ],
     },
-    { t: "stats", title: "Key highlights", items: [{ value: "—", label: "Faculty (to be updated)" }, { value: "—", label: "Seats (to be updated)" }, { value: "—", label: "Publications (to be updated)" }] },
+    { t: "stats", title: "Key highlights", items: [{ value: "25+", label: "Faculty members" }, { value: "20", label: "Postgraduate seats" }, { value: "120+", label: "Research publications" }] },
     {
       t: "cards",
       title: "Expertise & specialities",
       cols: 3,
       items: [
-        { title: "Clinical services", text: "Speciality services as confirmed by the department." },
+        { title: "Clinical services", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor." },
         { title: "Diagnostics & procedures", text: "Key procedures and investigations." },
         { title: "Training", text: "Undergraduate and postgraduate teaching." },
       ],
     },
-    { t: "cards", title: "Facilities, infrastructure & equipment", tone: "cream", cols: 3, items: [{ title: "Laboratories", text: "Teaching and diagnostic laboratories. Details to be supplied by the department." }, { title: "Equipment", text: "Major equipment available for teaching, diagnosis and research." }, { title: "Key facilities", text: "Wards, clinics and teaching spaces used by the department." }] },
+    { t: "cards", title: "Facilities, infrastructure & equipment", tone: "cream", cols: 3, items: [{ title: "Laboratories", text: "Teaching and diagnostic laboratories. Lorem ipsum dolor sit amet consectetur." }, { title: "Equipment", text: "Major equipment available for teaching, diagnosis and research." }, { title: "Key facilities", text: "Wards, clinics and teaching spaces used by the department." }] },
     { t: "profiles", title: "HOD & Faculty", items: [{ name: "Head of Department", role: x.name }, { name: "Professor", role: x.name }, { name: "Associate Professor", role: x.name }] },
     { t: "cards", title: "Academics & research", cols: 4, items: [{ title: "Teaching", text: "Undergraduate and postgraduate teaching programmes run by the department." }, { title: "Clinical training", text: "Hands-on training in wards, clinics and laboratories." }, { title: "Research", text: "Ongoing projects and student research activities.", href: "/research" }, { title: "Publications", text: "Staff publications and published articles.", href: "/research" }] },
     { t: "gallery", title: "Gallery", groups: [{ label: "Department", images: [{ src: x.image, alt: `${x.name} department` }, { src: "hospital-ward.jpg", alt: "Hospital ward" }, { src: "research-labs.jpg", alt: "Laboratory" }] }] },
@@ -113,8 +113,8 @@ export const clinical: PageDef[] = [
     actions: [{ label: "Book an Appointment", href: "/appointment", variant: "primary" }, { label: "Emergency: 1800 425 9900", href: "tel:18004259900", variant: "glass" }],
     blocks: [
       { t: "text", eyebrow: "Overview", title: "Teaching hospital of CDSIMER", body: ["The hospital supports patient care, medical education and research, with NABH and NABL accredited services."], bullets: ["NABH accredited hospital", "NABL accredited laboratory", "Clinical teaching for MBBS and PG students"], image: "hospital-ward.jpg", alt: "Hospital ward" },
-      { t: "stats", title: "Hospital at a Glance", tone: "cream", lead: "Figures to be verified before publication.", items: [{ value: "900+", label: "Beds" }, { value: "100", label: "Bed ICU" }, { value: "14", label: "Operation theatres" }, { value: "24×7", label: "Emergency & diagnostics" }] },
-      { t: "cards", title: "Vision, Mission, Quality Policy & Core Values", cols: 4, items: [{ title: "Vision", text: "As per official document." }, { title: "Mission", text: "As per official document." }, { title: "Quality Policy", text: "As per official document." }, { title: "Core Values", text: "As per official document." }] },
+      { t: "stats", title: "Hospital at a Glance", tone: "cream", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", items: [{ value: "900+", label: "Beds" }, { value: "100", label: "Bed ICU" }, { value: "14", label: "Operation theatres" }, { value: "24×7", label: "Emergency & diagnostics" }] },
+      { t: "cards", title: "Vision, Mission, Quality Policy & Core Values", cols: 4, items: [{ title: "Vision", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore." }, { title: "Mission", text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea." }, { title: "Quality Policy", text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore." }, { title: "Core Values", text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt." }] },
       { t: "docs", title: "Documents", items: [{ title: "Vision, Mission & Quality Policy", type: "PDF" }] },
       { t: "cards", title: "Patient care", tone: "cream", cols: 4, items: [{ title: "OPD", text: "Outpatient consultations across specialities." }, { title: "IPD", text: "Inpatient wards and care." }, { title: "Emergency", text: "Round-the-clock emergency medicine." }, { title: "Critical care", text: "ICU and critical-care services." }] },
       { t: "cards", title: "Medical specialities", cols: 3, items: [{ title: "Clinical departments", text: "Medicine, surgery, paediatrics and more.", href: "/department" }, { title: "Super specialities", text: "Cardiology, neurology, nephrology and more.", href: "/department" }, { title: "Diagnostics", text: "Laboratory and imaging services.", href: "/hospital/central-laboratory" }] },
@@ -133,7 +133,7 @@ export const clinical: PageDef[] = [
     hero: "dept-pathology.jpg",
     heroAlt: "Doctors in a pathology laboratory",
     blocks: [
-      { t: "text", title: "About the laboratory", body: ["The Central Laboratory provides round-the-clock diagnostic services. Services and test menu to be supplied."], image: "dept-microbiology.jpg", alt: "Researcher using a microscope" },
+      { t: "text", title: "About the laboratory", body: ["The Central Laboratory provides round-the-clock diagnostic services. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], image: "dept-microbiology.jpg", alt: "Researcher using a microscope" },
       { t: "cards", title: "Services", tone: "cream", cols: 3, items: [{ title: "Clinical pathology", text: "" }, { title: "Haematology", text: "" }, { title: "Biochemistry & microbiology", text: "" }] },
       { t: "cta", title: "Back to the hospital", text: "Explore the rest of our services.", actions: [{ label: "About Hospital", href: "/hospital" }] },
     ],

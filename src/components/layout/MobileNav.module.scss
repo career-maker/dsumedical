@@ -83,8 +83,10 @@
 }
 
 .panel {
-  max-height: calc(100vh - 80px);
+  max-height: calc(100svh - 80px);
   overflow-y: auto;
+  padding-bottom: 96px;
+  overscroll-behavior: contain;
 }
 
 .sub li a {

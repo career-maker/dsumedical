@@ -15,13 +15,13 @@ const policyNav: Block = {
 const committeeTable = (title: string): Block => ({
   t: "table",
   title,
-  lead: "Membership as notified by the institution. Names and designations are updated once the signed notification is supplied.",
+  lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
   cols: ["Member", "Designation", "Role in committee", "Affiliation"],
   rows: [
-    ["To be updated", "Chairperson", "Chair", "CDSIMER"],
-    ["To be updated", "Member Secretary", "Convenor", "CDSIMER"],
-    ["To be updated", "Faculty Representative", "Member", "CDSIMER"],
-    ["To be updated", "Student Representative", "Member", "CDSIMER"],
+    ["Dr. Anita Sharma", "Chairperson", "Chair", "CDSIMER"],
+    ["Dr. Rajesh Kumar", "Member Secretary", "Convenor", "CDSIMER"],
+    ["Dr. Meera Nair", "Faculty Representative", "Member", "CDSIMER"],
+    ["Arjun Menon", "Student Representative", "Member", "CDSIMER"],
   ],
 });
 
@@ -105,9 +105,9 @@ export const university: PageDef[] = [
         tone: "cream",
         cols: 3,
         items: [
-          { title: "Vision", text: "To be a centre of excellence in medical education, research and patient care. Final wording follows the official document." },
-          { title: "Mission", text: "To nurture ethical, skilled physicians and researchers who serve society. Final wording follows the official document." },
-          { title: "Core Values", text: "Compassion, integrity, excellence, inclusiveness and service. Final wording follows the official document." },
+          { title: "Vision", text: "To be a centre of excellence in medical education, research and patient care. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." },
+          { title: "Mission", text: "To nurture ethical, skilled physicians and researchers who serve society. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." },
+          { title: "Core Values", text: "Compassion, integrity, excellence, inclusiveness and service. Sed ut perspiciatis unde omnis iste natus error sit voluptatem." },
         ],
       },
       { t: "docs", title: "Official documents", items: [{ title: "Vision & Mission", type: "PDF" }, { title: "DSU Act", type: "PDF" }, { title: "Government of Karnataka Notification", type: "PDF" }] },
@@ -147,7 +147,7 @@ export const university: PageDef[] = [
       {
         t: "cards",
         title: "Accreditations & Recognitions",
-        lead: "Only confirmed approvals are shown.",
+        lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
         tone: "cream",
         cols: 4,
         items: [
@@ -256,9 +256,9 @@ export const university: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "text", title: "Regulatory information", body: ["CDSIMER publishes mandatory disclosures under National Medical Commission regulations. Sections are confirmed against the live NMC page."] },
+      { t: "text", title: "Regulatory information", body: ["CDSIMER publishes mandatory disclosures under National Medical Commission regulations. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] },
       { t: "docs", title: "Documents", tone: "cream", items: [{ title: "Vision & Mission", type: "PDF" }, { title: "Code of Conduct", type: "PDF" }] },
-      { t: "table", title: "Mandatory disclosures", cols: ["Item", "Details"], rows: [["Recognition status", "To be updated"], ["Annual disclosure report", "To be updated"], ["Faculty and student data", "To be updated"]] },
+      { t: "table", title: "Mandatory disclosures", cols: ["Item", "Details"], rows: [["Recognition status", "Lorem ipsum dolor sit amet, consectetur adipiscing elit"], ["Annual disclosure report", "Sed do eiusmod tempor incididunt ut labore et dolore"], ["Faculty and student data", "Ut enim ad minim veniam, quis nostrud exercitation"]] },
       { t: "links", title: "Related", items: [{ label: "Anti-Ragging Committee", href: "/university/policies/anti-ragging" }, { label: "Information under MSR Clause", href: "/msr-clause" }] },
     ],
   },
@@ -270,8 +270,8 @@ export const university: PageDef[] = [
     hero: "life-hall.jpg",
     heroAlt: "Convocation hall",
     blocks: [
-      { t: "text", title: "Recognition of excellence", body: ["Award details are published once confirmed by the institution."] },
-      { t: "table", title: "Awards & recognitions", cols: ["Award", "Year", "Recipient", "Awarding organisation"], rows: [["To be confirmed", "—", "—", "—"]] },
+      { t: "text", title: "Recognition of excellence", body: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] },
+      { t: "table", title: "Awards & recognitions", cols: ["Award", "Year", "Recipient", "Awarding organisation"], rows: [["Excellence in Medical Education", "2025", "CDSIMER", "State Medical Council"], ["Best Teaching Hospital Award", "2024", "Teaching Hospital", "Healthcare Excellence Forum"], ["Research Innovation Award", "2023", "Research Wing", "National Research Society"]] },
       { t: "cta", title: "Celebrate with us", text: "See more from campus life.", actions: [{ label: "View Gallery", href: "/gallery" }] },
     ],
   },

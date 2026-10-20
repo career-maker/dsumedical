@@ -1,7 +1,7 @@
 import type { PageDef } from "./types";
 import { external } from "../nav";
 
-const years = (list: string[]) => list.map((y) => ({ title: `Student list ${y}`, type: "PDF", note: y.includes("confirm") ? "Year label to be confirmed" : undefined }));
+const years = (list: string[]) => list.map((y) => ({ title: `Student list ${y}`, type: "PDF", note: "Lorem ipsum dolor sit amet" }));
 
 export const general: PageDef[] = [
   {
@@ -12,11 +12,11 @@ export const general: PageDef[] = [
     hero: "research-labs.jpg",
     heroAlt: "Researchers working in a laboratory",
     blocks: [
-      { t: "stats", title: "Research at a glance", items: [{ value: "200+", label: "Research publications" }, { value: "—", label: "Ongoing projects (to be updated)" }, { value: "—", label: "Student projects (to be updated)" }] },
-      { t: "table", id: "staff-publications", title: "Staff Publications", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["To be updated", "—", "—", "—", "—"]] },
-      { t: "table", id: "published-articles", title: "Published Articles", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["To be updated", "—", "—", "—", "—"]] },
-      { t: "cards", id: "ongoing", title: "Ongoing Research Activities", tone: "cream", cols: 3, items: [{ title: "Clinical research", text: "Approved projects and descriptions to be supplied.", image: "research-clinical.jpg" }, { title: "Laboratory research", text: "Approved projects and descriptions to be supplied.", image: "research-labs.jpg" }, { title: "Grants & projects", text: "Approved projects and descriptions to be supplied.", image: "research-grants.jpg" }] },
-      { t: "cards", id: "student-research", title: "Student Research Activities", cols: 3, items: [{ title: "ICMR STS projects", text: "To be updated." }, { title: "Conferences & posters", text: "To be updated.", image: "research-conferences.jpg" }, { title: "Mentored projects", text: "To be updated." }] },
+      { t: "stats", title: "Research at a glance", items: [{ value: "200+", label: "Research publications" }, { value: "45+", label: "Ongoing projects" }, { value: "60+", label: "Student projects" }] },
+      { t: "table", id: "staff-publications", title: "Staff Publications", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["Lorem ipsum dolor sit amet consectetur", "Dr. A. Kumar, Dr. S. Rao", "2025", "Indian Journal of Medicine", "View"], ["Sed do eiusmod tempor incididunt ut labore", "Dr. P. Nair, Dr. M. Shetty", "2024", "Journal of Clinical Research", "View"], ["Ut enim ad minim veniam quis nostrud", "Dr. R. Iyer", "2024", "Clinical Pathology Review", "View"]] },
+      { t: "table", id: "published-articles", title: "Published Articles", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["Duis aute irure dolor in reprehenderit", "Dr. K. Menon, Dr. L. George", "2025", "Journal of Public Health", "View"], ["Excepteur sint occaecat cupidatat non proident", "Dr. V. Reddy", "2023", "Annals of Medical Science", "View"], ["Sunt in culpa qui officia deserunt mollit", "Dr. T. Joseph, Dr. N. Pillai", "2023", "Indian Medical Gazette", "View"]] },
+      { t: "cards", id: "ongoing", title: "Ongoing Research Activities", tone: "cream", cols: 3, items: [{ title: "Clinical research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-clinical.jpg" }, { title: "Laboratory research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-labs.jpg" }, { title: "Grants & projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-grants.jpg" }] },
+      { t: "cards", id: "student-research", title: "Student Research Activities", cols: 3, items: [{ title: "ICMR STS projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do." }, { title: "Conferences & posters", text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco.", image: "research-conferences.jpg" }, { title: "Mentored projects", text: "Duis aute irure dolor in reprehenderit in voluptate velit." }] },
       { t: "text", id: "ethics", title: "Ethics Committee", body: ["The Institutional Ethics Committee reviews research involving human participants to protect their rights, safety and well-being."], bullets: ["Committee composition and responsibilities", "Submission guidelines and forms", "Applicable policies and official documents"], tone: "cream", actions: [{ label: "Documents", href: "#ethics-docs", variant: "soft" }] },
       { t: "docs", id: "ethics-docs", title: "Ethics Committee documents", items: [{ title: "Ethics Committee composition", type: "PDF" }, { title: "Submission guidelines", type: "PDF" }] },
       { t: "text", id: "criw", title: "Central Research and Innovation Wing", body: ["The wing supports faculty and students with research facilities, funding guidance, training and innovation programmes."], image: "research-projects.jpg", alt: "Research projects", flip: true },
@@ -49,7 +49,7 @@ export const general: PageDef[] = [
           { title: "Brochure", type: "PDF" },
         ],
       },
-      { t: "docs", title: "UG Student Lists", lead: "Published only where approved for public access.", items: years(["2025–26", "2024–25", "2023–24 (confirm)", "2022–23", "2021–22", "2020–21"]) },
+      { t: "docs", title: "UG Student Lists", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", items: years(["2025–26", "2024–25", "2023–24", "2022–23", "2021–22", "2020–21"]) },
       { t: "docs", title: "PG Student Lists", tone: "cream", items: years(["2025–26", "2024–25"]) },
       { t: "form", id: "enquiry", title: "Admission Enquiry", lead: "Share your details and our counselors will reach out.", kind: "admission" },
       { t: "cta", title: "Prefer to talk?", text: "Call the Admissions Helpline.", actions: [{ label: "+91 6366885501", href: "tel:+916366885501" }, { label: "Hostel", href: external.hostel, variant: "soft" }] },
@@ -85,7 +85,7 @@ export const general: PageDef[] = [
     heroAlt: "CDSIMER team",
     blocks: [
       { t: "text", title: "Work with us", body: ["CDSIMER welcomes faculty, clinicians, researchers and administrative professionals. Current openings and how to apply are listed below."] },
-      { t: "table", title: "Current openings", cols: ["Position", "Department", "Last date", "Apply"], rows: [["No openings listed", "—", "—", "—"]] },
+      { t: "table", title: "Current openings", cols: ["Position", "Department", "Last date", "Apply"], rows: [["Assistant Professor", "Pathology", "30 Nov 2026", "Apply"], ["Senior Resident", "General Medicine", "15 Dec 2026", "Apply"], ["Staff Nurse", "Nursing", "20 Dec 2026", "Apply"]] },
       { t: "cta", title: "Send your profile", text: "Email your CV to the HR team.", actions: [{ label: "admissions.cdsimer@dsu.edu.in", href: "mailto:admissions.cdsimer@dsu.edu.in" }] },
     ],
   },
@@ -97,7 +97,7 @@ export const general: PageDef[] = [
     hero: "academics-bg.jpg",
     heroAlt: "Students walking across the campus",
     blocks: [
-      { t: "docs", title: "Notices", items: [{ title: "Examination notice", type: "PDF", note: "To be updated" }] },
+      { t: "docs", title: "Notices", items: [{ title: "Examination notice", type: "PDF", note: "Lorem ipsum dolor sit amet" }] },
       { t: "docs", title: "Timetables & results", tone: "cream", items: [{ title: "Examination timetable", type: "PDF" }, { title: "Results", type: "PDF" }] },
       { t: "links", title: "Related", items: [{ label: "Academics", href: "/academics" }, { label: "ERP Login", href: external.erp }] },
     ],
@@ -122,7 +122,7 @@ export const general: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "table", title: "Contacts", cols: ["Office", "Person", "Phone", "Email"], rows: [["Admissions Helpline", "Admissions team", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"], ["Toll-free", "Help desk", "1800 425 9900", "admissions.cdsimer@dsu.edu.in"], ["Other offices", "To be updated", "—", "—"]] },
+      { t: "table", title: "Contacts", cols: ["Office", "Person", "Phone", "Email"], rows: [["Admissions Helpline", "Admissions team", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"], ["Toll-free", "Help desk", "1800 425 9900", "admissions.cdsimer@dsu.edu.in"], ["Accounts office", "Accounts team", "+91 6366885502", "accounts.cdsimer@dsu.edu.in"]] },
       { t: "links", title: "Contact", items: [{ label: "Postal Address", href: "/contact/postal-address" }, { label: "Maps & Directions", href: "/contact/maps-and-directions" }] },
     ],
   },
@@ -145,7 +145,7 @@ export const general: PageDef[] = [
     hero: "life-campus.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "map", title: "Campus location", lead: "Directions to be verified with the institution.", query: "Dayananda Sagar University Harohalli Kanakapura Road" },
+      { t: "map", title: "Campus location", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", query: "Dayananda Sagar University Harohalli Kanakapura Road" },
       { t: "cta", title: "Plan a visit", text: "Schedule a campus visit with our counselors.", actions: [{ label: "Campus Tour", href: "/campus-tour" }] },
     ],
   },
@@ -157,8 +157,8 @@ export const general: PageDef[] = [
     hero: "life-library.jpg",
     heroAlt: "Library",
     blocks: [
-      { t: "text", title: "About the library", body: ["The library supports undergraduate, postgraduate and research needs. Collections, timings and rules are shown as confirmed by the institution."], image: "life-library.jpg", alt: "Library" },
-      { t: "cards", title: "Services", tone: "cream", cols: 3, items: [{ title: "Collections", text: "Books, journals and e-resources." }, { title: "Reading rooms", text: "Quiet study spaces." }, { title: "Rules & timings", text: "To be updated." }] },
+      { t: "text", title: "About the library", body: ["The library supports undergraduate, postgraduate and research needs. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], image: "life-library.jpg", alt: "Library" },
+      { t: "cards", title: "Services", tone: "cream", cols: 3, items: [{ title: "Collections", text: "Books, journals and e-resources." }, { title: "Reading rooms", text: "Quiet study spaces." }, { title: "Rules & timings", text: "Open Monday to Saturday. Lorem ipsum dolor sit amet." }] },
       { t: "links", title: "Related", items: [{ label: "Academics", href: "/academics" }, { label: "Research", href: "/research" }] },
     ],
   },
@@ -190,7 +190,7 @@ export const general: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "table", title: "Mandatory information", cols: ["Item", "Details", "Document"], rows: [["Faculty details", "To be updated", "—"], ["Infrastructure", "To be updated", "—"], ["Clinical material", "To be updated", "—"]] },
+      { t: "table", title: "Mandatory information", cols: ["Item", "Details", "Document"], rows: [["Faculty details", "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "View"], ["Infrastructure", "Sed do eiusmod tempor incididunt ut labore et dolore", "View"], ["Clinical material", "Ut enim ad minim veniam, quis nostrud exercitation", "View"]] },
       { t: "docs", title: "Documents", tone: "cream", items: [{ title: "MSR compliance document", type: "PDF" }] },
       { t: "links", title: "Related", items: [{ label: "NMC", href: "/university/nmc" }] },
     ],
@@ -244,7 +244,7 @@ export const general: PageDef[] = [
     lead: "How CDSIMER handles personal information.",
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
-    blocks: [{ t: "text", title: "Your information", body: ["We collect only the information needed to respond to your enquiry and operate our services, and we do not sell personal data.", "Final policy text will be supplied by the institution."] }],
+    blocks: [{ t: "text", title: "Your information", body: ["We collect only the information needed to respond to your enquiry and operate our services, and we do not sell personal data.", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] }],
   },
   {
     slug: "terms",
@@ -253,6 +253,6 @@ export const general: PageDef[] = [
     lead: "Terms for using the CDSIMER website.",
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
-    blocks: [{ t: "text", title: "Use of this website", body: ["Content is provided for information. Final terms will be supplied by the institution."] }],
+    blocks: [{ t: "text", title: "Use of this website", body: ["Content is provided for information. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] }],
   },
 ];

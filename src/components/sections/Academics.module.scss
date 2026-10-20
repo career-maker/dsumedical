@@ -310,12 +310,18 @@
   }
 
   .title {
-    font-size: clamp(26px, 7.6vw, 32px);
+    font-size: clamp(30px, 8.6vw, 34px);
     line-height: 1.15;
   }
 
   .photo {
     max-width: 260px;
     margin-inline: auto;
+  }
+}
+
+@include below($bp-sm) {
+  .cardTitle {
+    font-size: 24px;
   }
 }

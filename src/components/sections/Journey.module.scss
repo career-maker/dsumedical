@@ -300,12 +300,20 @@
   }
 
   .title {
-    font-size: clamp(26px, 7.6vw, 32px);
+    font-size: clamp(30px, 8.6vw, 34px);
     line-height: 1.15;
   }
 
   .cards {
     @include rail-off(1);
     gap: 20px;
+  }
+}
+
+@include below($bp-sm) {
+  .head {
+    height: auto;
+    font-size: 24px;
+    line-height: 1.25;
   }
 }

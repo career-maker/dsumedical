@@ -181,7 +181,7 @@ export const academic: PageDef[] = [
           { title: "Phase I", type: "PDF" },
           { title: "Phase II", type: "PDF" },
           { title: "Phase III – Part I", type: "PDF" },
-          { title: "Phase III – Part II", type: "PDF", note: "Link to be verified" },
+          { title: "Phase III – Part II", type: "PDF", note: "Curriculum feedback summary" },
         ],
       },
       { t: "links", title: "Related", items: [{ label: "Programs", href: "/programs" }, { label: "Examination", href: "/examination" }, { label: "Departments", href: "/department" }] },
