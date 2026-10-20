@@ -271,7 +271,12 @@
 
 @include tablet {
   .cards {
-    @include rail-basis(46%);
+    @include rail-off(2);
+    gap: 24px;
+
+    > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
   }
 }
 

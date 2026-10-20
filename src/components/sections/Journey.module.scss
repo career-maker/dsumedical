@@ -285,7 +285,12 @@
 
 @include tablet {
   .cards {
-    @include rail-basis(46%);
+    @include rail-off(2);
+    gap: 20px;
+
+    > :last-child {
+      grid-column: 1 / -1;
+    }
   }
 }
 

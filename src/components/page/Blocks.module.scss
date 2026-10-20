@@ -1060,3 +1060,21 @@ a.card:hover .more {
     font-size: 11px;
   }
 }
+
+// Stat tiles: never split a word, and use up to 4 columns on tablets so a 4-up row has no orphan.
+.stats strong,
+.stats strong span {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+@include tablet {
+  .stats {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  }
+
+  .stats strong {
+    font-size: clamp(26px, 3.6vw, 36px);
+  }
+}

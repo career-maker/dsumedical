@@ -222,7 +222,12 @@
 
 @include tablet {
   .grid {
-    @include rail-basis(44%);
+    @include rail-off(2);
+    gap: 12px;
+
+    > :first-child {
+      grid-column: 1 / -1;
+    }
   }
 }
 
