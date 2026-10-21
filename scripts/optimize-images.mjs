@@ -17,7 +17,7 @@ for (const f of await readdir(src)) {
   const meta = await sharp(path.join(src, f)).metadata();
   for (const w of WIDTHS) {
     const width = Math.min(w, meta.width); // never upscale; smaller sources reuse their natural size
-    await sharp(path.join(src, f)).resize({ width }).webp({ quality: 74, effort: 5 }).toFile(path.join(out, `${base}-${w}.webp`));
+    await sharp(path.join(src, f)).resize({ width }).webp({ quality: 68, effort: 5 }).toFile(path.join(out, `${base}-${w}.webp`));
     n++;
   }
 }
