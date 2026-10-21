@@ -4,6 +4,7 @@ import { SmartLink } from "@/components/ui/SmartLink";
 import type { Block } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
+import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
 import styles from "./Blocks.module.scss";
 
@@ -368,17 +369,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
   const jump = list.filter((b) => "id" in b && b.id && "title" in b && b.title);
   return (
     <>
-      {jump.length >= 4 && (
-        <nav className={styles.jump} aria-label="On this page">
-          <ul>
-            {jump.map((b) => (
-              <li key={(b as { id: string }).id}>
-                <a href={`#${(b as { id: string }).id}`}>{(b as { title: string }).title}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+      {jump.length >= 4 && <JumpNav items={jump as { id: string; title: string }[]} />}
       <InnerMotion />
       {list.map((b, i) => (
         <Render key={i} b={b} auto={autos[i]} />

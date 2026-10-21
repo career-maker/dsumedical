@@ -737,9 +737,14 @@ a.card:focus-visible {
     transition: color 0.2s, border-color 0.2s;
 
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &[aria-current="true"] {
       border-color: var(--orange);
       color: var(--orange);
+    }
+
+    &[aria-current="true"] {
+      font-weight: 700;
     }
   }
 }
