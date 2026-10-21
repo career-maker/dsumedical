@@ -10,6 +10,8 @@ type PhotoProps = {
   src?: string;
   sizes?: string;
   priority?: boolean;
+  /** Fetch immediately instead of on scroll (for small below-the-fold images that must not pop in). */
+  eager?: boolean;
   className?: string;
   /** Skip the exact crop and use CSS cover instead (for images the PDF crops with a mask). */
   cover?: boolean;
@@ -18,7 +20,7 @@ type PhotoProps = {
 };
 
 /** Renders an image at the exact crop and scale used in the design, scaling fluidly with its box. */
-export function Photo({ name, alt, src, sizes, priority, className, cover, position }: PhotoProps) {
+export function Photo({ name, alt, src, sizes = "(max-width: 1024px) 100vw, 50vw", priority, eager, className, cover, position }: PhotoProps) {
   const place = photos[name];
   const [cx, cy, cw, ch] = place.clip;
   const [ix, iy, iw, ih] = place.img;
@@ -29,7 +31,7 @@ export function Photo({ name, alt, src, sizes, priority, className, cover, posit
       style={{ aspectRatio: `${cw} / ${ch}`, "--w": `calc(${cw} * var(--u))` } as CSSProperties}
     >
       {cover ? (
-        <Image src={file} alt={alt} fill sizes={sizes} preload={priority} style={{ objectFit: "cover", objectPosition: position }} />
+        <Image src={file} alt={alt} fill sizes={sizes} preload={priority} loading={eager ? "eager" : undefined} style={{ objectFit: "cover", objectPosition: position }} />
       ) : (
         <Image
           src={file}
@@ -37,7 +39,7 @@ export function Photo({ name, alt, src, sizes, priority, className, cover, posit
           width={Math.round(iw)}
           height={Math.round(ih)}
           sizes={sizes}
-          preload={priority}
+          preload={priority} loading={eager ? "eager" : undefined}
           className={styles.img}
           style={{
             left: `${((ix - cx) / cw) * 100}%`,

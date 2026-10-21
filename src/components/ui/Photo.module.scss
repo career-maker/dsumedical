@@ -5,6 +5,7 @@
   width: var(--w);
   max-width: 100%;
   overflow: hidden;
+  background: #eef1f4; // placeholder while the image loads
 
   @include below($bp-lg) {
     width: 100%;
