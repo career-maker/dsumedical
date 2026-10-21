@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -86,9 +86,9 @@ export function Hero() {
               <Image src="/images/badge-nabl.png" alt="NABL accredited laboratory" width={60} height={39} />
             </li>
           </ul>
-          <h1 className={styles.title}>
+          <h1 className={styles.title} data-motion>
             {sl.title.map((t, k) => (
-              <span key={t}>
+              <span key={t} style={{ "--i": k } as CSSProperties}>
                 {k > 0 && <br />}
                 {t}
               </span>

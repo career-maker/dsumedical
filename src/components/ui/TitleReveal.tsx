@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export function TitleReveal() {
   const path = usePathname();
   useEffect(() => {
-    const titles = document.querySelectorAll<HTMLElement>("main h1, main h2");
+    const titles = document.querySelectorAll<HTMLElement>("main h1:not([data-motion]), main h2, main h3");
     if (!("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver(
       (entries) =>
