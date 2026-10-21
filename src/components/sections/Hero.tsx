@@ -89,7 +89,6 @@ export function Hero() {
           <h1 className={styles.title} data-motion>
             {sl.title.map((t, k) => (
               <span key={t} style={{ "--i": k } as CSSProperties}>
-                {k > 0 && <br />}
                 {t}
               </span>
             ))}

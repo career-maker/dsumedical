@@ -96,7 +96,7 @@
 
 // Slider titles: each line rises out of a blur and un-masks, staggered, every time its slide becomes active.
 .title span {
-  display: inline-block;
+  display: block;
 }
 
 .on .title span {
