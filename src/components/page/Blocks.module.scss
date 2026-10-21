@@ -1039,7 +1039,7 @@ a.card:hover .more {
     padding-left: 4px;
 
     li {
-      padding: 0 0 26px 44px;
+      padding: 0 0 26px 30px;
       border-top: 0;
       border-left: 2px solid #f0d6c2;
       margin-left: 18px;
@@ -1051,12 +1051,16 @@ a.card:hover .more {
     }
   }
 
+  // Pill sits on the rail above its text, so long labels ("Phase III – Part I") never run under the title.
   .dot {
-    top: -2px;
-    left: -19px;
+    position: relative;
+    top: 0;
+    left: -31px;
+    width: max-content;
+    margin-bottom: 10px;
     min-width: 36px;
     height: 36px;
-    padding-inline: 8px;
+    padding-inline: 10px;
     font-size: 11px;
   }
 }
