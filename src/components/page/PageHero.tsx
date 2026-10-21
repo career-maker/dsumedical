@@ -11,7 +11,7 @@ export function PageHero({ page }: { page: PageDef }) {
   return (
     <>
     <section className={styles.hero} aria-labelledby="page-title">
-      <Image src={`/images/${page.hero}`} alt={page.heroAlt} fill preload sizes="100vw" className={styles.bg} />
+      <Image src={`/images/${page.hero}`} alt={page.heroAlt} fill fetchPriority="high" sizes="100vw" className={styles.bg} />
       <div className={styles.shade} />
       <div className={styles.inner}>
         <nav aria-label="Breadcrumb" className={styles.crumbs}>

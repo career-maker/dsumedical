@@ -12,10 +12,11 @@ type Props = {
 };
 
 /** Footer column: plain heading on desktop, accordion on mobile (the CSS decides which). */
-export function FoldCol({ as: Tag = "div", className, id, title, children }: Props) {
+export function FoldCol({ as = "div", className, id, title, children }: Props) {
   const [open, setOpen] = useState(false);
+  const Tag = as === "nav" ? "nav" : "div"; // <address> goes around the content only: it may not contain a heading
   return (
-    <Tag className={className} aria-labelledby={Tag === "address" ? undefined : id}>
+    <Tag className={className} aria-labelledby={as === "nav" ? id : undefined}>
       <h2 id={id}>
         <button type="button" className={styles.fold} aria-expanded={open} aria-controls={`${id}-panel`} onClick={() => setOpen((o) => !o)}>
           {title}
@@ -25,7 +26,7 @@ export function FoldCol({ as: Tag = "div", className, id, title, children }: Pro
         </button>
       </h2>
       <div id={`${id}-panel`} className={`${styles.foldPanel} ${open ? styles.foldOpen : ""}`}>
-        {children}
+        {as === "address" ? <address>{children}</address> : children}
       </div>
     </Tag>
   );

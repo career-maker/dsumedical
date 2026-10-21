@@ -63,6 +63,8 @@ export function Departments() {
           {departmentTabs.map((t) => (
             <button
               key={t.id}
+              id={`dept-tab-${t.id}`}
+              aria-controls="dept-panel"
               type="button"
               role="tab"
               aria-selected={tab === t.id}
@@ -75,6 +77,7 @@ export function Departments() {
           ))}
         </div>
 
+        <div role="tabpanel" id="dept-panel" aria-labelledby={`dept-tab-${tab}`}>
         {items.length > 0 ? (
           <ul className={styles.cards}>
             {items.map((d) => (
@@ -97,6 +100,7 @@ export function Departments() {
             ))}
           </ul>
         ) : null}
+        </div>
       </div>
     </section>
   );

@@ -25,6 +25,8 @@ export function News() {
           {newsTabs.map((t) => (
             <button
               key={t.id}
+              id={`news-tab-${t.id}`}
+              aria-controls="news-panel"
               type="button"
               role="tab"
               aria-selected={tab === t.id}
@@ -37,12 +39,13 @@ export function News() {
           ))}
         </div>
 
+        <div role="tabpanel" id="news-panel" aria-labelledby={`news-tab-${tab}`}>
         {items.length > 0 ? (
           <ul className={styles.cards}>
             {items.map((n) => (
               <li key={n.title} className={styles.card}>
                 <Photo name={n.photo} alt={n.alt} sizes="(max-width: 768px) 100vw, 640px" eager className={styles.photo} />
-                <time className={styles.date}>{n.date}</time>
+                <time className={styles.date} dateTime={n.iso}>{n.date}</time>
                 <h3>{n.title}</h3>
                 <p>{n.text}</p>
                 <Link prefetch={false} href="/news" className={styles.more}>
@@ -54,6 +57,7 @@ export function News() {
         ) : (
           <p className={styles.empty}>No updates in this category yet.</p>
         )}
+        </div>
       </div>
     </section>
   );

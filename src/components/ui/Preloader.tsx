@@ -13,9 +13,6 @@ export function Preloader() {
     <>
       <div id="pl" role="status" aria-label="Loading CDSIMER" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: markup }} />
       <script dangerouslySetInnerHTML={{ __html: script }} />
-      <noscript>
-        <style>{"#pl{display:none}"}</style>
-      </noscript>
     </>
   );
 }
