@@ -3,7 +3,7 @@ export type ProseItem = { p: string } | { h: string } | { ul: (string | { text: 
 export type Action = { label: string; href: string; variant?: "primary" | "outline" | "glass" | "soft" };
 
 export type Block =
-  | { t: "text"; id?: string; eyebrow?: string; title: string; body: string[]; bullets?: string[]; image?: string; alt?: string; flip?: boolean; fit?: "portrait" | "art"; tone?: "cream"; actions?: Action[] }
+  | { t: "text"; id?: string; eyebrow?: string; title: string; body: string[]; bullets?: string[]; image?: string; alt?: string; /** YouTube video id shown in the media slot instead of a photo. */ video?: string; flip?: boolean; fit?: "portrait" | "art"; tone?: "cream"; actions?: Action[] }
   | { t: "cards"; id?: string; title: string; lead?: string; cols?: 2 | 3 | 4; tone?: "cream"; more?: string; items: { title: string; text: string; href?: string; tag?: string; image?: string }[] }
   | { t: "stats"; title?: string; lead?: string; tone?: "cream"; colored?: boolean; items: { value: string; label: string }[] }
   | { t: "steps"; id?: string; title: string; lead?: string; tone?: "cream"; items: { label?: string; title: string; text: string }[] }

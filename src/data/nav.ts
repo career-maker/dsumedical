@@ -1,6 +1,6 @@
 import { doc } from "./pages/docs";
 
-export type NavLink = { label: string; href: string; children?: NavLink[] };
+export type NavLink = { label: string; href: string; children?: NavLink[]; /** Dropdown renders as a wide multi-column panel. */ mega?: boolean };
 
 export const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
 
@@ -55,7 +55,7 @@ const academics = L("Academics", "/academics", [
 
 // Grouped and ordered as on the existing cdsimer.edu.in menu. Departments without a page here link to the listing.
 const dept = (label: string, slug?: string) => L(label, slug ? `/department/${slug}` : "/department");
-const departments = L("Departments", "/department", [
+const departments: NavLink = { mega: true, ...L("Departments", "/department", [
   L("Pre-Clinical", "/department", [dept("Anatomy", "anatomy"), dept("Biochemistry", "biochemistry"), dept("Physiology", "physiology")]),
   L("Others", "/department", [dept("Medical Education Unit"), L("Library", "/library"), dept("Skill Lab")]),
   L("Para-Clinical", "/department", [
@@ -73,14 +73,12 @@ const departments = L("Departments", "/department", [
     dept("Oncology"), dept("Surgical Oncology"), dept("Cardiology", "cardiology"), dept("Cardiothoracic and Vascular Surgery"),
     dept("Neurosurgery"), dept("Surgical Gastroenterology"), dept("Endocrinology"), dept("Cardiac Anesthesiology"),
   ]),
-]);
+]) };
 
 const hospital = L("Hospital", "/hospital", [
-  L("About", "/hospital", [
-    L("About Hospital", "/hospital"),
-    L("Vision & Mission", "/hospital#vision"),
-    L("Statutory Requirements", "/hospital#statutory"),
-  ]),
+  L("About Hospital", "/hospital"),
+  L("Vision & Mission", "/hospital#vision"),
+  L("Statutory Requirements", "/hospital#statutory"),
 ]);
 
 const research = L("Research", "/research", [

@@ -70,6 +70,7 @@
 
 .barInner {
   @include container;
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -200,6 +201,8 @@
 }
 
 .item:hover .drop,
+.item:hover .mega,
+.item:has(:focus-visible) .mega,
 .item:has(:focus-visible) .drop {
   opacity: 1;
   visibility: visible;
@@ -432,5 +435,107 @@
     color: var(--ink, #222);
     line-height: 1.4;
     text-align: left;
+  }
+}
+
+// Departments: a wide multi-column panel under the bar instead of a long single list.
+.megaItem {
+  position: static;
+}
+
+.mega {
+  position: absolute;
+  top: calc(100% - #{u(8)});
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: u(28) u(36) u(22);
+  border-radius: u(14);
+  border-top: u(3) solid var(--orange);
+  background: #fff;
+  box-shadow: 0 u(20) u(44) rgba(60, 20, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  font-size: u(16);
+  letter-spacing: 0;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 u(10);
+  transition: opacity 0.28s, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
+}
+
+.item:hover .mega,
+.item:has(:focus-visible) .mega {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+}
+
+.megaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 2fr;
+  grid-template-areas:
+    "g0 g2 g3 g4"
+    "g1 g2 g3 g4";
+  grid-template-rows: auto 1fr;
+  gap: u(22) u(36);
+}
+
+.megaCol {
+  min-width: 0;
+
+  h3 {
+    margin-bottom: u(10);
+    padding-bottom: u(8);
+    border-bottom: 1px solid var(--peach);
+    font-size: u(14);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  ul {
+    display: grid;
+    gap: u(2);
+  }
+
+  li {
+    min-width: 0;
+  }
+
+  a {
+    display: block;
+    padding: u(5) u(8);
+    margin-inline: u(-8);
+    overflow-wrap: anywhere;
+    border-radius: u(6);
+    line-height: 1.35;
+    transition: background-color 0.2s, color 0.2s, padding 0.25s;
+
+    &:hover,
+    &:focus-visible {
+      padding-left: u(14);
+      background: var(--cream);
+      color: var(--orange);
+    }
+  }
+}
+
+.megaTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: u(24);
+}
+
+.megaAll {
+  display: inline-block;
+  margin-top: u(18);
+  font-weight: 500;
+  color: var(--orange);
+
+  &::after {
+    content: " →";
+  }
+
+  &:hover {
+    text-decoration: underline;
   }
 }

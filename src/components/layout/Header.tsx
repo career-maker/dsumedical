@@ -11,14 +11,40 @@ import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.scss";
 
 
+function Mega({ item }: { item: NavLink }) {
+  return (
+    <div className={styles.mega}>
+      <div className={styles.megaGrid}>
+        {(item.children ?? []).map((g, i) => (
+          <section key={g.label} className={styles.megaCol} style={{ gridArea: `g${i}` }}>
+            <h3>
+              <SmartLink href={g.href}>{g.label}</SmartLink>
+            </h3>
+            <ul className={g.children && g.children.length > 8 ? styles.megaTwo : undefined}>
+              {(g.children ?? []).map((l) => (
+                <li key={l.label}>
+                  <SmartLink href={l.href}>{l.label}</SmartLink>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+      <SmartLink href={item.href} className={styles.megaAll}>
+        View all departments
+      </SmartLink>
+    </div>
+  );
+}
+
 function NavItem({ item }: { item: NavLink }) {
   return (
-    <div className={styles.item}>
+    <div className={`${styles.item} ${item.mega ? styles.megaItem : ""}`}>
       <SmartLink href={item.href} className={styles.navLink}>
         {item.label}
         {item.children && <Icon name="chevron-down" />}
       </SmartLink>
-      {item.children && <NavDrop items={item.children} />}
+      {item.children && (item.mega ? <Mega item={item} /> : <NavDrop items={item.children} />)}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import type { Block } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
 import { Carousel } from "./Carousel";
+import { VideoFrame } from "./VideoFrame";
 import { PhaseGrid } from "./PhaseGrid";
 import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
@@ -92,7 +93,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "text":
       return (
         <Section block={b}>
-          <div className={`${styles.split} ${b.image || auto ? "" : styles.single} ${b.flip ? styles.flip : ""}`}>
+          <div className={`${styles.split} ${b.image || b.video || auto ? "" : styles.single} ${b.flip ? styles.flip : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
@@ -116,7 +117,12 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                 </div>
               )}
             </div>
-            {(b.image || auto) && (
+            {b.video && (
+              <div className={`${styles.media} ${styles.video}`} data-rv>
+                <VideoFrame id={b.video} title={b.title} />
+              </div>
+            )}
+            {!b.video && (b.image || auto) && (
               <div className={`${styles.media} ${b.fit ? styles[b.fit] : ""}`} data-rv>
                 <Image src={`/images/${b.image ?? auto}`} alt={b.alt ?? ""} fill sizes={b.fit ? "(max-width: 1280px) 100vw, 620px" : "(max-width: 1280px) 100vw, 700px"} />
               </div>
@@ -424,12 +430,12 @@ function withIds(blocks: Block[]): Block[] {
 }
 
 export function Blocks({ blocks }: { blocks: Block[] }) {
-  const list = withIds(blocks);
+  const list = withIds(blocks.filter((b) => !(b.t === "links" && b.title.startsWith("Related"))));
   // Pick a photo for every block that needs one and has none, cycling through each kind's pool.
   const taken = new Set(list.flatMap((b) => ("image" in b && b.image ? [b.image] : [])));
   const used = { text: 0, faq: 0, form: 0, address: 0 };
   const autos = list.map((b, i) => {
-    const kind = b.t === "text" ? (b.image ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
+    const kind = b.t === "text" ? (b.image || b.video ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
     if (!kind) return undefined;
     const pool = POOL[kind];
     const start = used[kind]++ + i;

@@ -2,19 +2,7 @@ import type { PageDef, Block } from "./types";
 import { external } from "../nav";
 import { doc } from "./docs";
 
-const policyNav = (slug: string): Block => ({
-  t: "links",
-  title: "Related policies",
-  items: [
-    { label: "PwBD Committee", href: "/university/policies/pwbd-committee" },
-    { label: "Anti-Ragging Policy", href: "/university/policies/anti-ragging" },
-    { label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee" },
-    { label: "Prevention of Sexual Harassment", href: "/university/policies/prevention-of-sexual-harassment" },
-    { label: "Grievance Redressal Committee", href: "/university/policies/grievance-redressal" },
-  ].filter((l) => l.href !== `/${slug}`),
-});
-
-// Policy pages carry the published text as is, followed by links to the other policies.
+// Policy pages carry the published text as is.
 const policyPage = (slug: string, title: string, lead: string, blocks: Block[]): PageDef => ({
   slug,
   title,
@@ -22,7 +10,7 @@ const policyPage = (slug: string, title: string, lead: string, blocks: Block[]):
   lead,
   hero: "about.jpg",
   heroAlt: "CDSIMER campus",
-  blocks: [...blocks, policyNav(slug)],
+  blocks,
 });
 
 export const university: PageDef[] = [

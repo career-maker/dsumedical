@@ -118,12 +118,10 @@ export const clinical: PageDef[] = [
         eyebrow: "Overview",
         title: "Teaching hospital of CDSIMER",
         body: [
-          "CDSIMER, with an A+ NAAC accreditation, is supported by a 900 bed tertiary care hospital that is NABH and NABL accredited, and will be augmented to a 1350 bed facility. The hospital is built to cater to about 200 surrounding villages and aims to provide comprehensive care under one roof to patients from all walks of life. It is empanelled and accepts all government medical schemes.",
-          "The campus includes parking for patients and attendants, designated areas for patients and their attendants to spend time together, and a cafeteria on the ground floor for faculty, staff, students, patients and attendants.",
+          "Dr. Chandramma Dayananda Sagar Institution for Medical Education and Research (CDSIMER) with an A+ NAAC accreditation is supported by a 900 bed tertiary care hospital, which is NABH and NABL accredited, which will be augmented to a 1350 bed facility in the next 2 years. The hospital is built to cater to about 200 surrounding villages in the area. The hospital aims to provide comprehensive care under one roof to all its patients from all walks of life. At this time, we are empanelled and are accepting all government medical schemes.",
+          "The campus is built with a lot of value additions, namely, parking facilities for patients and their attendants, designated areas for patients and their attendants to spend time together while the patient is in the hospital. Cafeteria for faculty, staff, students, patients and attendants is located in the ground floor.",
         ],
-        bullets: ["NABH accredited hospital", "NABL accredited laboratory", "Clinical teaching for MBBS and PG students"],
-        image: "hospital-arch.jpg",
-        alt: "CDSIMER teaching hospital",
+        video: "10yxPMitlJs",
       },
       { t: "stats", title: "Hospital at a Glance", tone: "cream", items: [{ value: "900+", label: "Beds" }, { value: "100", label: "Bed ICU" }, { value: "14", label: "Operation theatres" }, { value: "24×7", label: "Emergency & diagnostics" }] },
       {

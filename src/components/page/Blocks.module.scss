@@ -1278,3 +1278,11 @@ a.card:hover .more {
     }
   }
 }
+
+// Video in a text block: 16:9, centred beside the copy.
+.video {
+  align-self: center;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+}
