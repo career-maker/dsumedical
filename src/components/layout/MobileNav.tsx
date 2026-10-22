@@ -9,6 +9,7 @@ type NavItem = { label: string; href: string; children?: NavItem[] };
 export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [group, setGroup] = useState<string | null>(null);
   const panelId = useId();
 
   useEffect(() => {
@@ -50,7 +51,10 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
                       aria-expanded={isOpen}
                       aria-controls={subId}
                       aria-label={`${isOpen ? "Collapse" : "Expand"} ${i.label}`}
-                      onClick={() => setExpanded(isOpen ? null : i.label)}
+                      onClick={() => {
+                        setExpanded(isOpen ? null : i.label);
+                        setGroup(null);
+                      }}
                     />
                   )}
                 </div>
@@ -58,11 +62,22 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
                   <ul id={subId} className={styles.sub} hidden={!isOpen}>
                     {i.children.map((c) => (
                       <li key={c.label}>
-                        <Link href={c.href} onClick={() => setOpen(false)}>
-                          {c.label}
-                        </Link>
+                        <div className={styles.subRow}>
+                          <Link href={c.href} onClick={() => setOpen(false)}>
+                            {c.label}
+                          </Link>
+                          {c.children && (
+                            <button
+                              type="button"
+                              className={`${styles.chev} ${group === `${i.label}/${c.label}` ? styles.chevOpen : ""}`}
+                              aria-expanded={group === `${i.label}/${c.label}`}
+                              aria-label={`${group === `${i.label}/${c.label}` ? "Collapse" : "Expand"} ${c.label}`}
+                              onClick={() => setGroup(group === `${i.label}/${c.label}` ? null : `${i.label}/${c.label}`)}
+                            />
+                          )}
+                        </div>
                         {c.children && (
-                          <ul className={styles.subsub}>
+                          <ul className={styles.subsub} hidden={group !== `${i.label}/${c.label}`}>
                             {c.children.map((g) => (
                               <li key={g.label}>
                                 <Link href={g.href} onClick={() => setOpen(false)}>

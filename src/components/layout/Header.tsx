@@ -6,30 +6,10 @@ import { SmartLink } from "@/components/ui/SmartLink";
 import { external, mobileMenu, navAdmissions, navLeft, navRight, topErp, topLeft, topRight } from "@/data/nav";
 import type { NavLink } from "@/data/nav";
 import { HeaderScroll } from "./HeaderScroll";
+import { NavDrop } from "./NavDrop";
 import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.scss";
 
-
-function Drop({ items }: { items: NavLink[] }) {
-  return (
-    <ul className={styles.drop}>
-      {items.map((c) => (
-        <li key={c.label} className={c.children ? styles.group : undefined}>
-          <SmartLink href={c.href}>{c.label}</SmartLink>
-          {c.children && (
-            <ul className={styles.subList}>
-              {c.children.map((g) => (
-                <li key={g.label}>
-                  <SmartLink href={g.href}>{g.label}</SmartLink>
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 function NavItem({ item }: { item: NavLink }) {
   return (
@@ -38,7 +18,7 @@ function NavItem({ item }: { item: NavLink }) {
         {item.label}
         {item.children && <Icon name="chevron-down" />}
       </SmartLink>
-      {item.children && <Drop items={item.children} />}
+      {item.children && <NavDrop items={item.children} />}
     </div>
   );
 }
@@ -99,7 +79,7 @@ export function Header() {
               <Button href="/admissions" variant="primary" className={styles.admissions} width={170}>
                 Admissions
               </Button>
-              <Drop items={navAdmissions.children ?? []} />
+              <NavDrop items={navAdmissions.children ?? []} />
             </div>
           </nav>
           <MobileNav items={mobileMenu} cta={{ label: "Admissions", href: "/admissions" }} />

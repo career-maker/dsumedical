@@ -136,6 +136,23 @@
   color: var(--slate);
 }
 
+.subRow {
+  display: flex;
+  align-items: stretch;
+
+  a {
+    flex: 1;
+  }
+
+  .chev {
+    width: 40px;
+  }
+}
+
+.sub .subsub[hidden] {
+  display: none;
+}
+
 .sub .subsub {
   margin: 0 0 4px 16px;
   border-left: 2px solid var(--cream);

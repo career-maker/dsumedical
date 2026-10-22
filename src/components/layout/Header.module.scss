@@ -232,10 +232,53 @@
   font-weight: 600;
 }
 
+.groupRow {
+  display: flex;
+  align-items: center;
+
+  a {
+    flex: 1;
+  }
+}
+
+.toggle {
+  flex: none;
+  width: u(36);
+  height: u(36);
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    display: block;
+    width: u(8);
+    height: u(8);
+    margin: u(-3) auto 0;
+    border-right: u(2) solid currentColor;
+    border-bottom: u(2) solid currentColor;
+    rotate: 45deg;
+    transition: rotate 0.25s;
+  }
+
+  &:hover {
+    color: var(--orange);
+  }
+}
+
+.toggleOpen::before {
+  margin-top: u(3);
+  rotate: 225deg;
+}
+
 .drop .subList {
-  margin: u(-2) 0 u(6) u(14);
+  margin: 0 0 u(6) u(14);
   padding-left: u(10);
   border-left: u(2) solid var(--cream);
+
+  &[hidden] {
+    display: none;
+  }
 
   a {
     padding: u(6) u(12);
