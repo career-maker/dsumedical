@@ -96,8 +96,8 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
               )}
             </div>
             {(b.image || auto) && (
-              <div className={styles.media} data-rv>
-                <Image src={`/images/${b.image ?? auto}`} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" />
+              <div className={`${styles.media} ${b.fit ? styles[b.fit] : ""}`} data-rv>
+                <Image src={`/images/${b.image ?? auto}`} alt={b.alt ?? ""} fill sizes={b.fit ? "(max-width: 1280px) 100vw, 620px" : "(max-width: 1280px) 100vw, 700px"} />
               </div>
             )}
           </div>
@@ -178,7 +178,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
             {b.items.map((p) => (
               <li key={p.name} className={`${styles.profile} ${p.image ? "" : styles.plain}`}>
                 <span className={styles.avatar} aria-hidden="true">
-                  {p.image ? <Image src={`/images/${p.image}`} alt="" fill sizes="96px" /> : initials(p.name) || p.name[0]}
+                  {p.image ? <Image src={`/images/${p.image}`} alt="" fill sizes="(max-width: 640px) 100vw, 420px" /> : initials(p.name) || p.name[0]}
                 </span>
                 <h3>{p.name}</h3>
                 <p className={styles.role}>{p.role}</p>

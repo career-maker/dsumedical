@@ -152,6 +152,39 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 }
 
+// Leadership portraits: whole head and shoulders, never a thin strip.
+.portrait {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 480px;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 4 / 5;
+
+  img {
+    object-position: 50% 15%;
+  }
+}
+
+// Founders: the supplied artwork (photo on a wave) shown whole, at no more than its native width.
+.art {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 600px;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 3 / 2;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+
+  img {
+    object-fit: contain;
+  }
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -461,7 +494,7 @@ a.card:focus-visible {
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   background: var(--peach);
   font-size: clamp(36px, calc(54 * var(--u)), 54px);
   font-weight: 700;
@@ -469,7 +502,7 @@ a.card:focus-visible {
 
   img {
     object-fit: cover;
-    object-position: 50% 20%;
+    object-position: 50% 12%;
   }
 }
 
