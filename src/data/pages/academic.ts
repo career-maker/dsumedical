@@ -133,7 +133,10 @@ export const academic: PageDef[] = [
     name: "MBBS",
     full: "MBBS Programme",
     lead: "A rigorous undergraduate medical degree with early clinical exposure in a 900+ bed teaching hospital.",
-    overview: ["The MBBS programme is offered under Dayananda Sagar University, Karnataka. It covers all pre-clinical, para-clinical and clinical disciplines through theory classes and clinical training, as mandated by the NMC guidelines."],
+    overview: [
+      "The MBBS of four and a half years duration, is followed by one year of Compulsory Rotating Internship. The Medical Council of India (now National Medical Commission) has revised the curriculum from the academic year 2019-2020 onwards.",
+      "The new curriculum “Competency Based Medical Education” focuses on the Indian Medical Graduate being competent enough to perform tasks of a primary care physician of first contact upon completion of training. The course begins with a short foundation course sensitizing students to basic principles of communication and ethics, health situation in India and role of doctors in community.",
+    ],
     glance: [{ value: "150", label: "Students per year" }, { value: "5.5 Years", label: "Total Duration" }, { value: "NEET-UG", label: "Admission route" }, { value: "900+", label: "Teaching hospital beds" }],
     phases: [
       { label: "Phase I", title: "Pre-clinical", text: "Anatomy, physiology, biochemistry and the foundation course." },
