@@ -1,4 +1,5 @@
 import type { AcademicYear } from "./academic-year";
+export type ProseItem = { p: string } | { h: string } | { ul: (string | { text: string; sub: string[] })[] };
 export type Action = { label: string; href: string; variant?: "primary" | "outline" | "glass" | "soft" };
 
 export type Block =
@@ -11,6 +12,7 @@ export type Block =
   | { t: "table"; id?: string; title: string; lead?: string; cols: string[]; rows: string[][] }
   | { t: "faq"; id?: string; title: string; lead?: string; image?: string; plain?: boolean; open?: boolean; items: { q: string; a: string }[] }
   | { t: "phasegrid"; id?: string; title: string; lead?: string; tone?: "cream"; data: AcademicYear }
+  | { t: "prose"; id?: string; title?: string; tone?: "cream"; items: ProseItem[] }
   | { t: "carousel"; id?: string; title: string; lead?: string; tone?: "cream"; items: { title: string; text?: string; tag?: string; href?: string }[] }
   | { t: "gallery"; id?: string; title: string; lead?: string; groups: { label: string; images: { src: string; alt: string }[] }[] }
   | { t: "form"; id?: string; title: string; lead?: string; kind: "admission" | "appointment" | "contact" }

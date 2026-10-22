@@ -14,29 +14,16 @@ const policyNav = (slug: string): Block => ({
   ].filter((l) => l.href !== `/${slug}`),
 });
 
-const concern: Block = {
-  t: "cta",
-  title: "Need to raise a concern?",
-  text: "Reach the institution through the key contacts page. Every report is handled with confidentiality.",
-  actions: [{ label: "Key Contacts", href: "/contact/key-contacts" }],
-};
-
-// One template for every policy page: overview with photo, then the details alternating cream/white, then related policies.
-const policyPage = (slug: string, title: string, lead: string, photo: string, blocks: Block[], intro?: string[], withConcern = true): PageDef => {
-  const overview: Block[] = intro
-    ? [{ t: "text", eyebrow: "Overview", title: `About the ${title}`, body: intro, image: photo, alt: title }, ...blocks]
-    : blocks.map((b, i) => (i === 0 && b.t === "text" ? { ...b, eyebrow: "Overview", image: photo, alt: title, flip: false } : b));
-  const details = overview.map((b, i) => (i > 0 && (b.t === "text" || b.t === "docs" || b.t === "cards") ? { ...b, tone: i % 2 ? "cream" : undefined } : b)) as Block[];
-  return {
-    slug,
-    title,
-    eyebrow: "University · Policies",
-    lead,
-    hero: "about.jpg",
-    heroAlt: "CDSIMER campus",
-    blocks: [...details, policyNav(slug), ...(withConcern ? [concern] : [])],
-  };
-};
+// Policy pages carry the published text as is, followed by links to the other policies.
+const policyPage = (slug: string, title: string, lead: string, blocks: Block[]): PageDef => ({
+  slug,
+  title,
+  eyebrow: "University · Policies",
+  lead,
+  hero: "about.jpg",
+  heroAlt: "CDSIMER campus",
+  blocks: [...blocks, policyNav(slug)],
+});
 
 export const university: PageDef[] = [
   {
@@ -257,10 +244,10 @@ export const university: PageDef[] = [
       },
     ],
   },
-  policyPage("university/policies/pwbd-committee", "PwBD Committee", "Persons with Benchmark Disabilities (PwBD) committee of CDSIMER.", "life-campus.jpg", [
+  policyPage("university/policies/pwbd-committee", "PwBD Committee", "Persons with Benchmarks Disabilities (PwBD) committee.", [
     {
       t: "table",
-      title: "Committee members",
+      title: "Persons with Benchmarks Disabilities (PwBD) committee",
       cols: ["Sl. No", "Name / Designation", "Position", "Phone", "Email"],
       rows: [
         ["1", "Dr. Kumar M N, Professor, Dept. of Orthopaedics", "Chairperson", "9342633667", "docmnkumar@gmail.com"],
@@ -270,123 +257,107 @@ export const university: PageDef[] = [
         ["5", "Dr. Pooja S, Associate Professor, Dept. of ENT", "Member", "9739011767", "drpooja.somnath@gmail.com"],
       ],
     },
-  ], ["The Persons with Benchmarks Disabilities (PwBD) Committee of CDSIMER supports students and staff with benchmark disabilities. The members of the committee and their contact details are listed below."]),
-  policyPage("university/policies/anti-ragging", "Anti-Ragging Policy", "Zero tolerance for ragging, in line with the Karnataka Education Act and NMC regulations.", "life-students.jpg", [
-    {
-      t: "text",
-      title: "What is ragging?",
-      body: [
-        "“Ragging means causing, inducing, compelling or forcing a student, whether by way of practical joke or otherwise, to do any act which detracts from human dignity or violates his person or exposes him to ridicule or to forbear from doing any lawful act, by intimidating, wrongfully restraining, wrongfully confining, or injuring him or by using criminal force to him or by holding out to him any threat of such intimidation, wrongful restraint, wrongful confinement, injury or the use of criminal force.” (Karnataka Education Act, 1983, Section 2(29))",
-        "Ragging includes any conduct, by words spoken or written or by an act, that harasses, teases or treats with rudeness a fresher or junior student; rowdy or undisciplined activities likely to cause annoyance, hardship or psychological harm; or asking a student to do an act that causes shame or embarrassment and adversely affects their physique or psyche.",
-        "It also covers any act by a senior that disrupts another student’s regular academic activity; exploiting a fresher to complete academic tasks; financial extortion or forced expenditure; physical or sexual abuse; abuse by spoken words, emails, posts or public insults; and any act that affects a student’s mental health and self-confidence.",
-        "Ragging is a cognizable offence punishable under the Karnataka Education Act and various sections of the Indian Penal Code.",
-      ],
-    },
-    {
-      t: "text",
-      title: "Punishable ingredients of ragging",
-      body: ["The following are punishable:"],
-      bullets: [
-        "Abetment to ragging and criminal conspiracy to rag",
-        "Unlawful assembly and rioting while ragging",
-        "Public nuisance created during ragging",
-        "Violation of decency and morals through ragging",
-        "Injury to body, causing hurt or grievous hurt",
-        "Wrongful restraint and wrongful confinement",
-        "Use of criminal force, assault and sexual offences, including unnatural offences",
-        "Extortion, criminal trespass and offences against property",
-        "Criminal intimidation",
-        "Attempts to commit any of the above offences against the victim(s)",
-        "Physical or psychological humiliation",
-        "All other offences following from the definition of ragging",
-      ],
-      tone: "cream",
-    },
-    {
-      t: "text",
-      title: "Hostel undertaking",
-      body: ["A student seeking admission to a hostel forming part of the medical college, institution or university, or seeking to reside in any temporary premises not forming part of the institution (including a private commercially managed lodge or hostel), must submit an additional undertaking in the form of Annexure I (both parts) along with the application for hostel accommodation."],
-      actions: [{ label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee", variant: "soft" }],
-    },
   ]),
-  policyPage("university/policies/prevention-of-sexual-harassment", "Prevention of Sexual Harassment", "A safe, respectful campus and workplace for everyone.", "life-group.jpg", [
+  policyPage("university/policies/anti-ragging", "Anti-Ragging Policy", "Anti-Ragging Policy of CDSIMER.", [
     {
-      t: "text",
-      title: "Anti-Sexual Harassment Policy",
-      body: [
-        "As enshrined in the Preamble to the Constitution of India, “equality of status and opportunity” must be secured for all citizens, and equality of every person under the law is guaranteed by Article 14. A safe workplace is a woman’s legal right. The Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013 protects against sexual harassment at the workplace and provides for the prevention and redressal of complaints.",
-        "The protection against sexual harassment and the right to work with dignity are universally recognised human rights under international conventions such as the Convention on the Elimination of all Forms of Discrimination against Women, ratified by the Government of India on 25 June 1993.",
-        "This is extremely relevant in a university that imparts higher education, where students, faculty, support and administrative staff are the stakeholders. Gender equity and sensitivity, including protection from sexual harassment, are encouraged in our university. Dayananda Sagar University strives to promote harmony and dignity among its girl students and women employees, to ensure their right to safety and to prevent abuse from sexual harassment.",
+      t: "prose",
+      title: "Anti- Ragging Policy",
+      items: [
+        { p: "“Ragging means causing inducing, compelling or forcing a student, whether by way of practical joke or otherwise, to do any act which detracts from human dignity or violates his person or exposes him to ridicule or to forbear from doing any lawful act, by intimidating wrongfully restraining, wrongfully confining, or injuring him or by using criminal force to him or by holding out to him any threat of such intimidation, wrongful restraint, wrongful confinement, injury or the use of criminal force”. (Karnataka Education Act, 1983, Section 2(29)" },
+        { p: "Ragging includes the following:" },
+        { p: "Any conduct whether by words spoken or written or by an act which has the effect of harassing , teasing, treating or handling with rudeness any other student, indulging in rowdy or undisciplined activities which causes or is likely to cause annoyance, hardship or psychological harm or to raise fear or apprehension thereof in a fresher or a junior student or asking the students to do any act or perform something which such student will not in the ordinary course and which has the effect of causing or generating sense of shame or embarrassment so as to adversely affect the physique or psyche of a fresher or a junior student." },
+        { p: "The conduct includes but is not restricted to any act by a senior student that prevents, disrupts or disturbs the regular academic activity of any other student or a fresher; exploiting the services of a fresher, or any other student for completing the academic tasks assigned to an individual or a group of students; any act of financial extortion or forceful expenditure burden put on a fresher or any other student by students; any act of physical abuse including all variants of it: sexual abuse, homosexual assaults, stripping, forcing obscene and lewd acts, gestures, causing bodily harm or any other danger to health or person; or any act of abuse by spoken words, emails, post, public insults which would also include deriving perverted pleasure, vicarious or sadistic thrill from activity or passively participating in the discomfiture to fresher or any other students; any act that affects the mental health and self-confidence of a fresher or any other student with or without an intent to derive a sadistic pleasure of showing off power, authority or superiority by a student over any fresher or any other student (as per MCI)" },
+        { p: "Ragging is a cognizable offence that is punishable under the Karnataka Education Act and various sections of the Indian Penal Code." },
+        { h: "Punishable ingredients of Ragging:" },
+        {
+          ul: [
+            "Abetment to ragging.",
+            "Criminal conspiracy to rag.",
+            "Unlawful assembly and rioting while ragging.",
+            "Public nuisance created during ragging.",
+            "Violation of decency and morals through ragging.",
+            "Injury to body, causing hurt or grievous hurt.",
+            "Wrongful restraint.",
+            "Wrongful confinement.",
+            "Use of criminal force.",
+            "Assault as well as sexual offences or even unnatural offences.",
+            "Extortion.",
+            "Criminal trespass.",
+            "Offences against property.",
+            "Criminal intimidation.",
+            "Attempts to commit any or all of the above-mentioned offences against the victim(s).",
+            "Physical or psychological humiliation.",
+            "All other offences following from the definition of “Ragging”.",
+          ],
+        },
+        { p: "A student seeking admission to a hostel forming part of the Medical College/ Institution/ University, or seeking to reside in any temporary premises not forming part of the institution, include a private commercially managed lodge or hostel, submit additional undertaking in the form of Annexure I (both Parts) along with his/her application for hostel accommodation." },
       ],
     },
   ]),
-  policyPage("university/policies/grievance-redressal", "Grievance Redressal Committee", "A fair and timely process to resolve grievances of students, parents and staff.", "life-hall.jpg", [
+  policyPage("university/policies/prevention-of-sexual-harassment", "Prevention of Sexual Harassment", "Anti- Sexual Harassment Policy of CDSIMER.", [
     {
-      t: "text",
-      title: "About the committee",
-      body: [
-        "CDSIMER is committed to providing a safe, fair and harmonious learning and work environment. The Grievance Redressal Cell is set up in accordance with the University Grants Commission regulations 2012 and Article XXV of the constitution, to handle day-to-day grievances of students, parents and staff members.",
-        "The committee facilitates the resolution of grievances in a fair and impartial manner, involving the medical school, departments and offices dealing with the matter, and maintains the necessary confidentiality. Any stakeholder with a genuine grievance may approach the committee with their issue.",
+      t: "prose",
+      title: "Anti- Sexual Harassment Policy",
+      items: [
+        { p: "As enshrined in the Preamble to the Constitution of India, “equality of status and opportunity” must be secured for all its citizens; equality of every person under the law is guaranteed by Article 14 of the Constitution. A safe workplace is a woman’s legal right. The Sexual Harassment of Women at Workplace (PREVENTION, PROHIBITION AND REDRESSAL) ACT, 2013 provides protection against sexual harassment of women at workplace and works for the prevention and redressal of complaints of sexual harassment and for matters connected therewith or incidental thereto. The protection against sexual harassment and the right to work with dignity are universally recognized human rights by international conventions and instruments such as Convention on the Elimination of all Forms of Discrimination against Women, which has been ratified on the 25th June, 1993 by the Government of India. This is extremely relevant in a University which imparts higher education, where students, Faculty, Support and Administrative staff are the stakeholders. Gender equity / sensitivity including protection from sexual harassment are encouraged in our University. Dayananda Sagar University has been striving hard to promote harmony and dignity among its girl students/ women employees and to ensure their rights to safety and also to prevent abuse from sexual harassment." },
       ],
     },
   ]),
-  policyPage("university/anti-ragging-committee", "Anti-Ragging Committee", "There is no ragging at CDSIMER. The administration has taken several steps to curb ragging and indiscipline.", "life-hostel.jpg", [
-      {
-        t: "text",
-        title: "Committee and regulations",
-        body: [
-          "Ragging is a social evil that can have a psychological and physical effect on a student. In line with Section 26(1)(g) of the UGC Act, 1956 and the Medical Council of India (Prevention and Prohibition of Ragging in Medical Colleges/Institutions) Regulations, 2009, all regulations are followed strictly to root out ragging in all its forms.",
-          "The college constitutes an Anti-Ragging Committee headed by the Principal & Dean as chairperson. All students and parents also sign an undertaking every year before the commencement of the academic year, as instructed by the National Medical Commission (NMC).",
-        ],
-        actions: [{ label: "Fill the online anti-ragging affidavit", href: "https://antiragging.in/affidavit_university_form.php", variant: "soft" }],
-      },
-      {
-        t: "cta",
-        title: "Report ragging: 1800-425-9911",
-        text: "Toll-free number to report ragging. Email studentaffairs.cdsimer@dsu.edu.in.",
-        actions: [{ label: "Call 1800 425 9911", href: "tel:18004259911" }, { label: "Email", href: "mailto:studentaffairs.cdsimer@dsu.edu.in", variant: "soft" }],
-      },
-      {
-        t: "text",
-        title: "What constitutes ragging",
-        body: ["The following acts constitute ragging:"],
-        bullets: [
-          "Any conduct by words spoken or written or by an act which has the effect of teasing, treating or handling with rudeness a fresher or any other student",
-          "Rowdy or undisciplined activities likely to cause annoyance, hardship, physical or psychological harm or fear in any fresher or other student",
-          "Asking any student to do an act which causes a sense of shame, torment or embarrassment so as to adversely affect their physique or psyche",
-          "Any act by a senior that prevents, disrupts or disturbs the regular academic activity of another student",
-          "Exploiting the services of a fresher or other student to complete academic tasks assigned to an individual or group",
-          "Financial extortion or forceful expenditure burden put on a fresher or other student",
-          "Physical abuse, including sexual abuse, stripping, forcing obscene acts, or causing bodily harm or danger to health",
-          "Abuse by spoken words, emails, posts or public insults, including deriving sadistic pleasure from the discomfiture of a student",
-          "Any act that affects the mental health and self-confidence of a student",
-        ],
-        tone: "cream",
-      },
-      {
-        t: "text",
-        title: "Action against those who rag",
-        body: ["For every single incident of ragging, a First Information Report (FIR) is filed without exception with the local police authorities. Depending on the nature and gravity of the offence, any one or a combination of the following may apply:"],
-        bullets: [
-          "Cancellation of admission",
-          "Suspension from attending classes",
-          "Debarring from appearing in any test, examination or other evaluation process",
-          "Suspension or expulsion from the hostel",
-          "Rustication from the institution",
-          "Expulsion from the institution and consequent debarring from admission to any other institution",
-          "Collective punishment, when those committing or abetting the crime are not identified",
-        ],
-      },
-      {
-        t: "docs",
-        title: "Documents",
-        tone: "cream",
-        items: [
-          { title: "Step-by-step guide to the online Anti-Ragging Undertaking", type: "PDF", href: doc.antiRaggingUndertaking },
-          { title: "Details of members of the Anti-Ragging Committee", type: "PDF", href: doc.msrAntiRagging },
-        ],
-      },
-  ], undefined, false),
+  policyPage("university/policies/grievance-redressal", "Grievance Redressal Committee", "Grievance Redressal Committee of CDSIMER.", [
+    {
+      t: "prose",
+      title: "Grievance Redressal Committee",
+      items: [
+        { p: "Dr. Chandramma Dayananda Sagar Institute of Medical Education and Research (CDSIMER) is committed to providing a safe, fair and harmonious learning and work environment. Grievance Redressal Cell is set up at CDSIMER in accordance with the University Grants Commission regulations 2012, and Article XXV of the constitution and CDSIMER is committed to handling day-to-day grievances related to students, parents and staff members. The Grievance Redressal Committee facilitates the resolution of grievances in a fair and impartial manner involving the Medical School, Departments and Office (dealing with the substantive function connected with the grievance), maintaining necessary confidentiality, as the case may be. Any stakeholder with a genuine grievance may approach the Grievance Redressal Committee with their issue/problem." },
+      ],
+    },
+  ]),
+  policyPage("university/anti-ragging-committee", "Anti-Ragging Committee", "There is no ragging at CDSIMER.", [
+    {
+      t: "prose",
+      items: [
+        { p: "Ragging which is a social evil can cause an ill effect on the student community. This may have a psychological and physical effect on a student. There is no Ragging at CDSIMER, DSU campus as the administration has taken several steps to curb ragging & indiscipline." },
+        { p: "With respect to the Reference to clause (g) of sub – section (I) of Section 26 of the University Grants Commission Act, 1956, and Medical Council of India (Prevention and Prohibition of Ragging in Medical Colleges/Institutions) Regulations, 2009 all regulations will be followed strictly in the institute to root out ragging in all its forms." },
+        { p: "Dear students please fill in the online Anti Ragging Affidavit by clicking the link: [https://antiragging.in/affidavit_university_form.php](https://antiragging.in/affidavit_university_form.php)" },
+        { p: "Step-by-step-guide-on-How-to-fill-Online-Anti-Ragging Undertaking: [Download PDF](" + doc.antiRaggingUndertaking + ")" },
+        { p: "In addition to the above all students and parents shall sign an undertaking every year before the commencement of the Academic year as instructed by the National Medical Commission (NMC). Also, the College Constitutes an Anti-Ragging Committee which shall be headed by the Principal & Dean as the chairperson." },
+        { p: "TOLL- FREE NUMBER TO REPORT RAGGING: 1800-425-9911" },
+        { p: "MAIL ID: [studentaffairs.cdsimer@dsu.edu.in](mailto:studentaffairs.cdsimer@dsu.edu.in)" },
+        { h: "Ragging constitutes of following acts:" },
+        {
+          ul: [
+            "Any conduct by any student or students whether by words spoken or written or by an act which has the effect of teasing, treating or handling with rudeness a fresher or any other student;",
+            "Indulging in rowdy or undisciplined activities by any student or students which causes or is likely to cause annoyance, hardship, physical or psychological harm or to raise fear or apprehension thereof in any fresher or any other student;",
+            "Asking any student to do any act which such student will not in the ordinary course do and which has the effect of causing or generating a sense of shame, or torment or embarrassment so as to adversely affect the physique or psyche of such fresher or any other student;",
+            "Any act by a senior student that prevents, disrupts or disturbs the regular academic activity of any other student or a fresher;",
+            "Exploiting the services of a fresher or any other student for completing the academic tasks assigned to an individual or a group of students.",
+            "Any act of financial extortion or forceful expenditure burden put on a fresher or any other student by students;",
+            "Any act of physical abuse including all variants of it: sexual abuse, homosexual assaults, stripping, forcing obscene and lewd acts, gestures, causing bodily harm or any other danger to health or person;",
+            "Any act or abuse by spoken words, emails, posts, public insults which would also include deriving perverted pleasure, vicarious or sadistic thrill from actively or passively participating in the discomfiture to fresher or any other student;",
+            "Any act that affects the mental health and self-confidence of a fresher or any other student with or without an intent to derive a sadistic pleasure or showing off power, authority or superiority by a student over any fresher or any other student.",
+          ],
+        },
+        { h: "Actions to be taken on those students who indulge in ragging:" },
+        {
+          ul: [
+            "Every single incident of ragging a First Information Report (FIR) will be filed without exception by the institutional authorities with the local police authorities.",
+            {
+              text: "Depending upon the nature and the gravity of the offence as established the possible punishments for those found guilty of ragging shall be any one or any combination of the following:",
+              sub: [
+                "Cancellation of admission.",
+                "Suspension from attending the classes.",
+                "Debarring from appearing in any test/examination or other evaluation process.",
+                "Suspension/Expulsion from the hostel.",
+                "Rustication from the institution.",
+                "Expulsion from the institution and consequent debarring from admission to any other institution.",
+                "Collective punishment: when the persons committing or abetting the crime of ragging are not identified, the institution shall report to collective punishment as a deterrent to ensure community pressure on the potential raggers.",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]),
   {
     slug: "university/nmc",
     title: "NMC",

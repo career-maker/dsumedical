@@ -40,6 +40,25 @@ const initials = (n: string) =>
 /** Outline/glass buttons are white-on-translucent (hero only); swap for light backgrounds. */
 const onLight = (v?: "primary" | "outline" | "glass" | "soft") => (v === "outline" || v === "glass" ? "gray" : (v ?? "primary"));
 
+/** Inline [label](url) links inside running text. */
+function Rich({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return (
+    <>
+      {parts.map((s, i) => {
+        const m = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(s);
+        return m ? (
+          <SmartLink key={i} href={m[2]}>
+            {m[1]}
+          </SmartLink>
+        ) : (
+          s
+        );
+      })}
+    </>
+  );
+}
+
 function Cell({ v }: { v: string }) {
   const link = /^\[(.+)\]\((.+)\)$/.exec(v);
   if (link) return <SmartLink href={link[2]}>{link[1]}</SmartLink>;
@@ -252,6 +271,40 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
               ))}
             </div>
           </Aside>
+        </Section>
+      );
+    case "prose":
+      return (
+        <Section block={b}>
+          <div className={styles.prose}>
+            {b.title && <h2>{b.title}</h2>}
+            {b.items.map((it, i) =>
+              "p" in it ? (
+                <p key={i}>
+                  <Rich text={it.p} />
+                </p>
+              ) : "h" in it ? (
+                <h3 key={i}>{it.h}</h3>
+              ) : (
+                <ul key={i}>
+                  {it.ul.map((li) =>
+                    typeof li === "string" ? (
+                      <li key={li}>{li}</li>
+                    ) : (
+                      <li key={li.text}>
+                        {li.text}
+                        <ul>
+                          {li.sub.map((s) => (
+                            <li key={s}>{s}</li>
+                          ))}
+                        </ul>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              ),
+            )}
+          </div>
         </Section>
       );
     case "phasegrid":
