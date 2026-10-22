@@ -152,6 +152,7 @@
 .ticker {
   position: absolute;
   inset: auto 0 0;
+  z-index: 3; // above .content (inset:0, z 2), which otherwise swallows the hover
 }
 
 @include below($bp-lg) {
