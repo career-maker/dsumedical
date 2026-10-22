@@ -82,9 +82,11 @@ const departments = L("Departments", "/department", [
 ]);
 
 const hospital = L("Hospital", "/hospital", [
-  L("About Hospital", "/hospital"),
-  L("Vision & Mission", "/hospital#vision"),
-  L("Statutory Requirements", "/hospital#statutory"),
+  L("About", "/hospital", [
+    L("About Hospital", "/hospital"),
+    L("Vision & Mission", "/hospital#vision"),
+    L("Statutory Requirements", "/hospital#statutory"),
+  ]),
 ]);
 
 const research = L("Research", "/research", [
@@ -143,5 +145,5 @@ export const navLeft: NavLink[] = [university, programmes, academics, department
 export const navRight: NavLink[] = [hospital, research];
 export const navAdmissions = admissions;
 export const topLeft: NavLink[] = [msr];
-export const topRight: NavLink[] = [career, examination, L("Contact us", "/contact"), library, gallery, aebas, hostel];
+export const topRight: NavLink[] = [career, examination, contact, library, gallery, aebas, hostel];
 export const topErp = erp;

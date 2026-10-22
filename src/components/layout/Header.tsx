@@ -38,8 +38,9 @@ export function Header() {
           </ul>
           <ul className={styles.topList}>
             {topRight.map((t) => (
-              <li key={t.label}>
+              <li key={t.label} className={t.children ? `${styles.item} ${styles.topItem}` : undefined}>
                 <SmartLink href={t.href}>{t.label}</SmartLink>
+                {t.children && <NavDrop items={t.children} />}
               </li>
             ))}
             <li>

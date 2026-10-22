@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
 
-  li + li::before {
+  > li + li::before {
     content: "";
     display: inline-block;
     width: 1px;
@@ -200,7 +200,7 @@
 }
 
 .item:hover .drop,
-.item:focus-within .drop {
+.item:has(:focus-visible) .drop {
   opacity: 1;
   visibility: visible;
   translate: 0 0;
@@ -297,13 +297,13 @@
 }
 
 .item:hover .navLink img,
-.item:focus-within .navLink img {
+.item:has(:focus-visible) .navLink img {
   rotate: 180deg;
   scale: 1;
 }
 
 .item:hover > .navLink,
-.item:focus-within > .navLink {
+.item:has(:focus-visible) > .navLink {
   color: var(--orange);
 }
 
@@ -420,5 +420,17 @@
 @include below($bp-lg) {
   .wrap {
     z-index: 60;
+  }
+}
+
+// Contact us in the top strip opens the same dropdown as the main menu.
+.topItem {
+  padding-block: 0;
+
+  .drop {
+    top: calc(100% - #{u(2)});
+    color: var(--ink, #222);
+    line-height: 1.4;
+    text-align: left;
   }
 }
