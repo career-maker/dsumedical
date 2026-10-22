@@ -83,13 +83,16 @@ a.card:hover {
 }
 
 .body {
-  display: block;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: u(22);
 }
 
 .more {
-  display: inline-block;
-  margin-top: u(14);
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: u(14); // pins the link to the card bottom so it lines up across a row
   font-weight: 500;
   color: var(--orange);
 }
