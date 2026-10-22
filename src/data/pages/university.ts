@@ -77,7 +77,6 @@ export const university: PageDef[] = [
         ],
         image: "about.jpg",
         alt: "CDSIMER campus",
-        actions: [{ label: "About DSU", href: external.dsu, variant: "soft" }],
       },
       {
         t: "cards",
