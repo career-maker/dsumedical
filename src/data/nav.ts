@@ -31,11 +31,10 @@ const university = L("University", "/university", [
     L("Prevention of Sexual Harassment", "/university/policies/prevention-of-sexual-harassment"),
     L("Grievance Redressal Committee", "/university/policies/grievance-redressal"),
   ]),
-  L("NMC", "/university/nmc", [
-    L("Vision and Mission", doc.visionMission),
-    L("Code of Conduct", doc.codeOfConduct),
-    L("Anti-Ragging Committee", "/university/anti-ragging-committee"),
-  ]),
+  L("NMC", "/university/nmc"),
+  L("Vision and Mission", doc.visionMission),
+  L("Code of Conduct", doc.codeOfConduct),
+  L("Anti-Ragging Committee", "/university/anti-ragging-committee"),
   L("Awards", "/university/awards"),
 ]);
 
@@ -46,9 +45,12 @@ const programmes = L("Programmes", "/programs", [
 ]);
 
 const academics = L("Academics", "/academics", [
-  L("Academics Year", "/academics#academic-year"),
-  L("AETCOM Module", "/academics#aetcom-module"),
-  L("Holiday List", "/academics#holiday-list"),
+  L("Academics", "/academics", [
+    L("Academics Year", "/academics#academic-year"),
+    L("AETCOM Module", "/academics#aetcom-module"),
+    L("Holiday List", "/academics#holiday-list"),
+    L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum"),
+  ]),
   L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum", [
     L("Phase-I", doc.feedback1),
     L("Phase-II", doc.feedback2),
@@ -57,7 +59,27 @@ const academics = L("Academics", "/academics", [
   ]),
 ]);
 
-const departments = L("Departments", "/department");
+// Grouped and ordered as on the existing cdsimer.edu.in menu. Departments without a page here link to the listing.
+const dept = (label: string, slug?: string) => L(label, slug ? `/department/${slug}` : "/department");
+const departments = L("Departments", "/department", [
+  L("Pre-Clinical", "/department", [dept("Anatomy", "anatomy"), dept("Biochemistry", "biochemistry"), dept("Physiology", "physiology")]),
+  L("Others", "/department", [dept("Medical Education Unit"), L("Library", "/library"), dept("Skill Lab")]),
+  L("Para-Clinical", "/department", [
+    dept("Pathology", "pathology"), dept("Pharmacology", "pharmacology"), dept("Microbiology", "microbiology"),
+    dept("Community Medicine", "community-medicine"), dept("Forensic Medicine", "forensic-medicine-and-toxicology"),
+  ]),
+  L("Clinical", "/department", [
+    dept("Anaesthesiology", "anaesthesiology"), dept("Critical Care"), dept("Dermatology"), dept("Dentistry"), dept("Emergency Medicine"),
+    dept("ENT", "otorhinolaryngology-ent"), dept("General Medicine", "general-medicine"), dept("General Surgery", "general-surgery"),
+    dept("Obstetrics and Gynecology", "obstetrics-and-gynaecology"), dept("Ophthalmology", "ophthalmology"), dept("Orthopaedics", "orthopaedics"),
+    dept("Pediatrics", "paediatrics"), dept("Psychiatry"), dept("Radiology", "radiodiagnosis"), dept("Respiratory Medicine"), dept("Transfusion Medicine"),
+  ]),
+  L("Super Speciality", "/department", [
+    dept("Neurology", "neurology"), dept("Paediatric Surgery"), dept("Nephrology", "nephrology"), dept("Urology"), dept("Plastic Surgery"),
+    dept("Oncology"), dept("Surgical Oncology"), dept("Cardiology", "cardiology"), dept("Cardiothoracic and Vascular Surgery"),
+    dept("Neurosurgery"), dept("Surgical Gastroenterology"), dept("Endocrinology"), dept("Cardiac Anesthesiology"),
+  ]),
+]);
 
 const hospital = L("Hospital", "/hospital", [
   L("About Hospital", "/hospital"),
