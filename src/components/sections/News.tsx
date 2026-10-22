@@ -44,7 +44,7 @@ export function News() {
           <ul className={styles.cards}>
             {items.map((n) => (
               <li key={n.title} className={styles.card}>
-                <Photo name={n.photo} alt={n.alt} sizes="(max-width: 768px) 100vw, 640px" eager className={styles.photo} />
+                <Photo name={n.photo} alt={n.alt} sizes="(max-width: 768px) 100vw, 640px" className={styles.photo} />
                 <time className={styles.date} dateTime={n.iso}>{n.date}</time>
                 <h3>{n.title}</h3>
                 <p>{n.text}</p>
