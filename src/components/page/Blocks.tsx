@@ -4,6 +4,7 @@ import { SmartLink } from "@/components/ui/SmartLink";
 import type { Block } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
+import { Carousel } from "./Carousel";
 import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
 import styles from "./Blocks.module.scss";
@@ -143,7 +144,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           {b.title && <Head title={b.title} lead={b.lead} />}
-          <ul className={styles.stats}>
+          <ul className={`${styles.stats} ${b.colored ? styles.statsColor : ""}`}>
             {b.items.map((s) => (
               <li key={s.label}>
                 <strong>
@@ -238,18 +239,25 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       );
     case "faq":
       return (
-        <Section block={{ id: b.id, tone: "cream" }}>
-          <Aside img={auto ?? POOL.faq[0]}>
+        <Section block={{ id: b.id, tone: b.plain ? undefined : "cream" }}>
+          <Aside img={b.image ?? auto ?? POOL.faq[0]}>
             <Head title={b.title} lead={b.lead} />
             <div className={styles.faq}>
-              {b.items.map((f) => (
-                <details key={f.q}>
+              {b.items.map((f, i) => (
+                <details key={f.q} name={`faq-${b.id ?? slug(b.title)}`} open={b.open && i === 0}>
                   <summary>{f.q}</summary>
                   <p>{f.a}</p>
                 </details>
               ))}
             </div>
           </Aside>
+        </Section>
+      );
+    case "carousel":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <Carousel items={b.items} />
         </Section>
       );
     case "gallery":

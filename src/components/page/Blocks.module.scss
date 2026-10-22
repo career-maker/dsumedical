@@ -1180,3 +1180,34 @@ a.card:hover .more {
     }
   }
 }
+
+// Counter tiles in the brand palette (programme pages): burgundy, orange, red and warm peach in turn.
+.statsColor li {
+  border-color: transparent;
+
+  &:nth-child(4n + 1) {
+    background: linear-gradient(135deg, #440a03, #7b1b1b);
+  }
+
+  &:nth-child(4n + 2) {
+    background: linear-gradient(135deg, #ef6711, #fb7a15);
+  }
+
+  &:nth-child(4n + 3) {
+    background: linear-gradient(135deg, #b81c1c, #dc2725);
+  }
+
+  &:nth-child(4n) {
+    background: var(--peach);
+
+    strong,
+    > span {
+      color: var(--ink);
+    }
+  }
+
+  strong,
+  > span {
+    color: #fff;
+  }
+}
