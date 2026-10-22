@@ -39,11 +39,11 @@ export const news = [
 ];
 
 export const studentLife = [
-  { photo: "life-campus", alt: "CDSIMER campus buildings under a stormy sky", label: "" },
+  { photo: "life-campus", alt: "CDSIMER campus buildings under a stormy sky", label: "Campus" },
   { photo: "life-hostel", alt: "Hostel room with a double bed", label: "Hostel" },
-  { photo: "life-library", alt: "Students in the library", label: "" },
-  { photo: "life-students", alt: "Students chatting on campus steps", label: "" },
-  { photo: "life-hall", alt: "Speaker at a seminar in the auditorium", label: "" },
-  { photo: "life-group", alt: "Group photo of students and staff", label: "" },
-  { photo: "life-sports", alt: "Students playing basketball", label: "" },
+  { photo: "life-library", alt: "Students in the library", label: "Library" },
+  { photo: "life-students", alt: "Students chatting on campus steps", label: "Students" },
+  { photo: "life-hall", alt: "Speaker at a seminar in the auditorium", label: "Seminars" },
+  { photo: "life-group", alt: "Group photo of students and staff", label: "Students & Staff" },
+  { photo: "life-sports", alt: "Students playing basketball", label: "Sports" },
 ] as const;
