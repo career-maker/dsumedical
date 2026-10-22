@@ -20,9 +20,15 @@ echo "==> Pre-optimising images (server cannot run sharp)"
 node scripts/optimize-images.mjs
 
 echo "==> Uploading"
+# public/docs holds ~45 MB of PDFs that rarely change: upload them only when their fingerprint differs from the server's.
+DOCS_SUM=$(cat public/docs/* | md5sum | cut -d' ' -f1)
+REMOTE_SUM=$("${SSH[@]}" "cat $DIR/public/docs/.sum 2>/dev/null || true")
+SKIP_DOCS=()
+[ "$DOCS_SUM" = "$REMOTE_SUM" ] && SKIP_DOCS=(--exclude=public/docs)
 tar czf - --exclude=node_modules --exclude=.next --exclude=.next-prod --exclude=.git \
-  --exclude=.github.local --exclude=push.sh --exclude='*.pdf' --exclude=docx \
-  --exclude=tsconfig.tsbuildinfo . | "${SSH[@]}" "mkdir -p $DIR && cd $DIR && tar xzf -"
+  --exclude=.github.local --exclude=push.sh --exclude=Homepage_vs_Design_Deviation_Report.pdf --exclude=docx \
+  --exclude=tsconfig.tsbuildinfo "${SKIP_DOCS[@]}" . | "${SSH[@]}" "mkdir -p $DIR && cd $DIR && tar xzf -"
+"${SSH[@]}" "echo $DOCS_SUM > $DIR/public/docs/.sum"
 
 echo "==> Install, build, restart"
 # Server glibc is too old for Next's native SWC/Turbopack, so build with webpack (WASM SWC).

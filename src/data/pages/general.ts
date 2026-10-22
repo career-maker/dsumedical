@@ -1,7 +1,9 @@
-import type { PageDef } from "./types";
+import type { Block, PageDef } from "./types";
 import { external } from "../nav";
-
-const years = (list: string[]) => list.map((y) => ({ title: `Student list ${y}`, type: "PDF", note: "Lorem ipsum dolor sit amet" }));
+import { doc } from "./docs";
+import { examGroups } from "./exam-data";
+import { galleryGroups } from "./gallery-data";
+import { ongoingRows, publications, studentRows } from "./research-data";
 
 export const general: PageDef[] = [
   {
@@ -12,14 +14,51 @@ export const general: PageDef[] = [
     hero: "research-labs.jpg",
     heroAlt: "Researchers working in a laboratory",
     blocks: [
-      { t: "stats", title: "Research at a glance", items: [{ value: "200+", label: "Research publications" }, { value: "45+", label: "Ongoing projects" }, { value: "60+", label: "Student projects" }] },
-      { t: "table", id: "staff-publications", title: "Staff Publications", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["Lorem ipsum dolor sit amet consectetur", "Dr. A. Kumar, Dr. S. Rao", "2025", "Indian Journal of Medicine", "View"], ["Sed do eiusmod tempor incididunt ut labore", "Dr. P. Nair, Dr. M. Shetty", "2024", "Journal of Clinical Research", "View"], ["Ut enim ad minim veniam quis nostrud", "Dr. R. Iyer", "2024", "Clinical Pathology Review", "View"]] },
-      { t: "table", id: "published-articles", title: "Published Articles", cols: ["Title", "Authors", "Year", "Journal", "Link"], rows: [["Duis aute irure dolor in reprehenderit", "Dr. K. Menon, Dr. L. George", "2025", "Journal of Public Health", "View"], ["Excepteur sint occaecat cupidatat non proident", "Dr. V. Reddy", "2023", "Annals of Medical Science", "View"], ["Sunt in culpa qui officia deserunt mollit", "Dr. T. Joseph, Dr. N. Pillai", "2023", "Indian Medical Gazette", "View"]] },
-      { t: "cards", id: "ongoing", title: "Ongoing Research Activities", tone: "cream", cols: 3, items: [{ title: "Clinical research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-clinical.jpg" }, { title: "Laboratory research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-labs.jpg" }, { title: "Grants & projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-grants.jpg" }] },
-      { t: "cards", id: "student-research", title: "Student Research Activities", cols: 3, items: [{ title: "ICMR STS projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.", image: "research-projects.jpg" }, { title: "Conferences & posters", text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco.", image: "research-conferences.jpg" }, { title: "Mentored projects", text: "Duis aute irure dolor in reprehenderit in voluptate velit.", image: "research-labs.jpg" }] },
-      { t: "text", id: "ethics", title: "Ethics Committee", body: ["The Institutional Ethics Committee reviews research involving human participants to protect their rights, safety and well-being."], bullets: ["Committee composition and responsibilities", "Submission guidelines and forms", "Applicable policies and official documents"], tone: "cream", actions: [{ label: "Documents", href: "#ethics-docs", variant: "soft" }] },
-      { t: "docs", id: "ethics-docs", title: "Ethics Committee documents", items: [{ title: "Ethics Committee composition", type: "PDF" }, { title: "Submission guidelines", type: "PDF" }] },
-      { t: "text", id: "criw", title: "Central Research and Innovation Wing", body: ["The wing supports faculty and students with research facilities, funding guidance, training and innovation programmes."], image: "research-projects.jpg", alt: "Research projects", flip: true },
+      { t: "stats", title: "Research at a glance", items: [{ value: String(publications.length), label: "Faculty publications listed" }, { value: String(ongoingRows.length), label: "Research projects in progress" }, { value: String(studentRows.length), label: "Projects involving students" }] },
+      { t: "table", id: "staff-publications", title: "Staff Publications & Published Articles", lead: "Research publications by CDSIMER faculty after joining the institution.", cols: ["Department", "Faculty", "Title", "Journal", "Issue · Volume · Pages", "Type"], rows: publications },
+      { t: "table", id: "ongoing", title: "Ongoing Research Activities", lead: "Research projects in progress.", cols: ["Sl. No", "Principal investigator", "Department", "Title"], rows: ongoingRows },
+      { t: "table", id: "student-research", title: "Student Research Activities", lead: "Research projects involving students.", cols: ["Sl. No", "Title", "Student", "Faculty"], rows: studentRows },
+      {
+        t: "table",
+        id: "ethics",
+        title: "Institutional Ethics Committee",
+        lead: "The Institutional Ethics Committee reviews research involving human participants to protect their rights, safety and well-being.",
+        cols: ["Role", "Member"],
+        rows: [
+          ["Chairperson", "Shri. M N Vidyashankar, Former Additional Chief Secretary (Retd.), Govt of Karnataka"],
+          ["Member Secretary", "Dr. Anand Meundi, Professor, Department of Community Medicine, CDSIMER"],
+          ["Basic Medical Scientist", "Dr. Meena Nandimath, Professor, Dept. of Pharmacology, Rajarajeshwari Medical College & Hospital"],
+          ["Legal Expert", "Shri. Arvind Moorchung, Senior Legal Consultant"],
+          ["Clinical Member", "Dr. Madhu S, Professor, Dept. of Anaesthesiology, CDSIMER"],
+          ["Clinical Member", "Dr. Manju Prakash, Professor & HOD, Dept. of Forensic Medicine, CDSIMER"],
+          ["Clinical Member", "Dr. Naveen M., Professor, Dept. of General Medicine, CDSIMER"],
+          ["Clinical Member", "Dr. Aishwarya M, Associate Professor, Dept. of ENT, CDSIMER"],
+          ["Clinical Member", "Dr. Mahesh Eswarappa, Senior Professor, Dept. of Nephrology, M S Ramaiah Medical College & Hospital"],
+          ["Social Scientist / Ethicist", "Smt. Ashika Shetty, Consultant Project Coordinator, Kanasina Shale"],
+          ["Lay Person", "Smt. Roopa J Rao, Retd. Bank Manager, SBI"],
+          ["Appellate Authority", "Dr. Prashanth Kumar M., Principal and Dean, CDSIMER"],
+        ],
+      },
+      {
+        t: "text",
+        id: "criw",
+        title: "Central Research and Innovation Wing",
+        body: [
+          "Research is the catalyst of evidence-based medicine. Futuristic and applied research makes doctors and students better scientists and helps translate knowledge from bench to bedside. The Central Research and Innovation Wing at CDSIMER strives to light up the scientific spirit in each of its members, advancing knowledge through cutting-edge scientific methods and keeping teaching, research and innovation intertwined in delivering better patient care.",
+          "Vision: to be the leading research and innovation centre recognised globally, providing value-driven, application-based and quality research data that helps CDSIMER care for and contribute to society.",
+          "Values: honesty, dedication, accountability, social responsibility, ethics, teamwork and passion.",
+        ],
+        bullets: [
+          "Provide well-equipped, state-of-the-art research facilities to its users",
+          "Integrate technology and healthcare to drive innovation and develop new healthcare technology",
+          "Align excellence in research and innovation with CDSIMER’s other missions",
+          "Ensure continual training of researchers in basic, clinical and applied research",
+          "Maintain quality and relevance of research",
+        ],
+        image: "research-projects.jpg",
+        alt: "Research projects",
+        flip: true,
+      },
       { t: "cta", title: "Collaborate with us", text: "Interested in a research partnership?", actions: [{ label: "Contact Us", href: "/contact" }, { label: "Ph.D Programme", href: "/programs/ph-d", variant: "soft" }] },
     ],
   },
@@ -41,16 +80,28 @@ export const general: PageDef[] = [
         title: "Fees, process & brochure",
         tone: "cream",
         items: [
-          { title: "UG Stipend & Fees", type: "PDF" },
-          { title: "PG Stipend & Fees", type: "PDF" },
-          { title: "MBBS (UG) Admission Process", type: "PDF" },
-          { title: "PG Admission Process", type: "PDF" },
-          { title: "Hostel Details 2026–27", type: "PDF" },
-          { title: "Brochure", type: "PDF" },
+          { title: "Stipend details for UG students", type: "PDF", href: doc.stipendUg },
+          { title: "Stipend details for PG students", type: "PDF", href: doc.stipendPg },
+          { title: "Fees for UG courses (MBBS 2025–26 batch)", type: "PDF", href: doc.feesUg },
+          { title: "Fees for PG courses (2024)", type: "PDF", href: doc.feesPg },
+          { title: "MBBS (UG) Admission Process", type: "PDF", href: doc.ugAdmission },
+          { title: "PG Admission Process", type: "PDF", href: doc.pgAdmission },
+          { title: "Hostel Details for New Admission 2026–27", type: "PDF", href: doc.hostel },
+          { title: "Admission Brochure", type: "PDF", href: doc.brochure },
         ],
       },
-      { t: "docs", title: "UG Student Lists", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", items: years(["2025–26", "2024–25", "2023–24", "2022–23", "2021–22", "2020–21"]) },
-      { t: "docs", title: "PG Student Lists", tone: "cream", items: years(["2025–26", "2024–25"]) },
+      {
+        t: "docs",
+        title: "UG Student Lists",
+        items: [
+          { title: "Student list 2025–26", type: "PDF", href: doc.ug2526 },
+          { title: "Student list 2024–25", type: "PDF", href: doc.ug2425 },
+          { title: "Student list 2023–24", type: "PDF", href: doc.ug2324 },
+          { title: "Student list 2022–23", type: "PDF", href: doc.ug2223 },
+          { title: "Student list 2021–22", type: "PDF", href: doc.ug2122 },
+        ],
+      },
+      { t: "docs", title: "PG Student Lists", tone: "cream", items: [{ title: "Student list 2025–26", type: "PDF", href: doc.pg2526 }, { title: "Student list 2024–25", type: "PDF", href: doc.pg2425 }] },
       { t: "form", id: "enquiry", title: "Admission Enquiry", lead: "Share your details and our counselors will reach out.", kind: "admission" },
       { t: "cta", title: "Prefer to talk?", text: "Call the Admissions Helpline.", actions: [{ label: "+91 6366885501", href: "tel:+916366885501" }, { label: "Hostel", href: external.hostel, variant: "soft" }] },
     ],
@@ -84,9 +135,9 @@ export const general: PageDef[] = [
     hero: "life-group.jpg",
     heroAlt: "CDSIMER team",
     blocks: [
-      { t: "text", title: "Work with us", body: ["CDSIMER welcomes faculty, clinicians, researchers and administrative professionals. Current openings and how to apply are listed below."] },
-      { t: "table", title: "Current openings", cols: ["Position", "Department", "Last date", "Apply"], rows: [["Assistant Professor", "Pathology", "30 Nov 2026", "Apply"], ["Senior Resident", "General Medicine", "15 Dec 2026", "Apply"], ["Staff Nurse", "Nursing", "20 Dec 2026", "Apply"]] },
-      { t: "cta", title: "Send your profile", text: "Email your CV to the HR team.", actions: [{ label: "admissions.cdsimer@dsu.edu.in", href: "mailto:admissions.cdsimer@dsu.edu.in" }] },
+      { t: "text", title: "Work with us", body: ["CDSIMER welcomes faculty, clinicians, researchers and administrative professionals. Recruitment notices are published below."] },
+      { t: "gallery", id: "openings", title: "Recruitment notices", groups: [{ label: "Notices", images: [1, 2, 3, 4].map((n) => ({ src: `career-${n}.jpg`, alt: `Recruitment notice ${n}` })) }] },
+      { t: "cta", title: "Send your profile", text: "Contact the HR Manager at +91 9886698368 or email your CV to the HR team.", actions: [{ label: "sairam-hr@dsu.edu.in", href: "mailto:sairam-hr@dsu.edu.in" }, { label: "Call HR", href: "tel:+919886698368", variant: "soft" }] },
     ],
   },
   {
@@ -97,8 +148,7 @@ export const general: PageDef[] = [
     hero: "academics-bg.jpg",
     heroAlt: "Students walking across the campus",
     blocks: [
-      { t: "docs", title: "Notices", items: [{ title: "Examination notice", type: "PDF", note: "Lorem ipsum dolor sit amet" }] },
-      { t: "docs", title: "Timetables & results", tone: "cream", items: [{ title: "Examination timetable", type: "PDF" }, { title: "Results", type: "PDF" }] },
+      ...examGroups.map((g, i): Block => ({ t: "docs", id: `exam-${i + 1}`, title: g.title, tone: i % 2 ? "cream" : undefined, items: g.items })),
       { t: "links", title: "Related", items: [{ label: "Academics", href: "/academics" }, { label: "ERP Login", href: external.erp }] },
     ],
   },
@@ -122,7 +172,21 @@ export const general: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "table", title: "Contacts", cols: ["Office", "Person", "Phone", "Email"], rows: [["Admissions Helpline", "Admissions team", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"], ["Toll-free", "Help desk", "1800 425 9900", "admissions.cdsimer@dsu.edu.in"], ["Accounts office", "Accounts team", "+91 6366885502", "accounts.cdsimer@dsu.edu.in"]] },
+      {
+        t: "table",
+        title: "Contacts",
+        cols: ["Office", "Phone", "Email"],
+        rows: [
+          ["Admission Enquiry: MBBS", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"],
+          ["Admission Enquiry: Allied Health Sciences", "+91 8046461800", "admissions@dsu.edu.in"],
+          ["Principal & Dean", "+91 9448015663", "principal.cdsimer@dsu.edu.in"],
+          ["Medical Superintendent", "+91 7760051978", "md.vp.cdsimer@dsu.edu.in"],
+          ["HR Manager", "+91 9886698368", "sairam-hr@dsu.edu.in"],
+          ["Registrar", "+91 9845716228", "registrar@dsu.edu.in"],
+          ["CDSIMER Hospital", "080 26086500", "—"],
+          ["Toll Free Number", "1800 425 9900", "—"],
+        ],
+      },
       { t: "links", title: "Contact", items: [{ label: "Postal Address", href: "/contact/postal-address" }, { label: "Maps & Directions", href: "/contact/maps-and-directions" }] },
     ],
   },
@@ -134,7 +198,7 @@ export const general: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "address", title: "Address", lines: ["Dr. Chandramma Dayananda Sagar Institute of Medical Education & Research", "Dayananda Sagar University", "Harohalli, Kanakapura Road", "Ramanagara District, Karnataka 562112"], phone: "1800 425 9900", email: "admissions.cdsimer@dsu.edu.in", mapsHref: "/contact/maps-and-directions" },
+      { t: "address", title: "Address", lines: ["Dr. Chandramma Dayananda Sagar Institute of Medical Education & Research", "Devarakaggalahalli, Kanakapura Road", "Bengaluru South District, Karnataka - 562112"], phone: "080 26086500", email: "info@cdsimer.edu.in", mapsHref: "/contact/maps-and-directions" },
     ],
   },
   {
@@ -145,7 +209,7 @@ export const general: PageDef[] = [
     hero: "life-campus.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "map", title: "Campus location", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", query: "Dayananda Sagar University Harohalli Kanakapura Road" },
+      { t: "map", title: "Campus location", lead: "Devarakaggalahalli, Kanakapura Road, Bengaluru South District, Karnataka - 562112.", query: "Dr. Chandramma Dayananda Sagar Institute of Medical Education and Research" },
       { t: "cta", title: "Plan a visit", text: "Schedule a campus visit with our counselors.", actions: [{ label: "Campus Tour", href: "/campus-tour" }] },
     ],
   },
@@ -157,8 +221,96 @@ export const general: PageDef[] = [
     hero: "life-library.jpg",
     heroAlt: "Library",
     blocks: [
-      { t: "text", title: "About the library", body: ["The library supports undergraduate, postgraduate and research needs. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], image: "life-library.jpg", alt: "Library" },
-      { t: "cards", title: "Services", tone: "cream", cols: 3, items: [{ title: "Collections", text: "Books, journals and e-resources." }, { title: "Reading rooms", text: "Quiet study spaces." }, { title: "Rules & timings", text: "Open Monday to Saturday. Lorem ipsum dolor sit amet." }] },
+      {
+        t: "text",
+        id: "overview",
+        eyebrow: "Central Library",
+        title: "Overview",
+        body: [
+          "“Education completes a man.” – Late Sri Dayananda Sagar. CDSIMER has a state-of-the-art medical college library built for the needs of medical students and the futuristic curriculum designed by the National Medical Commission. It is accessible to all undergraduates and faculty members, with skilled professional staff always available for assistance.",
+          "The library is regularly enriched to give users full access to current research tools and technologies: a large collection of books, CDs and DVDs, the latest journals, and online resources through the Digital Library.",
+        ],
+        image: "life-library.jpg",
+        alt: "Library",
+      },
+      {
+        t: "cards",
+        title: "Vision & Mission",
+        tone: "cream",
+        cols: 2,
+        items: [
+          { title: "Vision", text: "To be a world-class medical institution library that caters to the needs of undergraduate, postgraduate and doctoral programmes, and strives for academic excellence." },
+          { title: "Mission", text: "To support teaching, learning, research and innovative activities for the promotion of knowledge, and to establish a learning environment for library users while encouraging and supporting the professional growth of staff and students." },
+        ],
+      },
+      {
+        t: "cards",
+        title: "Working hours, space & membership",
+        cols: 3,
+        items: [
+          { title: "Working hours", text: "Monday to Friday: 7.00 AM to 10.00 PM. Saturdays: 7.00 AM to 8.00 PM. Sundays: 9.00 AM to 1.00 PM. The reading room is open 24/7 throughout the year." },
+          { title: "Area & seating", text: "Fully air-conditioned, on the 5th floor of ‘G’ Block: 2,500 sq. m with a seating capacity of 350, connected through LAN and Wi-Fi." },
+          { title: "Membership", text: "Students and faculty members are eligible. Without membership, no books or journals can be borrowed. Membership forms are available in the library." },
+        ],
+      },
+      {
+        t: "text",
+        id: "provisions",
+        title: "Library provisions",
+        body: ["The library offers the following provisions:"],
+        bullets: ["Property counter", "Visitors area", "Flap barrier", "Book drop station", "Journals section", "Current periodical display", "Librarian’s office and staff room", "Circulation desk", "Self-check-out station", "Newspapers and magazine browsing area", "Stack area", "Reference area and reference section", "Audio-Visual / seminar room", "Private study zone", "Digital library", "Interns / residents’ reading area", "Faculty reading area", "Binding section", "Reprographic section"],
+        tone: "cream",
+      },
+      {
+        t: "profiles",
+        id: "staff",
+        title: "Library staff",
+        items: [
+          { name: "Dr. Johnson C David", role: "Chief Librarian", text: "M.L.I.Sc., M.Phil., Ph.D.", image: "lib-johnson.jpg" },
+          { name: "Dr. Malleshappa G K", role: "Incharge Librarian", text: "M.L.I.Sc., Ph.D.", image: "lib-malleshappa.jpg" },
+          { name: "Mr. Kiran Kumar A V", role: "Assistant Librarian", text: "MA, PG Dip, M.L.I.Sc.", image: "lib-kiran.jpg" },
+          { name: "Mr. Vishnu Lamani", role: "Library Assistant", text: "B.Sc., M.L.I.Sc.", image: "lib-vishnu.jpg" },
+          { name: "Mr. Chinnaswamy N", role: "Library Assistant", text: "BA, M.L.I.Sc.", image: "lib-chinnaswamy.jpg" },
+        ],
+      },
+      {
+        t: "text",
+        id: "services",
+        title: "Library collection & services",
+        body: ["Services offered by the library:"],
+        bullets: ["Lending of books and periodicals", "Physical and virtual reference service", "Current awareness services and SDI", "Computer lab for searching and browsing", "E-library services", "Audio-visual services", "Reprographic services, i.e. photocopying", "Scanning facility, subject to national and international copyright law", "Priced print service", "Orientations and training programmes", "Newspaper clippings", "Research support: research tools and research guide"],
+      },
+      { t: "table", title: "Library collection", cols: ["Particulars", "Number"], rows: [["Total library collection (books)", "3,291"], ["Special collection", "132"], ["Print journals (24 national, 9 international)", "33"], ["CDs", "65"]] },
+      {
+        t: "text",
+        id: "rules",
+        title: "Rules and regulations",
+        body: ["Users are expected to follow these rules:"],
+        bullets: [
+          "Entry is through flap barrier access control. Show your face while entering; swing your hand on the device while leaving.",
+          "Deposit all belongings at the property counter at the main entrance. The library is not responsible for loss or damage of personal belongings.",
+          "A Smart Card / Library Borrower’s Card is compulsory for access. Report loss of a card immediately; a duplicate is issued against a formal application and penalty. Cards are valid for the entire duration of the course.",
+          "Personal books are not allowed inside the library.",
+          "Report loss or damage to library material immediately; the user must pay the cost of replacing a lost or seriously damaged book or journal.",
+          "Show all books, folders and papers at the entrance counter when leaving. Do not deface books by underlining or scribbling.",
+          "Leave books and journals on the tables after use; do not return them to the shelves.",
+          "The library is for individual study: conversation and group discussion are prohibited, and strict silence must be maintained. Keep mobile phones on silent.",
+          "Computers are for educational purposes only. Accessing unauthorised sites and playing games is prohibited; do not change computer settings in the digital library.",
+          "Private study rooms are first come, first served. Reservation is compulsory to use the AV auditorium.",
+          "The library is under CCTV surveillance.",
+        ],
+        tone: "cream",
+      },
+      {
+        t: "text",
+        id: "glance",
+        title: "Library at a glance",
+        body: [
+          "The CDSIMER Central Library Learning Centre serves the information needs of the academic community. It holds more than 3,500 volumes in medical sciences, a rich collection of atlases, dictionaries, technical reports and special reading material, and subscribes to more than 27 medical journals and popular magazines.",
+          "It provides internet, LAN and Wi-Fi access, and uses the Dewey Decimal Classification (DDC) and AACR-II modified for cataloguing. The Digital Library has 40 systems to access e-journals, e-books, audio-videos and other educational material. The library conducts orientation sessions for undergraduates, staff and researchers on library resources and research tools, and hosts presentations by e-resource providers.",
+        ],
+      },
+      { t: "cards", title: "Library events", tone: "cream", cols: 3, items: [{ title: "World Book and Copyright Day", text: "23 April" }, { title: "National Librarian’s Day", text: "12 August" }, { title: "National Library Week", text: "14–20 November" }] },
       { t: "links", title: "Related", items: [{ label: "Academics", href: "/academics" }, { label: "Research", href: "/research" }] },
     ],
   },
@@ -170,16 +322,7 @@ export const general: PageDef[] = [
     hero: "life-campus.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      {
-        t: "gallery",
-        title: "Module-wise gallery",
-        groups: [
-          { label: "Campus", images: [{ src: "life-campus.jpg", alt: "Campus" }, { src: "life-hostel.jpg", alt: "Hostel" }, { src: "life-sports.jpg", alt: "Sports" }] },
-          { label: "Academics", images: [{ src: "life-hall.jpg", alt: "Lecture hall" }, { src: "life-library.jpg", alt: "Library" }, { src: "life-students.jpg", alt: "Students" }] },
-          { label: "Hospital", images: [{ src: "hospital-ward.jpg", alt: "Hospital ward" }, { src: "journey-hospital.jpg", alt: "Hospital" }, { src: "dept-pathology.jpg", alt: "Laboratory" }] },
-          { label: "Research", images: [{ src: "research-labs.jpg", alt: "Laboratory" }, { src: "research-conferences.jpg", alt: "Conference" }, { src: "research-projects.jpg", alt: "Projects" }] },
-        ],
-      },
+      { t: "gallery", title: "Module-wise gallery", groups: galleryGroups },
     ],
   },
   {
@@ -190,8 +333,102 @@ export const general: PageDef[] = [
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
-      { t: "table", title: "Mandatory information", cols: ["Item", "Details", "Document"], rows: [["Faculty details", "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "View"], ["Infrastructure", "Sed do eiusmod tempor incididunt ut labore et dolore", "View"], ["Clinical material", "Ut enim ad minim veniam, quis nostrud exercitation", "View"]] },
-      { t: "docs", title: "Documents", tone: "cream", items: [{ title: "MSR compliance document", type: "PDF" }] },
+      { t: "links", title: "Faculty daily attendance", items: [{ label: "Faculty Daily Attendance Dashboard (AEBAS)", href: external.aebas }] },
+      {
+        t: "docs",
+        title: "Dean / Principal, staff & university",
+        tone: "cream",
+        items: [
+          { title: "Details of Dean / Principal and Medical Superintendent", type: "PDF", href: doc.msrInfo },
+          { title: "List of teaching staff", type: "PDF", href: doc.msrTeaching },
+          { title: "List of non-teaching staff", type: "PDF", href: doc.msrNonTeaching },
+          { title: "Affiliated university: Vice-Chancellor", type: "LINK", href: "https://www.dsu.edu.in/about-us/leadership/vicechancellor" },
+          { title: "Affiliated university: Registrar", type: "LINK", href: "https://www.dsu.edu.in/about-us/leadership/registrar" },
+          { title: "Citizen Charter", type: "PDF", href: doc.msrCharter },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Students admitted merit-wise, category-wise & results",
+        items: [
+          { title: "UG 2024", type: "PDF", href: doc.msrUg2024 },
+          { title: "UG 2025", type: "PDF", href: doc.msrUg2025 },
+          { title: "PG 2024", type: "PDF", href: doc.msrPg2024 },
+          { title: "PG 2025", type: "PDF", href: doc.msrPg2025 },
+          { title: "Result of all examinations of the last one year", type: "PDF", href: doc.msrResults },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Committees & intake",
+        tone: "cream",
+        items: [
+          { title: "Members of the Anti-Ragging Committee", type: "PDF", href: doc.msrAntiRagging },
+          { title: "Members of the Prevention against Gender Harassment Committee", type: "PDF", href: doc.msrGender },
+          { title: "Toll-free number to report ragging", type: "PDF", href: doc.msrTollFree },
+          { title: "Sanctioned intake capacity of UG & PG courses", type: "PDF", href: doc.msrIntake },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Publications during the last year",
+        items: [
+          { title: "Publications 2020", type: "PDF", href: doc.pub2020 },
+          { title: "Publications 2021", type: "PDF", href: doc.pub2021 },
+          { title: "Publications 2022", type: "PDF", href: doc.pub2022 },
+          { title: "Publications 2023", type: "PDF", href: doc.pub2023 },
+          { title: "Publications 2024", type: "PDF", href: doc.pub2024 },
+        ],
+      },
+      {
+        t: "docs",
+        title: "CME programmes, conferences & academic activities",
+        tone: "cream",
+        items: [
+          { title: "Year 2021", type: "PDF", href: doc.cme2021 },
+          { title: "Year 2022", type: "PDF", href: doc.cme2022 },
+          { title: "Year 2023", type: "LINK", href: "https://drive.google.com/file/d/1NcBIRq4EfjxEv_NGEpSeVlesj6eaiGgB/view?usp=sharing" },
+          { title: "Year 2024", type: "PDF", href: doc.cme2024 },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Awards & achievements",
+        items: [
+          { title: "Awards & achievements of the faculty", type: "PDF", href: doc.awardsFaculty },
+          { title: "Awards & achievements of the students", type: "PDF", href: doc.awardsStudent },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Recognition of courses (permission letters)",
+        tone: "cream",
+        items: [
+          { title: "UG approval letters", type: "PDF", href: doc.recogUg },
+          { title: "PG: MD Pathology", type: "PDF", href: doc.recogPgPath },
+          { title: "PG: MD Community Medicine", type: "PDF", href: doc.recogPgComm },
+          { title: "PG: MS / MD Clinical subjects", type: "PDF", href: doc.nmcPgClinical },
+        ],
+      },
+      {
+        t: "docs",
+        title: "Clinical material & bed distribution",
+        items: [
+          { title: "Details of clinical material in the hospital", type: "PDF", href: doc.clinicalMaterial },
+          { title: "Unit / department-wise beds distribution", type: "PDF", href: doc.beds },
+        ],
+      },
+      {
+        t: "docs",
+        title: "MBBS time table, academic year 2025–26",
+        tone: "cream",
+        items: [
+          { title: "Phase I time table", type: "PDF", href: doc.tt1 },
+          { title: "Phase II time table", type: "PDF", href: doc.tt2 },
+          { title: "Phase III Part I time table", type: "PDF", href: doc.tt31 },
+          { title: "Phase III Part II time table", type: "PDF", href: doc.tt32 },
+        ],
+      },
       { t: "links", title: "Related", items: [{ label: "NMC", href: "/university/nmc" }] },
     ],
   },

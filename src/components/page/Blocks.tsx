@@ -39,6 +39,8 @@ const initials = (n: string) =>
 const onLight = (v?: "primary" | "outline" | "glass" | "soft") => (v === "outline" || v === "glass" ? "gray" : (v ?? "primary"));
 
 function Cell({ v }: { v: string }) {
+  const link = /^\[(.+)\]\((.+)\)$/.exec(v);
+  if (link) return <SmartLink href={link[2]}>{link[1]}</SmartLink>;
   if (v.includes("@")) return <a href={`mailto:${v}`}>{v}</a>;
   if (/^\+?[\d ]{8,}$/.test(v)) return <a href={`tel:${v.replace(/ /g, "")}`}>{v}</a>;
   return <>{v}</>;

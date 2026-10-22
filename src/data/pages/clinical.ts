@@ -1,4 +1,5 @@
 import type { PageDef } from "./types";
+import { doc } from "./docs";
 
 export type Dept = { slug: string; name: string; tab: "pre" | "para" | "clinical" | "super"; image: string; blurb: string };
 
@@ -112,16 +113,74 @@ export const clinical: PageDef[] = [
     heroAlt: "CDSIMER teaching hospital building at dusk",
     actions: [{ label: "Book an Appointment", href: "/appointment", variant: "primary" }, { label: "Emergency: 1800 425 9900", href: "tel:18004259900", variant: "glass" }],
     blocks: [
-      { t: "text", eyebrow: "Overview", title: "Teaching hospital of CDSIMER", body: ["The hospital supports patient care, medical education and research, with NABH and NABL accredited services."], bullets: ["NABH accredited hospital", "NABL accredited laboratory", "Clinical teaching for MBBS and PG students"], image: "hospital-ward.jpg", alt: "Hospital ward" },
-      { t: "stats", title: "Hospital at a Glance", tone: "cream", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", items: [{ value: "900+", label: "Beds" }, { value: "100", label: "Bed ICU" }, { value: "14", label: "Operation theatres" }, { value: "24×7", label: "Emergency & diagnostics" }] },
-      { t: "cards", title: "Vision, Mission, Quality Policy & Core Values", cols: 4, items: [{ title: "Vision", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore." }, { title: "Mission", text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea." }, { title: "Quality Policy", text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore." }, { title: "Core Values", text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt." }] },
-      { t: "docs", title: "Documents", items: [{ title: "Vision, Mission & Quality Policy", type: "PDF" }] },
-      { t: "cards", title: "Patient care", tone: "cream", cols: 4, items: [{ title: "OPD", text: "Outpatient consultations across specialities." }, { title: "IPD", text: "Inpatient wards and care." }, { title: "Emergency", text: "Round-the-clock emergency medicine." }, { title: "Critical care", text: "ICU and critical-care services." }] },
+      {
+        t: "text",
+        eyebrow: "Overview",
+        title: "Teaching hospital of CDSIMER",
+        body: [
+          "CDSIMER, with an A+ NAAC accreditation, is supported by a 900 bed tertiary care hospital that is NABH and NABL accredited, and will be augmented to a 1350 bed facility. The hospital is built to cater to about 200 surrounding villages and aims to provide comprehensive care under one roof to patients from all walks of life. It is empanelled and accepts all government medical schemes.",
+          "The campus includes parking for patients and attendants, designated areas for patients and their attendants to spend time together, and a cafeteria on the ground floor for faculty, staff, students, patients and attendants.",
+        ],
+        bullets: ["NABH accredited hospital", "NABL accredited laboratory", "Clinical teaching for MBBS and PG students"],
+        image: "hospital-arch.jpg",
+        alt: "CDSIMER teaching hospital",
+      },
+      { t: "stats", title: "Hospital at a Glance", tone: "cream", items: [{ value: "900+", label: "Beds" }, { value: "100", label: "Bed ICU" }, { value: "14", label: "Operation theatres" }, { value: "24×7", label: "Emergency & diagnostics" }] },
+      {
+        t: "cards",
+        id: "vision",
+        title: "Vision, Mission, Quality Policy & Core Values",
+        cols: 2,
+        items: [
+          { title: "Vision", text: "To be the most sought after institution / hospital with world class healthcare system through integration of proven medical practices and cutting edge technology in creating centers of excellence, with an added focus on education, research and training." },
+          { title: "Mission", text: "To provide compassionate, accessible, high quality healthcare services with evidence based protocols and a patient centric approach for the benefit of humanity." },
+          { title: "Quality Policy", text: "CDSIMER is committed to strive continually to deliver excellence in healthcare. We are driven by the zeal to care with compassion through inculcating core values, impeccable ethics in building synergies, thereby exceeding the expectations of our patients and their families." },
+          { title: "Core Values", text: "Integrity: know and do what is right. Patient centricity: putting the patient first. Empathy: the ability to understand another person’s feelings." },
+        ],
+      },
+      { t: "docs", title: "Documents", items: [{ title: "Vision, Mission, Values & Quality Policy", type: "PDF", href: doc.hospitalMvv }] },
+      {
+        t: "cards",
+        title: "Comprehensive patient care",
+        tone: "cream",
+        cols: 4,
+        items: [
+          { title: "Outpatient & inpatient", text: "A spacious, well-ventilated OPD on the ground floor with private examination rooms, an enquiry counter and a PRO. Wards for adult male, adult female and paediatric patients, plus labour wards, with a diet kitchen run under a Clinical Diet Committee." },
+          { title: "Emergency", text: "A comprehensive emergency department with round-the-clock services across medical, surgical, orthopaedic, paediatric and trauma care, backed by ICU, a 24×7 laboratory, radiology and a blood bank." },
+          { title: "Critical care", text: "A 100-bed ICU covering adult, paediatric, neonatal, surgical and isolation wards, with advanced monitoring and a dialysis centre." },
+          { title: "Digital records", text: "The hospital is networked with an Electronic Medical Records (EMR) system and uses a Hospital Information System (HIS), and aims to become completely digitised." },
+        ],
+      },
       { t: "cards", title: "Medical specialities", cols: 3, items: [{ title: "Clinical departments", text: "Medicine, surgery, paediatrics and more.", href: "/department" }, { title: "Super specialities", text: "Cardiology, neurology, nephrology and more.", href: "/department" }, { title: "Diagnostics", text: "Laboratory and imaging services.", href: "/hospital/central-laboratory" }] },
-      { t: "cards", title: "Advanced facilities & services", tone: "cream", cols: 4, items: [{ title: "Radiology", text: "" }, { title: "Diagnostics", text: "" }, { title: "Blood bank", text: "" }, { title: "Operation theatres", text: "" }, { title: "Dialysis", text: "" }, { title: "Pharmacy", text: "" }, { title: "Specialty clinics", text: "" }, { title: "ICU", text: "" }] },
-      { t: "text", title: "Central Laboratory", body: ["A centralised, NABL accredited laboratory supporting diagnosis across the hospital."], image: "dept-pathology.jpg", alt: "Central laboratory", flip: true, actions: [{ label: "Visit Central Laboratory", href: "/hospital/central-laboratory", variant: "soft" }] },
-      { t: "gallery", title: "Gallery", groups: [{ label: "Hospital", images: [{ src: "hospital-ward.jpg", alt: "Hospital ward" }, { src: "journey-hospital.jpg", alt: "Hospital building" }, { src: "dept-pathology.jpg", alt: "Pathology laboratory" }] }] },
-      { t: "links", title: "Related", items: [{ label: "Statutory requirements", href: "/msr-clause" }] },
+      {
+        t: "cards",
+        title: "Advanced facilities & services",
+        tone: "cream",
+        cols: 3,
+        items: [
+          { title: "Operation theatres", text: "Fourteen modern theatres with HEPA filters, modern anaesthesia work stations and motorised tables, wired for remote transmission for training, with facilities for minimal access surgery." },
+          { title: "Blood bank", text: "A round-the-clock Department of Transfusion Medicine with component separation and storage (platelets, RBCs, fresh frozen plasma, cryoprecipitate) and an apheresis unit." },
+          { title: "Radiology & diagnostics", text: "X-ray, ultrasonography and CT scan, with MRI scanners to be added." },
+          { title: "Dialysis", text: "A dialysis centre complements the critical care services." },
+          { title: "Laboratory medicine", text: "A large central laboratory organised into clinical biochemistry, pathology and microbiology, processing almost all tests." },
+          { title: "Patient amenities", text:"Seating, drinking water and wash rooms for patients and families, with lifts, ramps, wheelchairs and trolleys across the hospital." },
+        ],
+      },
+      { t: "text", id: "central-lab", title: "Central Laboratory", body: ["The hospital’s large, well-equipped central laboratory is NABL accredited and provides round-the-clock evaluation and diagnosis across clinical biochemistry, pathology and microbiology."], image: "dept-pathology.jpg", alt: "Central laboratory", flip: true, actions: [{ label: "Explore Central Laboratory", href: "/hospital/central-laboratory", variant: "soft" }] },
+      { t: "gallery", title: "Gallery", groups: [{ label: "Hospital", images: [{ src: "hospital-arch.jpg", alt: "CDSIMER hospital and campus" }, { src: "hospital-surgery.jpg", alt: "General Surgery department team" }, { src: "hospital-ward.jpg", alt: "Hospital ward" }, { src: "dept-pathology.jpg", alt: "Pathology laboratory" }] }] },
+      {
+        t: "docs",
+        id: "statutory",
+        title: "Statutory requirements: Biomedical Waste Management",
+        tone: "cream",
+        items: [
+          { title: "BMW Annual Report 2024", type: "PDF", href: doc.bmw2024 },
+          { title: "BMW Annual Report 2025", type: "PDF", href: doc.bmw2025 },
+          { title: "BMW Annual Report 2026", type: "PDF", href: doc.bmw2026 },
+          { title: "BMW generation 2026 report", type: "PDF", href: doc.bmwGeneration },
+        ],
+      },
+      { t: "links", title: "Related", items: [{ label: "Information under MSR Clause", href: "/msr-clause" }] },
       { t: "cta", title: "Care when you need it", text: "Book an appointment or reach the emergency desk.", actions: [{ label: "Book an Appointment", href: "/appointment" }, { label: "Call 1800 425 9900", href: "tel:18004259900", variant: "soft" }] },
     ],
   },
@@ -133,8 +192,38 @@ export const clinical: PageDef[] = [
     hero: "dept-pathology.jpg",
     heroAlt: "Doctors in a pathology laboratory",
     blocks: [
-      { t: "text", title: "About the laboratory", body: ["The Central Laboratory provides round-the-clock diagnostic services. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], image: "dept-microbiology.jpg", alt: "Researcher using a microscope" },
-      { t: "cards", title: "Services", tone: "cream", cols: 3, items: [{ title: "Clinical pathology", text: "" }, { title: "Haematology", text: "" }, { title: "Biochemistry & microbiology", text: "" }] },
+      {
+        t: "text",
+        title: "About the laboratory",
+        body: [
+          "Team Central Diagnostics strives to guide clinical decision making by offering round-the-clock, timely and reliable diagnostic services of the highest quality. The CDSIMER Central Laboratory is NABL accredited.",
+          "It is organised into three sub-tracks, clinical biochemistry, pathology and microbiology, which diversify into clinical pathology, haematology, histopathology, bacteriology, virology, serology, immunology and molecular biology, each with leading-edge technology. The faculty also contribute to academic activities and conduct research that forms an essential part of the CDSIMER research base.",
+        ],
+        image: "dept-microbiology.jpg",
+        alt: "Researcher using a microscope",
+      },
+      {
+        t: "cards",
+        title: "Vision, Mission & Values",
+        tone: "cream",
+        cols: 3,
+        items: [
+          { title: "Vision", text: "To make central diagnostics an archetypal diagnostic and reference laboratory, delivering quality reports by adopting futuristic technology for better diagnosis." },
+          { title: "Mission", text: "Excellence in ethical, patient-centred and evidence-based laboratory medicine; state-of-the-art technology as part of core services; rapid turnaround and user satisfaction; continual improvement through applied research; and competent, committed staff." },
+          { title: "Values", text: "Integrity, efficiency and effectiveness, accountability and collaboration. We comply with national and international standards and governing laws and regulations." },
+        ],
+      },
+      {
+        t: "text",
+        title: "Facilities & scope of services",
+        body: ["The central diagnostics unit is on the second floor of the hospital block, spread over 10,000 sq ft with centralised AC, fully automated and easily accessible to clinicians and patients."],
+        bullets: [
+          "24-hour laboratory services in haematology, clinical chemistry, clinical pathology, microbiology, cytology and histopathology",
+          "State-of-the-art equipment capable of delivering high-quality results with excellent throughput",
+          "Pathologists, biochemists and microbiologists available for consultation round the clock",
+          "A team of highly competent technical staff for specimen collection and processing",
+        ],
+      },
       { t: "cta", title: "Back to the hospital", text: "Explore the rest of our services.", actions: [{ label: "About Hospital", href: "/hospital" }] },
     ],
   },
