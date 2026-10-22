@@ -44,7 +44,7 @@ const prog = (p: Prog): PageDef => {
       title: `Why study ${p.name} at CDSIMER?`,
       plain: true,
       open: true,
-      image: "hospital-ward.jpg",
+      image: "hospital-surgery.jpg",
       items: [
         { q: "Teaching hospital", a: "A 900+ bed hospital with 1000+ daily patient footfall." },
         { q: "Experienced faculty", a: "Mentorship from clinicians, teachers and researchers." },
