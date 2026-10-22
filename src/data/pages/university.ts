@@ -21,15 +21,22 @@ const concern: Block = {
   actions: [{ label: "Key Contacts", href: "/contact/key-contacts" }],
 };
 
-const policyPage = (slug: string, title: string, lead: string, blocks: Block[]): PageDef => ({
-  slug: `university/policies/${slug}`,
-  title,
-  eyebrow: "University · Policies",
-  lead,
-  hero: "about.jpg",
-  heroAlt: "CDSIMER campus",
-  blocks: [...blocks, policyNav, concern],
-});
+// One template for every policy page: overview with photo, then the details alternating cream/white, then related policies.
+const policyPage = (slug: string, title: string, lead: string, photo: string, blocks: Block[], intro?: string[], withConcern = true): PageDef => {
+  const overview: Block[] = intro
+    ? [{ t: "text", eyebrow: "Overview", title: `About the ${title}`, body: intro, image: photo, alt: title }, ...blocks]
+    : blocks.map((b, i) => (i === 0 && b.t === "text" ? { ...b, eyebrow: "Overview", image: photo, alt: title, flip: false } : b));
+  const details = overview.map((b, i) => (i > 0 && (b.t === "text" || b.t === "docs" || b.t === "cards") ? { ...b, tone: i % 2 ? "cream" : undefined } : b)) as Block[];
+  return {
+    slug,
+    title,
+    eyebrow: "University · Policies",
+    lead,
+    hero: "about.jpg",
+    heroAlt: "CDSIMER campus",
+    blocks: [...details, policyNav, ...(withConcern ? [concern] : [])],
+  };
+};
 
 export const university: PageDef[] = [
   {
@@ -139,53 +146,6 @@ export const university: PageDef[] = [
         tone: "cream",
       },
       {
-        t: "steps",
-        id: "journey",
-        title: "Our Journey",
-        items: [
-          { label: "1960s", title: "Healthcare roots", text: "Dr. Chandramma D. Sagar founds Chandra Nursing Home in 1963, the start of the Sagar healthcare division." },
-          { label: "2002", title: "250 bed hospital", text: "Sagar Hospitals opens as one of the first corporate multi tertiary care hospitals in Bengaluru." },
-          { label: "2009", title: "415 bed hospital", text: "A second, 415 bedded multi tertiary care hospital follows." },
-          { label: "2019", title: "CDSIMER hospital opens", text: "The first 300 beds of the campus hospital open to patients at Harohalli." },
-          { label: "Today", title: "A 900+ bed teaching hospital", text: "An NABH accredited hospital supports CDSIMER, with a 1350 bed facility planned." },
-        ],
-      },
-      {
-        t: "cards",
-        title: "Why CDSIMER?",
-        tone: "cream",
-        cols: 4,
-        items: [
-          { title: "Clinical exposure from day one", text: "Early patient contact across departments." },
-          { title: "Experienced faculty", text: "Mentors from clinical and academic backgrounds." },
-          { title: "Research culture", text: "A Central Research and Innovation Wing and an Institutional Ethics Committee." },
-          { title: "Smart campus", text: "140 acres of integrated learning and living space." },
-        ],
-      },
-      {
-        t: "cards",
-        title: "Accreditations & Recognitions",
-        lead: "CDSIMER holds an A+ NAAC accreditation and is supported by an NABH and NABL accredited hospital.",
-        cols: 4,
-        items: [
-          { title: "NAAC A+", text: "University accreditation." },
-          { title: "NABH", text: "Accredited hospital." },
-          { title: "NABL", text: "Accredited laboratory." },
-          { title: "NMC", text: "Recognised medical college.", href: "/university/nmc" },
-        ],
-      },
-      {
-        t: "stats",
-        title: "Key Highlights",
-        tone: "cream",
-        items: [
-          { value: "150", label: "MBBS seats per year" },
-          { value: "900+", label: "Teaching hospital beds" },
-          { value: "140", label: "Acre smart campus" },
-          { value: "A+", label: "NAAC accreditation" },
-        ],
-      },
-      {
         t: "text",
         id: "leadership",
         eyebrow: "Leadership",
@@ -225,6 +185,53 @@ export const university: PageDef[] = [
           { name: "Dr. Prashanth Kumar M", role: "Principal and Dean", image: "admin-prashanth.jpg" },
         ],
       },
+      {
+        t: "steps",
+        tone: "cream",
+        id: "journey",
+        title: "Our Journey",
+        items: [
+          { label: "1960s", title: "Healthcare roots", text: "Dr. Chandramma D. Sagar founds Chandra Nursing Home in 1963, the start of the Sagar healthcare division." },
+          { label: "2002", title: "250 bed hospital", text: "Sagar Hospitals opens as one of the first corporate multi tertiary care hospitals in Bengaluru." },
+          { label: "2009", title: "415 bed hospital", text: "A second, 415 bedded multi tertiary care hospital follows." },
+          { label: "2019", title: "CDSIMER hospital opens", text: "The first 300 beds of the campus hospital open to patients at Harohalli." },
+          { label: "Today", title: "A 900+ bed teaching hospital", text: "An NABH accredited hospital supports CDSIMER, with a 1350 bed facility planned." },
+        ],
+      },
+      {
+        t: "cards",
+        title: "Why CDSIMER?",
+        cols: 4,
+        items: [
+          { title: "Clinical exposure from day one", text: "Early patient contact across departments." },
+          { title: "Experienced faculty", text: "Mentors from clinical and academic backgrounds." },
+          { title: "Research culture", text: "A Central Research and Innovation Wing and an Institutional Ethics Committee." },
+          { title: "Smart campus", text: "140 acres of integrated learning and living space." },
+        ],
+      },
+      {
+        t: "cards",
+        tone: "cream",
+        title: "Accreditations & Recognitions",
+        lead: "CDSIMER holds an A+ NAAC accreditation and is supported by an NABH and NABL accredited hospital.",
+        cols: 4,
+        items: [
+          { title: "NAAC A+", text: "University accreditation." },
+          { title: "NABH", text: "Accredited hospital." },
+          { title: "NABL", text: "Accredited laboratory." },
+          { title: "NMC", text: "Recognised medical college.", href: "/university/nmc" },
+        ],
+      },
+      {
+        t: "stats",
+        title: "Key Highlights",
+        items: [
+          { value: "150", label: "MBBS seats per year" },
+          { value: "900+", label: "Teaching hospital beds" },
+          { value: "140", label: "Acre smart campus" },
+          { value: "A+", label: "NAAC accreditation" },
+        ],
+      },
       { t: "cta", title: "Be part of CDSIMER", text: "Explore our programmes or take the first step towards admission.", actions: [{ label: "Explore Programs", href: "/programs" }, { label: "Apply Now", href: "/admissions" }, { label: "Contact Us", href: "/contact", variant: "soft" }] },
     ],
   },
@@ -250,7 +257,7 @@ export const university: PageDef[] = [
       },
     ],
   },
-  policyPage("pwbd-committee", "PwBD Committee", "Persons with Benchmark Disabilities (PwBD) committee of CDSIMER.", [
+  policyPage("university/policies/pwbd-committee", "PwBD Committee", "Persons with Benchmark Disabilities (PwBD) committee of CDSIMER.", "life-campus.jpg", [
     {
       t: "table",
       title: "Committee members",
@@ -263,8 +270,8 @@ export const university: PageDef[] = [
         ["5", "Dr. Pooja S, Associate Professor, Dept. of ENT", "Member", "9739011767", "drpooja.somnath@gmail.com"],
       ],
     },
-  ]),
-  policyPage("anti-ragging", "Anti-Ragging Policy", "Zero tolerance for ragging, in line with the Karnataka Education Act and NMC regulations.", [
+  ], ["The Persons with Benchmarks Disabilities (PwBD) Committee of CDSIMER supports students and staff with benchmark disabilities. The members of the committee and their contact details are listed below."]),
+  policyPage("university/policies/anti-ragging", "Anti-Ragging Policy", "Zero tolerance for ragging, in line with the Karnataka Education Act and NMC regulations.", "life-students.jpg", [
     {
       t: "text",
       title: "What is ragging?",
@@ -302,7 +309,7 @@ export const university: PageDef[] = [
       actions: [{ label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee", variant: "soft" }],
     },
   ]),
-  policyPage("prevention-of-sexual-harassment", "Prevention of Sexual Harassment", "A safe, respectful campus and workplace for everyone.", [
+  policyPage("university/policies/prevention-of-sexual-harassment", "Prevention of Sexual Harassment", "A safe, respectful campus and workplace for everyone.", "life-group.jpg", [
     {
       t: "text",
       title: "Anti-Sexual Harassment Policy",
@@ -313,7 +320,7 @@ export const university: PageDef[] = [
       ],
     },
   ]),
-  policyPage("grievance-redressal", "Grievance Redressal Committee", "A fair and timely process to resolve grievances of students, parents and staff.", [
+  policyPage("university/policies/grievance-redressal", "Grievance Redressal Committee", "A fair and timely process to resolve grievances of students, parents and staff.", "life-hall.jpg", [
     {
       t: "text",
       title: "About the committee",
@@ -323,14 +330,7 @@ export const university: PageDef[] = [
       ],
     },
   ]),
-  {
-    slug: "university/anti-ragging-committee",
-    title: "Anti-Ragging Committee",
-    eyebrow: "University",
-    lead: "There is no ragging at CDSIMER. The administration has taken several steps to curb ragging and indiscipline.",
-    hero: "about.jpg",
-    heroAlt: "CDSIMER campus",
-    blocks: [
+  policyPage("university/anti-ragging-committee", "Anti-Ragging Committee", "There is no ragging at CDSIMER. The administration has taken several steps to curb ragging and indiscipline.", "life-hostel.jpg", [
       {
         t: "text",
         title: "Committee and regulations",
@@ -386,9 +386,7 @@ export const university: PageDef[] = [
           { title: "Details of members of the Anti-Ragging Committee", type: "PDF", href: doc.msrAntiRagging },
         ],
       },
-      policyNav,
-    ],
-  },
+  ], undefined, false),
   {
     slug: "university/nmc",
     title: "NMC",
@@ -398,7 +396,19 @@ export const university: PageDef[] = [
     heroAlt: "CDSIMER campus",
     blocks: [
       {
+        t: "text",
+        eyebrow: "National Medical Commission",
+        title: "NMC approvals & disclosures",
+        body: [
+          "CDSIMER functions under the approvals of the National Medical Commission (NMC). This page brings together the Letter of Permission for the MBBS programme and its renewals, the permissions for postgraduate courses, the stipend notifications for UG interns and PG students, and the institute pro-forma and faculty list.",
+          "Select any document below to open or download the official PDF.",
+        ],
+        image: "hospital-arch.jpg",
+        alt: "CDSIMER hospital and campus",
+      },
+      {
         t: "docs",
+        tone: "cream",
         title: "NMC UG Approval",
         items: [
           { title: "Letter of Permission", type: "PDF", href: doc.nmcLop },
@@ -412,7 +422,6 @@ export const university: PageDef[] = [
       {
         t: "docs",
         title: "NMC PG Approval",
-        tone: "cream",
         items: [
           { title: "Letter of permission for Pathology", type: "PDF", href: doc.nmcPgPathology },
           { title: "Letter of permission for Community Medicine", type: "PDF", href: doc.nmcPgCommunity },
@@ -421,6 +430,7 @@ export const university: PageDef[] = [
       },
       {
         t: "docs",
+        tone: "cream",
         title: "Stipend for UG & PG Students",
         items: [
           { title: "Stipend for UG students undergoing internship", type: "PDF", href: doc.nmcStipendUg },
@@ -430,18 +440,9 @@ export const university: PageDef[] = [
       {
         t: "docs",
         title: "Institute Pro-Forma",
-        tone: "cream",
         items: [
           { title: "Institute Pro-Forma", type: "LINK", href: "https://drive.google.com/file/d/1cqjDmVQrAO0bPx7YwwQXBscPHo4ZmccM/view?usp=sharing" },
           { title: "Faculty List 2026", type: "PDF", href: doc.facultyList },
-        ],
-      },
-      {
-        t: "docs",
-        title: "Vision, mission & code of conduct",
-        items: [
-          { title: "Vision and Mission", type: "PDF", href: doc.visionMission },
-          { title: "Code of Conduct", type: "PDF", href: doc.codeOfConduct },
         ],
       },
       { t: "links", title: "Related", items: [{ label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee" }, { label: "Information under MSR Clause", href: "/msr-clause" }] },

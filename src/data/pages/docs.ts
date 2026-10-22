@@ -41,7 +41,7 @@ export const doc = {
   nmcPgClinical: "/docs/lop_dr_chandramma_dayananda_sagar_instt_of_medical_education.pdf",
   nmcStipendUg: "/docs/stipend_for_ug_mbbs_03112025.pdf",
   nmcStipendPg: "/docs/stipend_for_pg_mbbs_03112025.pdf",
-  facultyList: "https://cdsimer.edu.in/images/Faculty_list_2026_1.pdf",
+  facultyList: "/docs/faculty_list_2026_1.pdf",
   curriculum1: "/docs/ug-curriculum-vol-i_.pdf",
   curriculum2: "/docs/ug-curriculum-vol-ii_.pdf",
   curriculum3: "/docs/ug-curriculum-vol-iii_.pdf",
