@@ -80,6 +80,22 @@
   }
 }
 
+// Phones: keep only the megaphone so the scrolling items get the width.
+@include below($bp-sm) {
+  .label {
+    padding: 0 14px;
+
+    span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .slide {
     animation-duration: 240s;
