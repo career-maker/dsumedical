@@ -466,15 +466,6 @@ export const general: PageDef[] = [
     blocks: [{ t: "news" }],
   },
   {
-    slug: "share",
-    title: "Share CDSIMER",
-    eyebrow: "Connect",
-    lead: "Follow and share CDSIMER on social media.",
-    hero: "community-bg.jpg",
-    heroAlt: "Community outreach",
-    blocks: [{ t: "links", title: "Social profiles", items: [{ label: "Facebook", href: "https://www.facebook.com/" }, { label: "X (Twitter)", href: "https://x.com/" }, { label: "Instagram", href: "https://www.instagram.com/" }, { label: "LinkedIn", href: "https://www.linkedin.com/" }, { label: "YouTube", href: "https://www.youtube.com/" }] }],
-  },
-  {
     slug: "privacy",
     title: "Privacy Policy",
     eyebrow: "Legal",

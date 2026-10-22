@@ -99,6 +99,77 @@
   }
 }
 
+// Share: the targets fan out to the left on hover / tap (above the bar on phones).
+.share {
+  > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+}
+
+.fan {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 8px);
+  z-index: 2;
+  display: flex;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  translate: 10px -50%;
+  transition: opacity 0.2s, translate 0.25s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.2s;
+
+  // Invisible bridge so moving the pointer from the icon to the fan does not close it.
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 14px;
+  }
+
+  a,
+  button {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--peach);
+      color: var(--orange);
+    }
+  }
+}
+
+.shareOpen .fan {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  translate: 0 -50%;
+}
+
 // Mobile / tablet: the rail becomes a bottom action bar (Enquire Now + quick actions).
 @include below($bp-md) {
   .rail {
@@ -159,5 +230,25 @@
     li + li::before {
       display: none;
     }
+  }
+
+  .fan {
+    top: auto;
+    right: -4px;
+    bottom: calc(100% + 14px);
+    translate: 0 8px;
+
+    &::after {
+      top: 100%;
+      bottom: auto;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 16px;
+    }
+  }
+
+  .shareOpen .fan {
+    translate: 0 0;
   }
 }
