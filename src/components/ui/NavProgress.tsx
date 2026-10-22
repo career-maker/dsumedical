@@ -11,15 +11,16 @@ export function NavProgress() {
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const a = (e.target as Element).closest("a");
       if (!a || (a.target && a.target !== "_self") || a.hasAttribute("download")) return;
       const url = new URL(a.href, location.href);
       if (url.origin !== location.origin || url.pathname === location.pathname) return;
       setState("loading");
     };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    // Capture phase: Next's Link calls preventDefault, which a bubbling listener would see as "handled".
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
   }, []);
 
   // New route rendered: finish the bar, then hide it.
@@ -33,5 +34,12 @@ export function NavProgress() {
     return () => clearTimeout(t);
   }, [state]);
 
-  return <div className={`${styles.bar} ${styles[state]}`} role="progressbar" aria-hidden={state === "idle"} />;
+  return (
+    <>
+      <div className={`${styles.bar} ${styles[state]}`} role="progressbar" aria-hidden={state === "idle"} />
+      <div className={`${styles.veil} ${state === "loading" ? styles.veilOn : ""}`} aria-hidden="true">
+        <span className={styles.spin} />
+      </div>
+    </>
+  );
 }
