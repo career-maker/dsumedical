@@ -18,6 +18,8 @@ type Prog = {
   outcomesDoc?: string;
   clinical: string[];
   eligibility: string[];
+  /** Longer eligibility criteria, shown as an accordion after the summary. */
+  eligibilityDetail?: { q: string; a: string }[];
   careers: string[];
   faq: { q: string; a: string }[];
   /** Programme-specific blocks (documents, intake tables) shown after the curriculum. */
@@ -71,8 +73,9 @@ const prog = (p: Prog): PageDef => {
     ...(p.extra ?? []),
     { t: "text", title: "Clinical experience", body: ["Learning is anchored in real patient care across the teaching hospital."], bullets: p.clinical, image: "hospital-ward.jpg", alt: "CDSIMER teaching hospital ward", flip: true, tone: "cream" },
     { t: "text", id: "eligibility", title: "Eligibility, entrance exam & admissions", body: ["Eligibility and entrance-exam rules follow current NMC and university regulations. Confirm the latest details with the admissions office."], bullets: p.eligibility, actions: [{ label: "Admission process", href: "/admissions#process", variant: "soft" }] },
-    { t: "cards", title: "Career opportunities", tone: "cream", cols: 4, items: p.careers.map((c) => ({ title: c, text: "" })) },
-    { t: "faq", title: "Frequently asked questions", plain: true, items: p.faq },
+    ...(p.eligibilityDetail ? [{ t: "faq" as const, id: "eligibility-detail", title: "Eligibility criteria in detail", items: p.eligibilityDetail, image: "life-library.jpg" }] : []),
+    { t: "cards", title: "Career opportunities", tone: p.eligibilityDetail ? undefined : "cream", cols: 4, items: p.careers.map((c) => ({ title: c, text: "" })) },
+    { t: "faq", title: "Frequently asked questions", plain: !p.eligibilityDetail, items: p.faq },
     {
       t: "cta",
       title: `Ready to begin your ${p.name} journey?`,
@@ -146,7 +149,25 @@ export const academic: PageDef[] = [
       { label: "Internship", title: "Compulsory rotating internship", text: "Supervised practice across departments." },
     ],
     clinical: ["Early patient contact and case-based learning", "Supervised ward, OPD and emergency postings", "Skills practice in simulation labs", "Community and rural outreach"],
-    eligibility: ["Qualifying 10+2 with Physics, Chemistry, Biology/Biotechnology and English", "All admissions are based on the rank obtained in NEET-UG, conducted all-India by the National Testing Agency", "Seats are allotted by merit through counselling conducted by the Karnataka Examination Authority"],
+    eligibility: [
+      "Pass in 10+2 or equivalent with Physics, Chemistry, Biology / Biotechnology and English individually, from a recognised Board",
+      "A minimum of 50% marks in Physics, Chemistry and Biology / Biotechnology taken together",
+      "Qualifying boards: CBSE / ISC, recognised State Boards, GCE ‘A’ Levels or International Baccalaureate (IB)",
+      "All admissions are based on the rank obtained in NEET-UG, conducted all-India by the National Testing Agency",
+      "Seats are allotted by merit through centralised counselling conducted by the Karnataka Examination Authority (KEA)",
+      "KEA (CET) code: M083",
+    ],
+    eligibilityDetail: [
+      { q: "Who can apply: General / Foreign / NRI category", a: "CDSIMER admits candidates under the General or Foreign / NRI category on fulfilling the eligibility requirements. All admissions are on the basis of merit only. Foreign / NRI category seats are available for foreign nationals with NRI status or those sponsored by an individual holding NRI status. These seats are not equivalent to payment, management or reserved seats." },
+      { q: "Indian (General category)", a: "CDSIMER admits Indian Nationals, Overseas Citizens of India (OCI) and Persons of Indian Origin (PIO) under the General category, subject to fulfilment of the eligibility criteria. All admissions to undergraduate programmes under this category are on a merit basis." },
+      { q: "Foreign / NRI category admissions", a: "All Foreign / NRI / NRI-sponsored admissions to UG are on a first-come, first-served merit basis, subject to the candidate’s performance in the 10+2 of India or an equivalent examination, in addition to meeting the eligibility requirements set by the regulatory bodies. Candidates who confirm admission under this category by paying the full first-year programme fee cannot take admission under the General category." },
+      { q: "Qualifications accepted", a: "Candidates should have obtained their qualifications from a recognised Board or University: the 10+2 of India from a recognised Central (CBSE / ISC) or State Board, GCE ‘A’ Levels, or the International Baccalaureate (IB). Candidates with foreign qualifications must submit an equivalency certificate from the Association of Indian Universities (AIU), New Delhi (www.aiu.ac.in)." },
+      { q: "Indian Boards", a: "The certificate-issuing board must be established or recognised by an Act of the Central / State Government, a Gazette notification of the Central / State Government, or executive orders issued by the Central / State Government. The candidate must pass 10+2 or equivalent with Physics, Chemistry, Biology / Biotechnology and English individually, with a minimum of 50% marks calculated together in Physics, Chemistry and Biology / Biotechnology. Candidates are advised to check the NEET-UG brochure for the final eligibility criteria (www.nta.ac.in)." },
+      { q: "International Boards: GCE ‘A’ Levels and British examining bodies", a: "Eligibility is based on qualifications recognised by the AIU. IGCSE / GCSE / GCE ‘O’ Levels (11 years of schooling) equate to the 10th grade, AS Level (12 years) to the 11th grade and GCE ‘A’ Levels (13 years) to the 12th grade of an Indian Board. Candidates should have minimum passes in Physics, Chemistry and Biology at GCE Advanced Level and English at AS Level, with an average of ‘D’ grade in Physics, Chemistry and Biology / Biotechnology, and should meet the subject-wise eligibility laid down by the statutory bodies. Check the minimum grade requirements for registration in your country." },
+      { q: "International Baccalaureate (IB) Diploma", a: "Candidates should take three subjects at Higher Level (HL) and three at Standard Level (SL), securing a minimum of 3 points in each subject and an overall minimum of 24 points, with 12 points in HL and 12 points in SL, and should meet the subject-wise eligibility laid down by the statutory bodies." },
+      { q: "International Baccalaureate (IB) Certificate", a: "Candidates should have taken a minimum of three subjects at HL and three at SL, securing a minimum of 3 points in each subject and an overall minimum of 24 points, and should meet the subject-wise eligibility laid down by the statutory bodies." },
+      { q: "Admission process for General / Foreign / NRI category", a: "All admissions are based on the rank obtained in NEET-UG, conducted on an all-India basis. Seat allotment is by merit through centralised common counselling by the Karnataka Examination Authority (www.kea.kar.nic.in). The candidate must report to the allotted institution and complete all admission formalities within the stipulated timeline. Eligibility and the admission process are subject to change as per guidelines from the statutory bodies. It is the candidate’s responsibility to ensure they meet all eligibility requirements; if false information or documents from a non-recognised Board / University are found, or information is concealed, the admission will be cancelled without notice and the fee paid forfeited." },
+    ],
     careers: ["Clinical practice", "Postgraduate specialisation", "Medical research", "Public health & administration"],
     curriculumDocs: [
       { title: "UG Curriculum Volume I", href: doc.curriculum1 },

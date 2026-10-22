@@ -2,7 +2,7 @@ import type { PageDef, Block } from "./types";
 import { external } from "../nav";
 import { doc } from "./docs";
 
-const policyNav: Block = {
+const policyNav = (slug: string): Block => ({
   t: "links",
   title: "Related policies",
   items: [
@@ -11,8 +11,8 @@ const policyNav: Block = {
     { label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee" },
     { label: "Prevention of Sexual Harassment", href: "/university/policies/prevention-of-sexual-harassment" },
     { label: "Grievance Redressal Committee", href: "/university/policies/grievance-redressal" },
-  ],
-};
+  ].filter((l) => l.href !== `/${slug}`),
+});
 
 const concern: Block = {
   t: "cta",
@@ -34,7 +34,7 @@ const policyPage = (slug: string, title: string, lead: string, photo: string, bl
     lead,
     hero: "about.jpg",
     heroAlt: "CDSIMER campus",
-    blocks: [...details, policyNav, ...(withConcern ? [concern] : [])],
+    blocks: [...details, policyNav(slug), ...(withConcern ? [concern] : [])],
   };
 };
 
