@@ -108,7 +108,6 @@ export const university: PageDef[] = [
         title: "Official documents",
         tone: "cream",
         items: [
-          { title: "Vision & Mission", type: "PDF", href: doc.visionMission },
           { title: "DSU Act", type: "PDF", href: doc.dsuAct },
           { title: "Government of Karnataka Notification", type: "PDF", href: doc.gokNotification },
         ],
