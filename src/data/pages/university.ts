@@ -86,8 +86,8 @@ export const university: PageDef[] = [
         tone: "cream",
         cols: 2,
         items: [
-          { title: "Vision", text: "To advance medical education and thus deliver the best care for all. To be a centre of excellence in education, research & training, innovation & entrepreneurship and to produce citizens with exceptional leadership qualities to serve national and global needs." },
-          { title: "Mission", text: "To partner with patients, healthcare industries, governmental and non-governmental organisations including pharmaceuticals working for the promotion of healthcare in the country, and to lead speciality medical education and promote the role of a doctor in leadership, research, community healthcare and lifelong healthcare." },
+          { title: "Vision", tag: "Where we are headed", image: "why-girl.jpg", text: "To advance medical education and thus deliver the best care for all. To be a centre of excellence in education, research & training, innovation & entrepreneurship and to produce citizens with exceptional leadership qualities to serve national and global needs." },
+          { title: "Mission", tag: "What we commit to", image: "hospital-ward.jpg", text: "To partner with patients, healthcare industries, governmental and non-governmental organisations including pharmaceuticals working for the promotion of healthcare in the country, and to lead speciality medical education and promote the role of a doctor in leadership, research, community healthcare and lifelong healthcare." },
         ],
       },
       {
