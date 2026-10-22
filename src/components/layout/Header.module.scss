@@ -79,10 +79,15 @@
 .navLeft,
 .navRight {
   display: flex;
+  white-space: nowrap;
   align-items: center;
   gap: u(48);
   font-size: u(18.8);
   font-weight: 500;
+}
+
+.navLeft {
+  gap: u(30);
 }
 
 .navRight {

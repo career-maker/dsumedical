@@ -118,8 +118,8 @@ export const mobileMenu: NavLink[] = [
 
 // Desktop bar: main row splits around the logo; the rest sit in the top strip, same relative order.
 export const navLeft: NavLink[] = [university, programmes, academics, departments];
-export const navRight: NavLink[] = [hospital, research, contact];
+export const navRight: NavLink[] = [hospital, research];
 export const navAdmissions = admissions;
 export const topLeft: NavLink[] = [msr];
-export const topRight: NavLink[] = [career, examination, library, gallery, aebas, hostel];
+export const topRight: NavLink[] = [career, examination, L("Contact us", "/contact"), library, gallery, aebas, hostel];
 export const topErp = erp;
