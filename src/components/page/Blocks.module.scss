@@ -1087,3 +1087,48 @@ a.card:hover .more {
     font-size: clamp(26px, 3.6vw, 36px);
   }
 }
+
+// ---- steps on tablets & phones: tidy cards, label pill inline above the title ----
+@include below($bp-lg) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 18px 18px 20px;
+      border: 1px solid $line;
+      border-top: 3px solid var(--orange);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: $shadow;
+    }
+
+    .dot {
+      position: static;
+      height: 30px;
+      margin-bottom: 12px;
+      padding-inline: 12px;
+      font-size: 12px;
+      background: #fff4ec;
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  }
+}
+
+@include below($bp-sm) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
