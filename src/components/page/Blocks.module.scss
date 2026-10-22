@@ -1211,3 +1211,14 @@ a.card:hover .more {
     color: #fff;
   }
 }
+
+// The generic stat hover turns the number orange; keep coloured tiles readable.
+.statsColor li:hover strong,
+.statsColor li:hover > span {
+  color: #fff;
+}
+
+.statsColor li:nth-child(4n):hover strong,
+.statsColor li:nth-child(4n):hover > span {
+  color: var(--ink);
+}

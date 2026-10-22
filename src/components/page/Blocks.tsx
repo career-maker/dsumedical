@@ -5,6 +5,7 @@ import type { Block } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
 import { Carousel } from "./Carousel";
+import { PhaseGrid } from "./PhaseGrid";
 import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
 import styles from "./Blocks.module.scss";
@@ -121,7 +122,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                     {c.tag && <span className={styles.tag}>{c.tag}</span>}
                     <h3>{c.title}</h3>
                     {c.text && <p>{c.text}</p>}
-                    {c.href && <span className={styles.more}>Learn more →</span>}
+                    {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
                   </span>
                 </>
               );
@@ -251,6 +252,13 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
               ))}
             </div>
           </Aside>
+        </Section>
+      );
+    case "phasegrid":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <PhaseGrid data={b.data} />
         </Section>
       );
     case "carousel":

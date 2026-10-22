@@ -47,15 +47,9 @@ const programmes = L("Programmes", "/programs", [
 const academics = L("Academics", "/academics", [
   L("Academics", "/academics", [
     L("Academics Year", "/academics#academic-year"),
-    L("AETCOM Module", "/academics#aetcom-module"),
-    L("Holiday List", "/academics#holiday-list"),
+    L("AETCOM Module", doc.aetcom),
+    L("Holiday List", doc.holidays),
     L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum"),
-  ]),
-  L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum", [
-    L("Phase-I", doc.feedback1),
-    L("Phase-II", doc.feedback2),
-    L("Phase-III Part-I", doc.feedback31),
-    L("Phase-III Part-II", doc.feedback32),
   ]),
 ]);
 

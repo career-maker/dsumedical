@@ -1,5 +1,6 @@
 import type { PageDef, Block } from "./types";
 import { doc } from "./docs";
+import { academicYear } from "./academic-year";
 
 type Prog = {
   slug: string;
@@ -46,7 +47,7 @@ const prog = (p: Prog): PageDef => {
       title: `Why study ${p.name} at CDSIMER?`,
       plain: true,
       open: true,
-      image: "hospital-surgery.jpg",
+      image: "why-faculty.jpg",
       items: [
         { q: "Teaching hospital", a: "A 900+ bed hospital with 1000+ daily patient footfall." },
         { q: "Experienced faculty", a: "Mentorship from clinicians, teachers and researchers." },
@@ -293,31 +294,27 @@ export const academic: PageDef[] = [
     heroAlt: "Students walking across the campus",
     blocks: [
       {
-        t: "table",
+        t: "phasegrid",
         id: "academic-year",
         title: "Academic Year",
-        lead: "Open a phase to see its timetables, internal assessments and university exam notices on the existing CDSIMER site.",
-        cols: ["Academic year", "Phase I", "Phase II", "Phase III / Part I", "Phase III Part II / IV"],
-        rows: [
-          ["2025–26", `[Phase I](${ay("2025-2026-phase1")})`, `[Phase II](${ay("2025-2026-phase2")})`, `[Phase III Part I](${ay("2025-2026-phase3-part1")})`, `[Phase III Part II](${ay("2025-2026-phase3-part2")})`],
-          ["2024–25", `[Phase I](${ay("phase1-2024-2025")})`, `[Phase II](${ay("phase2-2024-2025")})`, `[Phase III](${ay("phase3-2024-2025")})`, `[Phase IV](${ay("phase4-2024-2025")})`],
-          ["2023–24", `[Phase I](${ay("phase1-2023-2024")})`, `[Phase II](${ay("phase2-2023-2024")})`, `[Phase III Part I](${ay("phase3-2023-2024")})`, `[Phase III Part II](${ay("phase4-2023-2024")})`],
-          ["2022–23", `[Phase I](${ay("phase1-2022-2023")})`, `[Phase II](${ay("phase2-2022-2023")})`, `[Phase III](${ay("phase3-2022-2023")})`, "—"],
-          ["2021–22", `[Phase I](${ay("phase1-2021-2022")})`, `[Phase II](${ay("phase2-2021-2022")})`, "—", "—"],
-          ["2020–21", `[Phase I](${ay("phase1-2020-2021")})`, "—", "—", "—"],
-        ],
+        lead: "Select a phase to open its timetables, internal assessments and university exam notices.",
+        data: academicYear,
       },
       { t: "docs", title: "AETCOM Module", tone: "cream", lead: "Attitude, Ethics and Communication module.", items: [{ title: "AETCOM Module", type: "PDF", href: doc.aetcom }] },
       { t: "docs", title: "Holiday List", items: [{ title: "Holiday List 2025", type: "PDF", href: doc.holidays }] },
       {
-        t: "docs",
+        t: "cards",
+        id: "student-feedback-on-curriculum",
         title: "Student Feedback on Curriculum",
+        lead: "Students share their views on teaching, assessment and learning resources at the end of each phase. The feedback is reviewed by the faculty to keep the MBBS curriculum effective and responsive.",
         tone: "cream",
+        cols: 4,
+        more: "View report",
         items: [
-          { title: "Phase I", type: "PDF", href: doc.feedback1 },
-          { title: "Phase II", type: "PDF", href: doc.feedback2 },
-          { title: "Phase III – Part I", type: "PDF", href: doc.feedback31 },
-          { title: "Phase III – Part II", type: "PDF", href: doc.feedback32 },
+          { tag: "Phase I", title: "Pre-clinical", text: "Student feedback report for Phase I.", image: "life-students.jpg", href: doc.feedback1 },
+          { tag: "Phase II", title: "Para-clinical", text: "Student feedback report for Phase II.", image: "life-library.jpg", href: doc.feedback2 },
+          { tag: "Phase III – Part I", title: "Clinical I", text: "Student feedback report for Phase III, Part I.", image: "hospital-ward.jpg", href: doc.feedback31 },
+          { tag: "Phase III – Part II", title: "Clinical II", text: "Student feedback report for Phase III, Part II.", image: "hospital-surgery.jpg", href: doc.feedback32 },
         ],
       },
       { t: "links", title: "Related", items: [{ label: "Programs", href: "/programs" }, { label: "Examination", href: "/examination" }, { label: "Departments", href: "/department" }] },
