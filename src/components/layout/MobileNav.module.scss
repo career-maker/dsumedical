@@ -89,6 +89,45 @@
   overscroll-behavior: contain;
 }
 
+.row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #eee;
+
+  a {
+    flex: 1;
+    border-bottom: 0;
+  }
+}
+
+.chev {
+  flex: none;
+  position: relative;
+  width: 48px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    translate: -50% -70%;
+    rotate: 45deg;
+    transition: rotate 0.2s;
+  }
+}
+
+.chevOpen::after {
+  rotate: 225deg;
+}
+
+.sub[hidden] {
+  display: none;
+}
+
 .sub li a {
   padding: 10px 0 10px 16px;
   border-bottom: 0;

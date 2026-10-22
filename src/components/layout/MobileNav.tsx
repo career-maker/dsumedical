@@ -8,6 +8,7 @@ type NavItem = { label: string; href: string; children?: NavItem[] };
 
 export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const panelId = useId();
 
   useEffect(() => {
@@ -33,24 +34,40 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
       </button>
       <nav id={panelId} className={styles.panel} hidden={!open} aria-label="Mobile" data-lenis-prevent>
         <ul>
-          {items.map((i) => (
-            <li key={i.label}>
-              <Link href={i.href} onClick={() => setOpen(false)}>
-                {i.label}
-              </Link>
-              {i.children && (
-                <ul className={styles.sub}>
-                  {i.children.map((c) => (
-                    <li key={c.label}>
-                      <Link href={c.href} onClick={() => setOpen(false)}>
-                        {c.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+          {items.map((i) => {
+            const isOpen = expanded === i.label;
+            const subId = `${panelId}-${i.label.replace(/\W+/g, "-")}`;
+            return (
+              <li key={i.label}>
+                <div className={styles.row}>
+                  <Link href={i.href} onClick={() => setOpen(false)}>
+                    {i.label}
+                  </Link>
+                  {i.children && (
+                    <button
+                      type="button"
+                      className={`${styles.chev} ${isOpen ? styles.chevOpen : ""}`}
+                      aria-expanded={isOpen}
+                      aria-controls={subId}
+                      aria-label={`${isOpen ? "Collapse" : "Expand"} ${i.label}`}
+                      onClick={() => setExpanded(isOpen ? null : i.label)}
+                    />
+                  )}
+                </div>
+                {i.children && (
+                  <ul id={subId} className={styles.sub} hidden={!isOpen}>
+                    {i.children.map((c) => (
+                      <li key={c.label}>
+                        <Link href={c.href} onClick={() => setOpen(false)}>
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
         <Link href={cta.href} className={styles.cta} onClick={() => setOpen(false)}>
           {cta.label}
