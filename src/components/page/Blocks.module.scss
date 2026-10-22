@@ -1037,39 +1037,6 @@ a.card:hover .more {
   }
 }
 
-// Phones: steps become a vertical timeline (dot on a left rail).
-@include below($bp-sm) {
-  .steps {
-    gap: 0;
-    padding-left: 4px;
-
-    li {
-      padding: 0 0 26px 30px;
-      border-top: 0;
-      border-left: 2px solid #f0d6c2;
-      margin-left: 18px;
-
-      &:last-child {
-        padding-bottom: 0;
-        border-left-color: transparent;
-      }
-    }
-  }
-
-  // Pill sits on the rail above its text, so long labels ("Phase III – Part I") never run under the title.
-  .dot {
-    position: relative;
-    top: 0;
-    left: -31px;
-    width: max-content;
-    margin-bottom: 10px;
-    min-width: 36px;
-    height: 36px;
-    padding-inline: 10px;
-    font-size: 11px;
-  }
-}
-
 // Stat tiles: never split a word, and use up to 4 columns on tablets so a 4-up row has no orphan.
 .stats strong,
 .stats strong span {
@@ -1088,7 +1055,8 @@ a.card:hover .more {
   }
 }
 
-// ---- steps on tablets & phones: tidy cards, label pill inline above the title ----
+// ---- steps on tablets & phones ----
+// Tablet: two plain cards. Phone: a flat list with hairline dividers; every row has the same inset.
 @include below($bp-lg) {
   .steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1099,12 +1067,10 @@ a.card:hover .more {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: 18px 18px 20px;
+      padding: 20px;
       border: 1px solid $line;
-      border-top: 3px solid var(--orange);
       border-radius: 10px;
       background: #fff;
-      box-shadow: $shadow;
     }
 
     .dot {
@@ -1130,5 +1096,20 @@ a.card:hover .more {
 @include below($bp-sm) {
   .steps {
     grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-top: 1px solid $line;
+
+    li {
+      padding: 20px 0;
+      border: 0;
+      border-bottom: 1px solid $line;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    li:hover {
+      transform: none;
+      box-shadow: none;
+    }
   }
 }
