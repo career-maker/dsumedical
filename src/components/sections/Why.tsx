@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
@@ -10,6 +9,8 @@ import { whyItems } from "@/data/content";
 import styles from "./Why.module.scss";
 
 const SLIDE_MS = 2000;
+// Sample video; replace with the CDSIMER campus video's YouTube ID.
+const VIDEO_ID = "aqz-KE-bpKQ";
 const slides = [
   { src: "why-girl", alt: "Smiling medical student holding a folder" },
   { src: "academics-girl.jpg", alt: "Smiling postgraduate student holding books" },
@@ -28,6 +29,7 @@ function Arrow({ flip }: { flip?: boolean }) {
 export function Why() {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const go = (d: number) => setI((n) => (n + d + slides.length) % slides.length);
 
   useEffect(() => {
@@ -68,13 +70,25 @@ export function Why() {
         </div>
 
         <div className={styles.video}>
-          <Photo name="why-video" alt="CDSIMER campus at dusk" sizes="421px" className={styles.fill} cover position="72% 50%" />
-          <Link prefetch={false} href="/campus-tour" className={styles.play} aria-label="Play campus video">
-            <svg viewBox="0 0 43 43" width="43" height="43" aria-hidden="true">
-              <circle className={styles.disc} cx="21.5" cy="21.5" r="21.5" />
-              <path className={styles.tri} d="M17 13.5 30 21.5 17 29.5z" />
-            </svg>
-          </Link>
+          {playing ? (
+            <iframe
+              className={styles.fill}
+              src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0`}
+              title="CDSIMER campus video"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+            />
+          ) : (
+            <>
+              <Photo name="why-video" alt="CDSIMER campus at dusk" sizes="421px" className={styles.fill} cover position="72% 50%" />
+              <button type="button" className={styles.play} aria-label="Play campus video" onClick={() => setPlaying(true)}>
+                <svg viewBox="0 0 43 43" width="43" height="43" aria-hidden="true">
+                  <circle className={styles.disc} cx="21.5" cy="21.5" r="21.5" />
+                  <path className={styles.tri} d="M17 13.5 30 21.5 17 29.5z" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
         <ul className={styles.badges}>
           <li>
