@@ -1,3 +1,5 @@
+import { doc } from "./pages/docs";
+
 export type NavLink = { label: string; href: string; children?: NavLink[] };
 
 export const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
@@ -10,62 +12,114 @@ export const external = {
   dsu: "https://www.dsu.edu.in/",
 };
 
-export const topLeft: NavLink[] = [
-  { label: "Info under MSR Clause B.1.11", href: "/msr-clause" },
-  { label: "NMC", href: "/university/nmc" },
+const L = (label: string, href: string, children?: NavLink[]): NavLink => ({ label, href, children });
+
+// Menu structure and order follow the "CDSIMER Pages & Sections" sheet.
+const university = L("University", "/university", [
+  L("About", "/university/about", [
+    L("Vision & Mission", "/university/about#vision"),
+    L("Founding Legends", "/university/about#founders"),
+    L("Leaderships", "/university/about#leadership"),
+    L("Administration", "/university/about#administration"),
+  ]),
+  L("About DSU", external.dsu),
+  L("DSU Act", doc.dsuAct),
+  L("GoK Notification", doc.gokNotification),
+  L("Policies", "/university/policies", [
+    L("PwBD Committee", "/university/policies/pwbd-committee"),
+    L("Anti-Ragging Policy", "/university/policies/anti-ragging"),
+    L("Prevention of Sexual Harassment", "/university/policies/prevention-of-sexual-harassment"),
+    L("Grievance Redressal Committee", "/university/policies/grievance-redressal"),
+  ]),
+  L("NMC", "/university/nmc", [
+    L("Vision and Mission", doc.visionMission),
+    L("Code of Conduct", doc.codeOfConduct),
+    L("Anti-Ragging Committee", "/university/anti-ragging-committee"),
+  ]),
+  L("Awards", "/university/awards"),
+]);
+
+const programmes = L("Programmes", "/programs", [
+  L("MBBS", "/programs/mbbs"),
+  L("Post Graduation", "/programs/post-graduation"),
+  L("Ph.D", "/programs/ph-d"),
+]);
+
+const academics = L("Academics", "/academics", [
+  L("Academics Year", "/academics#academic-year"),
+  L("AETCOM Module", "/academics#aetcom-module"),
+  L("Holiday List", "/academics#holiday-list"),
+  L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum", [
+    L("Phase-I", doc.feedback1),
+    L("Phase-II", doc.feedback2),
+    L("Phase-III Part-I", doc.feedback31),
+    L("Phase-III Part-II", doc.feedback32),
+  ]),
+]);
+
+const departments = L("Departments", "/department");
+
+const hospital = L("Hospital", "/hospital", [
+  L("About Hospital", "/hospital"),
+  L("Vision & Mission", "/hospital#vision"),
+  L("Statutory Requirements", "/hospital#statutory"),
+]);
+
+const research = L("Research", "/research", [
+  L("Staff Publications", "/research#staff-publications"),
+  L("Published Articles", "/research#staff-publications"),
+  L("Ongoing Research Activities", "/research#ongoing"),
+  L("Student Research Activities", "/research#student-research"),
+  L("Ethics Committee", "/research#ethics"),
+  L("Central Research and Innovation Wing", "/research#criw"),
+]);
+
+const admissions = L("Admissions", "/admissions", [
+  L("Stipend details for UG and PG students", "/admissions#resources"),
+  L("Fees for UG and PG courses", "/admissions#resources"),
+  L("MBBS UG Admission Process", doc.ugAdmission),
+  L("Hostel Details for New Admission 2026-27", doc.hostel),
+  L("PG Admission Process", doc.pgAdmission),
+  L("Admission Enquiry", "/admissions#enquiry"),
+  L("Admission Criteria", "/admissions#criteria"),
+  L("UG Student List", "/admissions#ug-student-lists", [
+    L("Student List 2025-26", doc.ug2526),
+    L("Student List 2024-25", doc.ug2425),
+    L("Student List 2023-24", doc.ug2324),
+    L("Student List 2022-23", doc.ug2223),
+    L("Student List 2021-22", doc.ug2122),
+  ]),
+  L("PG Student List", "/admissions#pg-student-lists", [
+    L("Student List 2025-26", doc.pg2526),
+    L("Student List 2024-25", doc.pg2425),
+    L("Brochure", doc.brochure),
+  ]),
+]);
+
+const career = L("Career", "/career");
+const examination = L("Examination", "/examination");
+const contact = L("Contact us", "/contact", [
+  L("Key Contact us", "/contact/key-contacts"),
+  L("Postal Address", "/contact/postal-address"),
+  L("Maps & Directions", "/contact/maps-and-directions"),
+]);
+const library = L("Library", "/library");
+const gallery = L("Gallery", "/gallery");
+const msr = L("Information under MSR Clause", "/msr-clause");
+const erp = L("ERP Login", external.erp);
+const aebas = L("AEBAS Dashboard", external.aebas);
+const hostel = L("Hostel", external.hostel);
+
+/** Mobile menu: every main menu in sheet order. */
+export const mobileMenu: NavLink[] = [
+  L("Home", "/"), university, programmes, academics, departments, hospital, research, admissions,
+  career, examination, contact, library, gallery, msr, erp, aebas, hostel,
 ];
 
-export const topRight: NavLink[] = [
-  { label: "Hostel", href: external.hostel },
-  { label: "University Examination", href: "/examination" },
-  { label: "Career", href: "/career" },
-  { label: "AEBAS Dashboard", href: external.aebas },
-];
-
-export const navLeft: NavLink[] = [
-  {
-    label: "Programs",
-    href: "/programs",
-    children: [
-      { label: "MBBS", href: "/programs/mbbs" },
-      { label: "Post Graduation", href: "/programs/post-graduation" },
-      { label: "Ph.D", href: "/programs/ph-d" },
-      { label: "Academics", href: "/academics" },
-    ],
-  },
-  {
-    label: "Hospital",
-    href: "/hospital",
-    children: [
-      { label: "About Hospital", href: "/hospital" },
-      { label: "Central Laboratory", href: "/hospital/central-laboratory" },
-    ],
-  },
-  { label: "Department", href: "/department" },
-  { label: "Research", href: "/research" },
-];
-
-export const navRight: NavLink[] = [
-  {
-    label: "University",
-    href: "/university",
-    children: [
-      { label: "About CDSIMER", href: "/university/about" },
-      { label: "Policies", href: "/university/policies" },
-      { label: "NMC", href: "/university/nmc" },
-      { label: "Awards", href: "/university/awards" },
-      { label: "Library", href: "/library" },
-      { label: "Gallery", href: "/gallery" },
-      { label: "About DSU", href: external.dsu },
-    ],
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-    children: [
-      { label: "Key Contacts", href: "/contact/key-contacts" },
-      { label: "Postal Address", href: "/contact/postal-address" },
-      { label: "Maps & Directions", href: "/contact/maps-and-directions" },
-    ],
-  },
-];
+// Desktop bar: main row splits around the logo; the rest sit in the top strip, same relative order.
+export const navLeft: NavLink[] = [university, programmes, academics, departments];
+export const navRight: NavLink[] = [hospital, research, contact];
+export const navAdmissions = admissions;
+export const topLeft: NavLink[] = [msr];
+export const topRight: NavLink[] = [career, examination, library, gallery, aebas, hostel];
+export const topErp = erp;

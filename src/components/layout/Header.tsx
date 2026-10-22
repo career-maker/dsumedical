@@ -3,12 +3,33 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { external, navLeft, navRight, topLeft, topRight } from "@/data/nav";
+import { external, mobileMenu, navAdmissions, navLeft, navRight, topErp, topLeft, topRight } from "@/data/nav";
 import type { NavLink } from "@/data/nav";
 import { HeaderScroll } from "./HeaderScroll";
 import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.scss";
 
+
+function Drop({ items }: { items: NavLink[] }) {
+  return (
+    <ul className={styles.drop}>
+      {items.map((c) => (
+        <li key={c.label} className={c.children ? styles.group : undefined}>
+          <SmartLink href={c.href}>{c.label}</SmartLink>
+          {c.children && (
+            <ul className={styles.subList}>
+              {c.children.map((g) => (
+                <li key={g.label}>
+                  <SmartLink href={g.href}>{g.label}</SmartLink>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function NavItem({ item }: { item: NavLink }) {
   return (
@@ -17,15 +38,7 @@ function NavItem({ item }: { item: NavLink }) {
         {item.label}
         {item.children && <Icon name="chevron-down" />}
       </SmartLink>
-      {item.children && (
-        <ul className={styles.drop}>
-          {item.children.map((c) => (
-            <li key={c.label}>
-              <SmartLink href={c.href}>{c.label}</SmartLink>
-            </li>
-          ))}
-        </ul>
-      )}
+      {item.children && <Drop items={item.children} />}
     </div>
   );
 }
@@ -50,8 +63,8 @@ export function Header() {
               </li>
             ))}
             <li>
-              <SmartLink href={external.erp} className={styles.erp}>
-                <Icon name="erp" /> ERP Login
+              <SmartLink href={topErp.href} className={styles.erp}>
+                <Icon name="erp" /> {topErp.label}
               </SmartLink>
             </li>
           </ul>
@@ -82,11 +95,14 @@ export function Header() {
             <a href="tel:+916366885501" className={styles.phone}>
               <Icon name="phone-header" /> 6366 885 501
             </a>
-            <Button href="/admissions" variant="primary" className={styles.admissions} width={170}>
-              Admissions
-            </Button>
+            <div className={styles.item}>
+              <Button href="/admissions" variant="primary" className={styles.admissions} width={170}>
+                Admissions
+              </Button>
+              <Drop items={navAdmissions.children ?? []} />
+            </div>
           </nav>
-          <MobileNav items={[...navLeft, ...navRight, ...topRight.slice(1, 3), ...topLeft.slice(0, 1)]} cta={{ label: "Admissions", href: "/admissions" }} />
+          <MobileNav items={mobileMenu} cta={{ label: "Admissions", href: "/admissions" }} />
         </div>
       </div>
     </header>

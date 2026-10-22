@@ -222,6 +222,28 @@
   }
 }
 
+// Nested items from the sheet's third level: indented, smaller, under their parent.
+.drop .group > a {
+  font-weight: 600;
+}
+
+.drop .subList {
+  margin: u(-2) 0 u(6) u(14);
+  padding-left: u(10);
+  border-left: u(2) solid var(--cream);
+
+  a {
+    padding: u(6) u(12);
+    font-size: u(14);
+    font-weight: 400;
+    gap: u(10);
+  }
+}
+
+.drop {
+  min-width: u(290);
+}
+
 .navLink img {
   transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }

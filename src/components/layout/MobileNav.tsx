@@ -61,6 +61,17 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
                         <Link href={c.href} onClick={() => setOpen(false)}>
                           {c.label}
                         </Link>
+                        {c.children && (
+                          <ul className={styles.subsub}>
+                            {c.children.map((g) => (
+                              <li key={g.label}>
+                                <Link href={g.href} onClick={() => setOpen(false)}>
+                                  {g.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     ))}
                   </ul>
