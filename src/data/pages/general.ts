@@ -24,8 +24,8 @@ export const general: PageDef[] = [
         items: [
           { p: "The MBBS program is affiliated to Dayananda Sagar University, Karnataka." },
           { p: "This course covers all preclinical, para-clinical and clinical disciplines through theory classes and clinical training as mandated by the MCI guidelines." },
-          { p: "DURATION OF THE COURSE: 4½ years plus 1 year of compulsory rotatory internship. INTAKE: 150 students per year" },
-          { p: "KEA (CET) CODE: M083" },
+          { p: "**DURATION OF THE COURSE:** 4½ years plus 1 year of compulsory rotatory internship. **INTAKE: 150** students per year" },
+          { p: "**KEA (CET) CODE: ==M083==**" },
         ],
       },
       {

@@ -41,20 +41,22 @@ const initials = (n: string) =>
 /** Outline/glass buttons are white-on-translucent (hero only); swap for light backgrounds. */
 const onLight = (v?: "primary" | "outline" | "glass" | "soft") => (v === "outline" || v === "glass" ? "gray" : (v ?? "primary"));
 
-/** Inline [label](url) links inside running text. */
+/** Inline markup in running text: [label](url) links, **semi-bold** and ==accent colour==. */
 function Rich({ text }: { text: string }) {
-  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|==[^=]+==)/g);
   return (
     <>
       {parts.map((s, i) => {
-        const m = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(s);
-        return m ? (
-          <SmartLink key={i} href={m[2]}>
-            {m[1]}
-          </SmartLink>
-        ) : (
-          s
-        );
+        const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(s);
+        if (link)
+          return (
+            <SmartLink key={i} href={link[2]}>
+              {link[1]}
+            </SmartLink>
+          );
+        if (s.startsWith("**") && s.length > 4) return <strong key={i}><Rich text={s.slice(2, -2)} /></strong>;
+        if (s.startsWith("==") && s.length > 4) return <span key={i} className={styles.accent}>{s.slice(2, -2)}</span>;
+        return s;
       })}
     </>
   );

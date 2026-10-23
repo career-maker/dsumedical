@@ -1335,3 +1335,13 @@ a.card:hover .more {
 .split > .media:has(img) {
   max-height: none;
 }
+
+// Inline emphasis inside prose paragraphs.
+.prose strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.accent {
+  color: #f05d1a;
+}
