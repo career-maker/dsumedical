@@ -134,7 +134,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]}`}>
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${b.colored ? styles.cardsColor : ""}`}>
             {b.items.map((c) => {
               const inner = (
                 <>

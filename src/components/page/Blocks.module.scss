@@ -1286,3 +1286,31 @@ a.card:hover .more {
   max-height: none;
   aspect-ratio: 16 / 9;
 }
+
+// Cards in the brand palette, one colour each in turn (Core Values).
+.cardsColor .card {
+  border-color: transparent;
+  color: #fff;
+
+  h3,
+  p {
+    color: #fff;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+  }
+}
+
+.cardsColor > li:nth-child(3n + 1) .card {
+  background: linear-gradient(135deg, #440a03, #7b1b1b);
+}
+
+.cardsColor > li:nth-child(3n + 2) .card {
+  background: linear-gradient(135deg, #ef6711, #fb7a15);
+}
+
+.cardsColor > li:nth-child(3n) .card {
+  background: linear-gradient(135deg, #b81c1c, #dc2725);
+}
