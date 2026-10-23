@@ -3,10 +3,6 @@
 // Inner-page blocks, styled like the homepage: white surfaces, 1px #e6e6e6 borders, 8-12px radii,
 // soft shadow, orange only on hover/active. Grids are auto-fit and cards stretch to the row, so any
 // item count or text length keeps rows aligned. Type has a px floor for laptop/tablet widths.
-@function fs($n, $min) {
-  @return max(#{$min}px, calc(#{$n} * var(--u)));
-}
-
 $line: #e6e6e6;
 $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 

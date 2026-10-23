@@ -86,9 +86,9 @@
   }
 }
 
+// Slide only: fading the panel in would make text read as low contrast while it animates.
 @keyframes rise {
   from {
-    opacity: 0;
     translate: 0 16px;
   }
 }

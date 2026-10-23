@@ -225,8 +225,10 @@ a.card:hover {
   gap: 10px !important;
   font-weight: 400 !important;
 
+  // Darker orange: the brand orange is under 4.5:1 on the cream background.
   a {
-    color: var(--orange);
+    color: #b84a00;
+    text-decoration: underline;
   }
 }
 
