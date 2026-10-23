@@ -1,9 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Enquiry } from "@/components/page/Explorers";
 import styles from "./EnquiryPopup.module.scss";
+
+// Loaded only when the dialog opens, so the form code is not part of every page's JavaScript.
+const Enquiry = dynamic(() => import("@/components/page/Explorers").then((m) => m.Enquiry), { ssr: false });
 
 const KEY = "enquiry-popup-shown";
 
