@@ -82,12 +82,12 @@ const hospital = L("Hospital", "/hospital", [
 ]);
 
 const research = L("Research", "/research", [
-  L("Staff Publications", "/research#staff-publications"),
-  L("Published Articles", "/research#staff-publications"),
-  L("Ongoing Research Activities", "/research#ongoing"),
-  L("Student Research Activities", "/research#student-research"),
-  L("Ethics Committee", "/research#ethics"),
-  L("Central Research and Innovation Wing", "/research#criw"),
+  L("Staff Publications", "/research/staff-publications"),
+  L("Published Articles", "/research/published-articles"),
+  L("Ongoing Research Activities", "/research/ongoing-research-activities"),
+  L("Student Research Activities", "/research/student-research-activities"),
+  L("Ethics Committee", "/research/ethics-committee"),
+  L("Central Research and Innovation Wing", "/research/central-research-and-innovation-wing"),
 ]);
 
 const admissions = L("Admissions", "/admissions", [

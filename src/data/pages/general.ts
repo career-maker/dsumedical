@@ -3,65 +3,8 @@ import { external } from "../nav";
 import { doc } from "./docs";
 import { examGroups } from "./exam-data";
 import { galleryGroups } from "./gallery-data";
-import { ongoingRows, publications, studentRows } from "./research-data";
 
 export const general: PageDef[] = [
-  {
-    slug: "research",
-    title: "Research",
-    eyebrow: "Research",
-    lead: "Publications, ongoing projects, student research and institutional research governance.",
-    hero: "research-labs.jpg",
-    heroAlt: "Researchers working in a laboratory",
-    blocks: [
-      { t: "stats", title: "Research at a glance", items: [{ value: String(publications.length), label: "Faculty publications listed" }, { value: String(ongoingRows.length), label: "Research projects in progress" }, { value: String(studentRows.length), label: "Projects involving students" }] },
-      { t: "table", id: "staff-publications", title: "Staff Publications & Published Articles", lead: "Research publications by CDSIMER faculty after joining the institution.", cols: ["Department", "Faculty", "Title", "Journal", "Issue · Volume · Pages", "Type"], rows: publications },
-      { t: "table", id: "ongoing", title: "Ongoing Research Activities", lead: "Research projects in progress.", cols: ["Sl. No", "Principal investigator", "Department", "Title"], rows: ongoingRows },
-      { t: "table", id: "student-research", title: "Student Research Activities", lead: "Research projects involving students.", cols: ["Sl. No", "Title", "Student", "Faculty"], rows: studentRows },
-      {
-        t: "table",
-        id: "ethics",
-        title: "Institutional Ethics Committee",
-        lead: "The Institutional Ethics Committee reviews research involving human participants to protect their rights, safety and well-being.",
-        cols: ["Role", "Member"],
-        rows: [
-          ["Chairperson", "Shri. M N Vidyashankar, Former Additional Chief Secretary (Retd.), Govt of Karnataka"],
-          ["Member Secretary", "Dr. Anand Meundi, Professor, Department of Community Medicine, CDSIMER"],
-          ["Basic Medical Scientist", "Dr. Meena Nandimath, Professor, Dept. of Pharmacology, Rajarajeshwari Medical College & Hospital"],
-          ["Legal Expert", "Shri. Arvind Moorchung, Senior Legal Consultant"],
-          ["Clinical Member", "Dr. Madhu S, Professor, Dept. of Anaesthesiology, CDSIMER"],
-          ["Clinical Member", "Dr. Manju Prakash, Professor & HOD, Dept. of Forensic Medicine, CDSIMER"],
-          ["Clinical Member", "Dr. Naveen M., Professor, Dept. of General Medicine, CDSIMER"],
-          ["Clinical Member", "Dr. Aishwarya M, Associate Professor, Dept. of ENT, CDSIMER"],
-          ["Clinical Member", "Dr. Mahesh Eswarappa, Senior Professor, Dept. of Nephrology, M S Ramaiah Medical College & Hospital"],
-          ["Social Scientist / Ethicist", "Smt. Ashika Shetty, Consultant Project Coordinator, Kanasina Shale"],
-          ["Lay Person", "Smt. Roopa J Rao, Retd. Bank Manager, SBI"],
-          ["Appellate Authority", "Dr. Prashanth Kumar M., Principal and Dean, CDSIMER"],
-        ],
-      },
-      {
-        t: "text",
-        id: "criw",
-        title: "Central Research and Innovation Wing",
-        body: [
-          "Research is the catalyst of evidence-based medicine. Futuristic and applied research makes doctors and students better scientists and helps translate knowledge from bench to bedside. The Central Research and Innovation Wing at CDSIMER strives to light up the scientific spirit in each of its members, advancing knowledge through cutting-edge scientific methods and keeping teaching, research and innovation intertwined in delivering better patient care.",
-          "Vision: to be the leading research and innovation centre recognised globally, providing value-driven, application-based and quality research data that helps CDSIMER care for and contribute to society.",
-          "Values: honesty, dedication, accountability, social responsibility, ethics, teamwork and passion.",
-        ],
-        bullets: [
-          "Provide well-equipped, state-of-the-art research facilities to its users",
-          "Integrate technology and healthcare to drive innovation and develop new healthcare technology",
-          "Align excellence in research and innovation with CDSIMER’s other missions",
-          "Ensure continual training of researchers in basic, clinical and applied research",
-          "Maintain quality and relevance of research",
-        ],
-        image: "research-projects.jpg",
-        alt: "Research projects",
-        flip: true,
-      },
-      { t: "cta", title: "Collaborate with us", text: "Interested in a research partnership?", actions: [{ label: "Contact Us", href: "/contact" }, { label: "Ph.D Programme", href: "/programs/ph-d", variant: "soft" }] },
-    ],
-  },
   {
     slug: "admissions",
     title: "Admissions",
@@ -72,8 +15,98 @@ export const general: PageDef[] = [
     actions: [{ label: "Enquire Now", href: "#enquiry", variant: "primary" }, { label: "Download Brochure", href: "#resources", variant: "glass" }],
     blocks: [
       { t: "cards", title: "Select a programme", cols: 3, items: [{ title: "MBBS", text: "Admission through NEET-UG.", href: "/programs/mbbs" }, { title: "Post Graduation", text: "Admission through NEET-PG.", href: "/programs/post-graduation" }, { title: "Ph.D", text: "Entrance and interview as per DSU rules.", href: "/programs/ph-d" }] },
-      { t: "text", id: "criteria", title: "Admission criteria", body: ["Criteria follow NMC and university regulations. Programme-specific details are on each programme page."], bullets: ["MBBS: 10+2 with PCB/English and NEET-UG", "PG: MBBS with registration and NEET-PG", "Ph.D: relevant PG degree and entrance / interview"], tone: "cream" },
-      { t: "steps", id: "process", title: "Admission process", items: [{ label: "Step 1", title: "Enquire", text: "Submit the enquiry form." }, { label: "Step 2", title: "Counselling", text: "Participate in the applicable counselling." }, { label: "Step 3", title: "Documents", text: "Submit and verify documents." }, { label: "Step 4", title: "Fee & joining", text: "Pay fees and complete admission." }] },
+      {
+        t: "prose",
+        id: "criteria",
+        title: "Admission Criteria",
+        tone: "cream",
+        items: [
+          { p: "The MBBS program is affiliated to Dayananda Sagar University, Karnataka." },
+          { p: "This course covers all preclinical, para-clinical and clinical disciplines through theory classes and clinical training as mandated by the MCI guidelines." },
+          { p: "DURATION OF THE COURSE: 4½ years plus 1 year of compulsory rotatory internship. INTAKE: 150 students per year" },
+          { p: "KEA (CET) CODE: M083" },
+          { h: "Who Can Apply: General / Foreign/ NRI Category" },
+          { p: "CDSIMER admits candidates under General or Foreign / NRI category, on fulfilling the eligibility requirements. All admissions are on the basis of merit only. Foreign / NRI category seats are available for foreign nationals with NRI status or those sponsored by an individual holding NRI status. Please note Foreign / NRI category seats are NOT equivalent to payment / management / reserved seats." },
+          { h: "1. Indian (General Category)" },
+          { p: "CDSIMER admits Indian Nationals / Overseas Citizen of India (OCI) / Person of Indian Origin (PIO) under the general category, subject to fulfillment of Eligibility Criteria. All admissions to Undergraduate programs under General Category will be on a merit basis as specified in the Eligibility Criteria." },
+          { h: "Foreign/ NRI Category Admissions" },
+          { p: "All Foreign / NRI / NRI Sponsored admissions to UG will be on a first-cum-first-serve merit basis, subject to the candidate’s performance in the 10+2 (for UG programs) of India or equivalent examination in addition to meeting the various eligibility requirements of respective programs as put forward by the regulatory bodies. Candidates who have confirmed their admission under the Foreign / NRI / NRI Sponsored category, by paying the full first year program fee CANNOT take an admission under the General category." },
+          { h: "2. Qualifications" },
+          { p: "Candidates seeking admissions to Undergraduate (UG) should have obtained their qualifications from a recognized Board / University. Candidates with Foreign qualifications must submit equivalency certificate from the Association of Indian Universities (AIU), New Delhi, as per program requirements. Refer www.aiu.ac.in for more details." },
+          { h: "2.1 Undergraduate (UG) Admissions" },
+          { p: "CDSIMER considers candidates with the following qualifications" },
+          {
+            ul: [
+              "10+2 of India obtained from recognized Central (CBSE / ISC) or State Boards",
+              "GCE ‘A’ Levels",
+              "International Baccalaureate (IB)",
+            ],
+          },
+          { h: "2.1.1 Indian Boards" },
+          { p: "The certificate issuing board must be established / recognized by" },
+          {
+            ul: [
+              "An Act of Central / State Government",
+              "A Gazette notification of Central / State Government",
+              "Executive orders issued by Central / State Government",
+            ],
+          },
+          { p: "Pass in 10+2 or equivalent with Physics, Chemistry, Biology / Biotechnology and English individually from a recognized Board, with a minimum 50 % marks calculated together in Physics, Chemistry and Biology / Biotechnology Candidates are advised to check NEET 2020 brochure for the final eligibility criteria (www.ntaneet.nic.in)" },
+          { h: "2.1.2 International Boards" },
+          { p: "The eligibility is based on the qualifications recognized by the Association of Indian Universities (AIU), New Delhi. Refer www.aiu.ac.in for full list of foreign qualifications, as equivalent to the Pre-University or 12th Grade qualification of India, for the purposes of admission in Indian Universities." },
+          { h: "2.1.2.1 University of Cambridge GCE ‘A’ Levels / Edexcel GCE ‘A’ Levels / British Examining Bodies" },
+          {
+            ul: [
+              "International General Certificate of Secondary Education (IGCSE) or General Certificate of Secondary Education (GCSE) or GCE ‘O’ Levels (11 years of schooling): Equated to 10th grade of an Indian Board",
+              "Advanced Subsidiary (AS) Level (12 years of schooling): Equated to 11th grade of an Indian Board",
+              "GCE ‘A’ Levels (13 years of schooling): Equated to 12th grade of an Indian Board",
+            ],
+          },
+          { p: "Candidate seeking admission to the Undergraduate (UG) programs offered by CDSIMER should have completed;" },
+          {
+            ul: [
+              "Minimum passes in physics, chemistry and biology at GCE Advanced Level (‘A’ Levels) and English for ‘AS’ Levels",
+              "Average of ‘D’ grade in physics, chemistry, biology/ biotechnology subjects at GCE Advanced Level (‘A’ Levels)",
+              "Should meet subject-wise eligibility as laid down by the respective statutory bodies / council / university",
+              "Candidates are advised to check the minimum grade requirements for registration in their respective countries",
+            ],
+          },
+          { h: "2.1.2.2 International Baccalaureate (IB) Diploma" },
+          {
+            ul: [
+              "IB Diploma candidate should take 3 subjects at Higher Level (HL) and 3 subjects at Standard Level (SL)",
+              "Candidate should have secured a minimum of 3 points in a subject",
+              "Candidate should have secured an overall minimum of 24 points, with 12 points in HL and 12 points in SL",
+              "Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university",
+            ],
+          },
+          { h: "2.1.2.3 International Baccalaureate (IB) Certificate" },
+          {
+            ul: [
+              "Candidate should have taken minimum 3 subjects in HL and 3 subjects in SL",
+              "Candidate should have secured a minimum of 3 points in a subject",
+              "Candidate should have secured an overall minimum of 24 points",
+              "Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university",
+            ],
+          },
+        ],
+      },
+      {
+        t: "prose",
+        id: "process",
+        title: "3. Admission Process for General/ Foreign/ NRI Category",
+        items: [
+          {
+            ul: [
+              "All admissions are based on the rank obtained in the National Eligibility Cum Entrance Test (NEET-2020) conducted on an all India basis by the Central Board of Secondary Education. For more details visit (www.ntaneet.nic.in).",
+              "The seat allotment process happens by merit through centralised common counselling by Karnataka Examination Authority (KEA). For more details visit (www.kea.kar.nic.in)",
+              "Candidate must report to the Institution allotted to the candidate and complete all admission formalities within a stipulated timeline as put in by the Institution",
+              "Eligibility and Admission Process is subject to change, as per the guidelines received from the concerned statutory body.",
+              "All admissions are subject to fulfillment of all eligibility conditions by the candidate. It is the responsibility of the candidate to ensure that they fulfill all the eligibility requirements for the program applied. If, at verification stages, it is found that the candidate has given false information or documentation from a non-recognized Board / University or is found to have concealed any information, his / her admission will be cancelled without any notice and the fee paid by the candidate shall be forfeited.",
+            ],
+          },
+        ],
+      },
       {
         t: "docs",
         id: "resources",

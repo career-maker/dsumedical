@@ -45,10 +45,21 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     text-wrap: balance;
   }
 
+  // Short orange rule under the title, then breathing room before the intro paragraph.
+  h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: max(12px, u(16));
+    border-radius: 2px;
+    background: var(--gradient-cta);
+  }
+
   p {
-    margin-top: 14px;
+    margin-top: max(16px, u(22));
     font-size: fs(18, 16);
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--ink-soft);
   }
 }

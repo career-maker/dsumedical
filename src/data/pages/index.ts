@@ -1,10 +1,11 @@
 import { academic } from "./academic";
 import { clinical } from "./clinical";
 import { general } from "./general";
+import { research } from "./research";
 import { university } from "./university";
 import type { PageDef } from "./types";
 
-export const pages: PageDef[] = [...university, ...academic, ...clinical, ...general];
+export const pages: PageDef[] = [...university, ...academic, ...clinical, ...research, ...general];
 const bySlug = new Map(pages.map((p) => [p.slug, p]));
 
 export const getPage = (slug: string) => bySlug.get(slug);

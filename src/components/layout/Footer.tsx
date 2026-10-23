@@ -13,7 +13,7 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const departments = ["Pre clinical", "Para clinical", "Clinical", "Super Speciality"];
+const departments = ["Pre clinical", "Para clinical", "Clinical", "Super Speciality", "Others"];
 
 // Social profile URLs were not supplied with the design; these point to each network's root until confirmed.
 const socials: { icon: IconName; label: string; href: string }[] = [
