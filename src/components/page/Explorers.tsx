@@ -121,9 +121,8 @@ export function Gallery({ groups }: { groups: Group[] }) {
           <button type="button" className={`${styles.nav} ${styles.prev}`} aria-label="Previous image" onClick={(e) => { e.stopPropagation(); setOpen((open - 1 + shown.length) % shown.length); }}>
             ‹
           </button>
-          <div className={styles.full} onClick={(e) => e.stopPropagation()}>
-            <Image src={`/images/${shown[open].src}`} alt={shown[open].alt} fill sizes="90vw" />
-          </div>
+          {/* Sized by the photo itself (width/height only give the aspect before it loads), so there is no letterbox gap. */}
+          <Image className={styles.full} src={`/images/${shown[open].src}`} alt={shown[open].alt} width={1600} height={1067} sizes="92vw" onClick={(e) => e.stopPropagation()} />
           <button type="button" className={`${styles.nav} ${styles.next}`} aria-label="Next image" onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % shown.length); }}>
             ›
           </button>

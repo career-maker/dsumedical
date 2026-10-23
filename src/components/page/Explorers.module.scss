@@ -137,13 +137,12 @@ a.card:hover {
 }
 
 .full {
-  position: relative;
-  width: min(90vw, 1100px);
-  height: min(80vh, 760px);
-
-  img {
-    object-fit: contain;
-  }
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 1400px);
+  max-height: 88vh;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .close,
