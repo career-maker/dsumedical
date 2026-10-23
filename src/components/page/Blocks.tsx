@@ -272,7 +272,9 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
               {b.items.map((f, i) => (
                 <details key={f.q} name={`faq-${b.id ?? slug(b.title)}`} open={b.open && i === 0}>
                   <summary>{f.q}</summary>
-                  <p>{f.a}</p>
+                  {f.a.split("\n\n").map((para) => (
+                    <p key={para}>{para}</p>
+                  ))}
                 </details>
               ))}
             </div>
