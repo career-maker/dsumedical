@@ -14,8 +14,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/about", destination: "/university/about", permanent: false },
-      { source: "/brochure", destination: "/admissions#resources", permanent: false },
-      { source: "/prospectus", destination: "/admissions#resources", permanent: false },
+      { source: "/brochure", destination: "/docs/admission-brochure.pdf", permanent: false },
+      { source: "/prospectus", destination: "/docs/admission-brochure.pdf", permanent: false },
     ];
   },
   // Beta stage: block indexing at the HTTP level too.

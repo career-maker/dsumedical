@@ -284,7 +284,8 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "prose":
       return (
         <Section block={b}>
-          <div className={styles.prose}>
+          <div className={b.image ? `${styles.split} ${b.flip ? styles.flip : ""}` : undefined}>
+          <div className={`${styles.prose} ${b.image || b.wide ? styles.proseWide : ""}`}>
             {b.title && <h2>{b.title}</h2>}
             {b.items.map((it, i) =>
               "p" in it ? (
@@ -312,6 +313,12 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                 </ul>
               ),
             )}
+          </div>
+          {b.image && (
+            <div className={styles.media} data-rv>
+              <Image src={`/images/${b.image}`} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" />
+            </div>
+          )}
           </div>
         </Section>
       );

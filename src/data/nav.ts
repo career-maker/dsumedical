@@ -91,21 +91,27 @@ const research = L("Research", "/research", [
 ]);
 
 const admissions = L("Admissions", "/admissions", [
-  L("Stipend details for UG and PG students", "/admissions#resources"),
-  L("Fees for UG and PG courses", "/admissions#resources"),
+  L("Stipend details for UG and PG students", "/admissions", [
+    L("Stipend details for UG students", doc.stipendUg),
+    L("Stipend details for PG students", doc.stipendPg),
+  ]),
+  L("Fees for UG and PG courses", "/admissions", [
+    L("Fees for UG courses (MBBS 2025-26 batch)", doc.feesUg),
+    L("Fees for PG courses (2024)", doc.feesPg),
+  ]),
   L("MBBS UG Admission Process", doc.ugAdmission),
   L("Hostel Details for New Admission 2026-27", doc.hostel),
   L("PG Admission Process", doc.pgAdmission),
   L("Admission Enquiry", "/admissions#enquiry"),
   L("Admission Criteria", "/admissions#criteria"),
-  L("UG Student List", "/admissions#ug-student-lists", [
+  L("UG Student List", "/admissions", [
     L("Student List 2025-26", doc.ug2526),
     L("Student List 2024-25", doc.ug2425),
     L("Student List 2023-24", doc.ug2324),
     L("Student List 2022-23", doc.ug2223),
     L("Student List 2021-22", doc.ug2122),
   ]),
-  L("PG Student List", "/admissions#pg-student-lists", [
+  L("PG Student List", "/admissions", [
     L("Student List 2025-26", doc.pg2526),
     L("Student List 2024-25", doc.pg2425),
     L("Brochure", doc.brochure),

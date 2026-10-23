@@ -12,25 +12,41 @@ export const general: PageDef[] = [
     lead: "Everything you need to apply to CDSIMER: criteria, process, fees, hostel and documents.",
     hero: "hero.jpg",
     heroAlt: "Smiling medical student holding textbooks on the CDSIMER campus",
-    actions: [{ label: "Enquire Now", href: "#enquiry", variant: "primary" }, { label: "Download Brochure", href: "#resources", variant: "glass" }],
+    actions: [{ label: "Enquire Now", href: "#enquiry", variant: "primary" }, { label: "Download Brochure", href: doc.brochure, variant: "glass" }],
     blocks: [
-      { t: "cards", title: "Select a programme", cols: 3, items: [{ title: "MBBS", text: "Admission through NEET-UG.", href: "/programs/mbbs" }, { title: "Post Graduation", text: "Admission through NEET-PG.", href: "/programs/post-graduation" }, { title: "Ph.D", text: "Entrance and interview as per DSU rules.", href: "/programs/ph-d" }] },
+      { t: "cards", title: "Select a programme", tone: "cream", cols: 3, items: [{ title: "MBBS", text: "Admission through NEET-UG.", href: "/programs/mbbs" }, { title: "Post Graduation", text: "Admission through NEET-PG.", href: "/programs/post-graduation" }, { title: "Ph.D", text: "Entrance and interview as per DSU rules.", href: "/programs/ph-d" }] },
       {
         t: "prose",
         id: "criteria",
         title: "Admission Criteria",
-        tone: "cream",
+        image: "life-students.jpg",
+        alt: "Students on the CDSIMER campus",
         items: [
           { p: "The MBBS program is affiliated to Dayananda Sagar University, Karnataka." },
           { p: "This course covers all preclinical, para-clinical and clinical disciplines through theory classes and clinical training as mandated by the MCI guidelines." },
           { p: "DURATION OF THE COURSE: 4½ years plus 1 year of compulsory rotatory internship. INTAKE: 150 students per year" },
           { p: "KEA (CET) CODE: M083" },
+        ],
+      },
+      {
+        t: "prose",
+        wide: true,
+        tone: "cream",
+        items: [
           { h: "Who Can Apply: General / Foreign/ NRI Category" },
           { p: "CDSIMER admits candidates under General or Foreign / NRI category, on fulfilling the eligibility requirements. All admissions are on the basis of merit only. Foreign / NRI category seats are available for foreign nationals with NRI status or those sponsored by an individual holding NRI status. Please note Foreign / NRI category seats are NOT equivalent to payment / management / reserved seats." },
           { h: "1. Indian (General Category)" },
           { p: "CDSIMER admits Indian Nationals / Overseas Citizen of India (OCI) / Person of Indian Origin (PIO) under the general category, subject to fulfillment of Eligibility Criteria. All admissions to Undergraduate programs under General Category will be on a merit basis as specified in the Eligibility Criteria." },
           { h: "Foreign/ NRI Category Admissions" },
           { p: "All Foreign / NRI / NRI Sponsored admissions to UG will be on a first-cum-first-serve merit basis, subject to the candidate’s performance in the 10+2 (for UG programs) of India or equivalent examination in addition to meeting the various eligibility requirements of respective programs as put forward by the regulatory bodies. Candidates who have confirmed their admission under the Foreign / NRI / NRI Sponsored category, by paying the full first year program fee CANNOT take an admission under the General category." },
+        ],
+      },
+      {
+        t: "prose",
+        image: "academics-girl.jpg",
+        alt: "A student at CDSIMER",
+        flip: true,
+        items: [
           { h: "2. Qualifications" },
           { p: "Candidates seeking admissions to Undergraduate (UG) should have obtained their qualifications from a recognized Board / University. Candidates with Foreign qualifications must submit equivalency certificate from the Association of Indian Universities (AIU), New Delhi, as per program requirements. Refer www.aiu.ac.in for more details." },
           { h: "2.1 Undergraduate (UG) Admissions" },
@@ -52,6 +68,13 @@ export const general: PageDef[] = [
             ],
           },
           { p: "Pass in 10+2 or equivalent with Physics, Chemistry, Biology / Biotechnology and English individually from a recognized Board, with a minimum 50 % marks calculated together in Physics, Chemistry and Biology / Biotechnology Candidates are advised to check NEET 2020 brochure for the final eligibility criteria (www.ntaneet.nic.in)" },
+        ],
+      },
+      {
+        t: "prose",
+        wide: true,
+        tone: "cream",
+        items: [
           { h: "2.1.2 International Boards" },
           { p: "The eligibility is based on the qualifications recognized by the Association of Indian Universities (AIU), New Delhi. Refer www.aiu.ac.in for full list of foreign qualifications, as equivalent to the Pre-University or 12th Grade qualification of India, for the purposes of admission in Indian Universities." },
           { h: "2.1.2.1 University of Cambridge GCE ‘A’ Levels / Edexcel GCE ‘A’ Levels / British Examining Bodies" },
@@ -93,6 +116,7 @@ export const general: PageDef[] = [
       },
       {
         t: "prose",
+        wide: true,
         id: "process",
         title: "3. Admission Process for General/ Foreign/ NRI Category",
         items: [
@@ -107,36 +131,7 @@ export const general: PageDef[] = [
           },
         ],
       },
-      {
-        t: "docs",
-        id: "resources",
-        title: "Fees, process & brochure",
-        tone: "cream",
-        items: [
-          { title: "Stipend details for UG students", type: "PDF", href: doc.stipendUg },
-          { title: "Stipend details for PG students", type: "PDF", href: doc.stipendPg },
-          { title: "Fees for UG courses (MBBS 2025–26 batch)", type: "PDF", href: doc.feesUg },
-          { title: "Fees for PG courses (2024)", type: "PDF", href: doc.feesPg },
-          { title: "MBBS (UG) Admission Process", type: "PDF", href: doc.ugAdmission },
-          { title: "PG Admission Process", type: "PDF", href: doc.pgAdmission },
-          { title: "Hostel Details for New Admission 2026–27", type: "PDF", href: doc.hostel },
-          { title: "Admission Brochure", type: "PDF", href: doc.brochure },
-        ],
-      },
-      {
-        t: "docs",
-        title: "UG Student Lists",
-        items: [
-          { title: "Student list 2025–26", type: "PDF", href: doc.ug2526 },
-          { title: "Student list 2024–25", type: "PDF", href: doc.ug2425 },
-          { title: "Student list 2023–24", type: "PDF", href: doc.ug2324 },
-          { title: "Student list 2022–23", type: "PDF", href: doc.ug2223 },
-          { title: "Student list 2021–22", type: "PDF", href: doc.ug2122 },
-        ],
-      },
-      { t: "docs", title: "PG Student Lists", tone: "cream", items: [{ title: "Student list 2025–26", type: "PDF", href: doc.pg2526 }, { title: "Student list 2024–25", type: "PDF", href: doc.pg2425 }] },
       { t: "form", id: "enquiry", title: "Admission Enquiry", lead: "Share your details and our counselors will reach out.", kind: "admission" },
-      { t: "cta", title: "Prefer to talk?", text: "Call the Admissions Helpline.", actions: [{ label: "+91 6366885501", href: "tel:+916366885501" }, { label: "Hostel", href: external.hostel, variant: "soft" }] },
     ],
   },
   {

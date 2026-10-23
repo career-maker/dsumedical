@@ -12,7 +12,7 @@ export type Block =
   | { t: "table"; id?: string; title: string; lead?: string; cols: string[]; rows: string[][] }
   | { t: "faq"; id?: string; title: string; lead?: string; image?: string; plain?: boolean; open?: boolean; items: { q: string; a: string }[] }
   | { t: "phasegrid"; id?: string; title: string; lead?: string; tone?: "cream"; data: AcademicYear }
-  | { t: "prose"; id?: string; title?: string; tone?: "cream"; items: ProseItem[] }
+  | { t: "prose"; id?: string; title?: string; tone?: "cream"; image?: string; alt?: string; flip?: boolean; wide?: boolean; items: ProseItem[] }
   | { t: "carousel"; id?: string; title: string; lead?: string; tone?: "cream"; items: { title: string; text?: string; tag?: string; href?: string }[] }
   | { t: "gallery"; id?: string; title: string; lead?: string; groups: { label: string; images: { src: string; alt: string }[] }[] }
   | { t: "form"; id?: string; title: string; lead?: string; kind: "admission" | "appointment" | "contact" }

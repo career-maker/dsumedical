@@ -1325,3 +1325,14 @@ a.card:hover .more {
 .cardsColor > li:nth-child(3n) .card {
   background: linear-gradient(135deg, #b81c1c, #dc2725);
 }
+
+// Prose beside a photo: the text takes its column rather than the reading width.
+.proseWide {
+  max-width: none;
+
+  // Full-width text: top-level lists flow into columns instead of stretching one line across the page.
+  > ul {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    column-gap: 40px;
+  }
+}
