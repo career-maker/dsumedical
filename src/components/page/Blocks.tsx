@@ -285,7 +285,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           <div className={b.image ? `${styles.split} ${b.flip ? styles.flip : ""}` : undefined}>
-          <div className={`${styles.prose} ${b.image || b.wide ? styles.proseWide : ""}`}>
+          <div className={`${styles.prose} ${styles.proseWide}`}>
             {b.title && <h2>{b.title}</h2>}
             {b.items.map((it, i) =>
               "p" in it ? (

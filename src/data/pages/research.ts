@@ -79,6 +79,8 @@ export const research: PageDef[] = [
     {
       t: "prose",
       title: "Central Research and Innovation Wing",
+      image: "research-projects.jpg",
+      alt: "Researchers at work",
       items: [
         { p: "Research is the catalyst of evidence based medicine. The evolution of medicine is itself based on research which has resulted in a paradigm shift of healthcare practices through ages. Futuristic and applied research contributes in making doctors and students better scientists which are the core attributes helping to translate knowledge from bench to bedside. Research and innovation are driven by curiosity, necessity and passion. Keeping these attributes in mind, Central Research and Innovation wing at CDSIMER strives to rekindle and light up the scientific spirit in each of its members, thus advancing knowledge through cutting edge scientific methods. We ensure teaching, research and innovation are all intertwined in delivering better patient care. Central research and innovation wing is a destination for ambitious scholars and aims at becoming a world leader in next generation research." },
         { h: "Vision" },
