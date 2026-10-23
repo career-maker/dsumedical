@@ -74,45 +74,17 @@ export const general: PageDef[] = [
         t: "prose",
         wide: true,
         tone: "cream",
-        cols: true,
         items: [
           { h: "2.1.2 International Boards" },
           { p: "The eligibility is based on the qualifications recognized by the Association of Indian Universities (AIU), New Delhi. Refer www.aiu.ac.in for full list of foreign qualifications, as equivalent to the Pre-University or 12th Grade qualification of India, for the purposes of admission in Indian Universities." },
           { h: "2.1.2.1 University of Cambridge GCE ‘A’ Levels / Edexcel GCE ‘A’ Levels / British Examining Bodies" },
-          {
-            ul: [
-              "International General Certificate of Secondary Education (IGCSE) or General Certificate of Secondary Education (GCSE) or GCE ‘O’ Levels (11 years of schooling): Equated to 10th grade of an Indian Board",
-              "Advanced Subsidiary (AS) Level (12 years of schooling): Equated to 11th grade of an Indian Board",
-              "GCE ‘A’ Levels (13 years of schooling): Equated to 12th grade of an Indian Board",
-            ],
-          },
+          { p: "International General Certificate of Secondary Education (IGCSE) or General Certificate of Secondary Education (GCSE) or GCE ‘O’ Levels (11 years of schooling): Equated to 10th grade of an Indian Board; Advanced Subsidiary (AS) Level (12 years of schooling): Equated to 11th grade of an Indian Board; GCE ‘A’ Levels (13 years of schooling): Equated to 12th grade of an Indian Board." },
           { p: "Candidate seeking admission to the Undergraduate (UG) programs offered by CDSIMER should have completed;" },
-          {
-            ul: [
-              "Minimum passes in physics, chemistry and biology at GCE Advanced Level (‘A’ Levels) and English for ‘AS’ Levels",
-              "Average of ‘D’ grade in physics, chemistry, biology/ biotechnology subjects at GCE Advanced Level (‘A’ Levels)",
-              "Should meet subject-wise eligibility as laid down by the respective statutory bodies / council / university",
-              "Candidates are advised to check the minimum grade requirements for registration in their respective countries",
-            ],
-          },
+          { p: "Minimum passes in physics, chemistry and biology at GCE Advanced Level (‘A’ Levels) and English for ‘AS’ Levels; Average of ‘D’ grade in physics, chemistry, biology/ biotechnology subjects at GCE Advanced Level (‘A’ Levels); Should meet subject-wise eligibility as laid down by the respective statutory bodies / council / university; Candidates are advised to check the minimum grade requirements for registration in their respective countries." },
           { h: "2.1.2.2 International Baccalaureate (IB) Diploma" },
-          {
-            ul: [
-              "IB Diploma candidate should take 3 subjects at Higher Level (HL) and 3 subjects at Standard Level (SL)",
-              "Candidate should have secured a minimum of 3 points in a subject",
-              "Candidate should have secured an overall minimum of 24 points, with 12 points in HL and 12 points in SL",
-              "Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university",
-            ],
-          },
+          { p: "IB Diploma candidate should take 3 subjects at Higher Level (HL) and 3 subjects at Standard Level (SL); Candidate should have secured a minimum of 3 points in a subject; Candidate should have secured an overall minimum of 24 points, with 12 points in HL and 12 points in SL; Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university." },
           { h: "2.1.2.3 International Baccalaureate (IB) Certificate" },
-          {
-            ul: [
-              "Candidate should have taken minimum 3 subjects in HL and 3 subjects in SL",
-              "Candidate should have secured a minimum of 3 points in a subject",
-              "Candidate should have secured an overall minimum of 24 points",
-              "Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university",
-            ],
-          },
+          { p: "Candidate should have taken minimum 3 subjects in HL and 3 subjects in SL; Candidate should have secured a minimum of 3 points in a subject; Candidate should have secured an overall minimum of 24 points; Should meet the subject-wise eligibility as laid down by the respective statutory bodies / council / university." },
         ],
       },
       {
