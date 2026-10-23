@@ -1,0 +1,51 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { Enquiry } from "@/components/page/Explorers";
+import styles from "./EnquiryPopup.module.scss";
+
+const KEY = "enquiry-popup-shown";
+
+/** Admission enquiry dialog that opens 3 seconds after a visit begins (once per browser session). */
+export function EnquiryPopup() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const panel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (pathname === "/enquiry") return;
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(KEY) === "1";
+    } catch {}
+    if (seen) return;
+    const t = setTimeout(() => {
+      setOpen(true);
+      try {
+        sessionStorage.setItem(KEY, "1");
+      } catch {}
+    }, 3000);
+    return () => clearTimeout(t);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    panel.current?.querySelector<HTMLElement>("input")?.focus();
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  if (!open) return null;
+  return (
+    <div className={styles.backdrop} onClick={() => setOpen(false)}>
+      <div ref={panel} className={styles.panel} role="dialog" aria-modal="true" aria-label="Admission enquiry" data-lenis-prevent onClick={(e) => e.stopPropagation()}>
+        <button type="button" className={styles.close} aria-label="Close" onClick={() => setOpen(false)} />
+        <h2>Admission Enquiry</h2>
+        <p>Share your details and our counsellors will reach out.</p>
+        <Enquiry kind="admission" />
+      </div>
+    </div>
+  );
+}

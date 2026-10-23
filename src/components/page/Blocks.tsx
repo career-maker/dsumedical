@@ -346,8 +346,8 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "form":
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
+          <Head title={b.title} lead={b.lead} />
           <Aside img={auto ?? POOL.form[0]}>
-            <Head title={b.title} lead={b.lead} />
             <Enquiry kind={b.kind} />
           </Aside>
         </Section>

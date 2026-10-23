@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { EnquiryPopup } from "@/components/ui/EnquiryPopup";
 import { NavProgress } from "@/components/ui/NavProgress";
 import { Preloader } from "@/components/ui/Preloader";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Preloader />
         <TitleReveal />
         <SmoothScroll />
+        <EnquiryPopup />
         {children}
       </body>
     </html>

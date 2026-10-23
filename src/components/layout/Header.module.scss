@@ -471,7 +471,7 @@
 
 .megaGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr 2.4fr;
   grid-template-areas:
     "g0 g2 g3 g4"
     "g1 g2 g3 g4";

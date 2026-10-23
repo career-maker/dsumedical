@@ -264,3 +264,13 @@ a.card:hover {
     font-weight: 500;
   }
 }
+
+// Visually hidden label text: the placeholder carries the visible hint, screen readers still get the label.
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -1,0 +1,94 @@
+@use "@/styles/tokens" as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(20, 8, 4, 0.6);
+  animation: fade 0.25s ease-out;
+}
+
+.panel {
+  position: relative;
+  width: min(100%, 720px);
+  max-height: calc(100dvh - 32px);
+  padding: 28px 28px 8px;
+  overflow-y: auto;
+  border-top: 4px solid var(--orange);
+  border-radius: 12px;
+  background: var(--cream);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  animation: rise 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+  h2 {
+    padding-right: 40px;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  > p {
+    margin: 8px 0 18px;
+    color: var(--slate);
+  }
+
+  // The form card inside is flat here: the dialog is already the card.
+  form {
+    max-width: none;
+    padding: 0 0 20px;
+    background: none;
+    box-shadow: none;
+  }
+
+  @include below($bp-sm) {
+    padding: 20px 16px 4px;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    background: var(--ink);
+    rotate: 45deg;
+    translate: -50% -50%;
+  }
+
+  &::after {
+    rotate: -45deg;
+  }
+
+  &:hover {
+    background: var(--peach);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}

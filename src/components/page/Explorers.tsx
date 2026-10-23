@@ -161,20 +161,20 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
       }}
     >
       <label>
-        Full name
-        <input name="name" required autoComplete="name" />
+        <span className={styles.sr}>Full name</span>
+        <input name="name" placeholder="Full name" required autoComplete="name" />
       </label>
       <label>
-        Phone
-        <input name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autoComplete="tel" />
+        <span className={styles.sr}>Phone</span>
+        <input name="phone" type="tel" placeholder="Phone number" required pattern="[0-9+ ]{10,15}" autoComplete="tel" />
       </label>
       <label>
-        Email
-        <input name="email" type="email" required autoComplete="email" />
+        <span className={styles.sr}>Email</span>
+        <input name="email" type="email" placeholder="Email address" required autoComplete="email" />
       </label>
       {f.programme ? (
         <label>
-          Programme
+          <span className={styles.sr}>Programme</span>
           <select name="programme" required defaultValue="">
             <option value="" disabled>Select a programme</option>
             <option>MBBS</option>
@@ -184,13 +184,13 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
         </label>
       ) : (
         <label>
-          City
-          <input name="city" autoComplete="address-level2" />
+          <span className={styles.sr}>City</span>
+          <input name="city" placeholder="City" autoComplete="address-level2" />
         </label>
       )}
       <label className={styles.full2}>
-        {f.message}
-        <textarea name="message" rows={4} />
+        <span className={styles.sr}>{f.message}</span>
+        <textarea name="message" rows={4} placeholder={f.message} />
       </label>
       <label className={`${styles.full2} ${styles.consent}`}>
         <input type="checkbox" required />

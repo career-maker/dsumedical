@@ -1336,3 +1336,8 @@ a.card:hover .more {
     column-gap: 40px;
   }
 }
+
+// Photo beside a long text: it follows the text height instead of stopping at the generic cap.
+.split > .media:has(img) {
+  max-height: none;
+}
