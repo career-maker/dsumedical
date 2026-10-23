@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/data/iconMeta";
 import { journeys } from "@/data/content";
 import styles from "./Journey.module.scss";
+import { fluid } from "@/lib/sizes";
 
 const DEFAULT = journeys.findIndex((j) => j.theme === "hot");
 
@@ -30,7 +31,7 @@ export function Journey() {
               onMouseEnter={() => setOn(i)}
               onFocus={() => setOn(i)}
             >
-              <Photo name={`journey-${j.key}`} alt={j.alt} sizes="(max-width: 960px) 100vw, 547px" className={styles.photo} />
+              <Photo name={`journey-${j.key}`} alt={j.alt} sizes={`(max-width: 960px) 100vw, ${fluid(547)}`} className={styles.photo} />
               <div className={styles.body}>
                 <h3 className={styles.head}>
                   <Icon name={`${j.icon}-o` as IconName} className={styles.icoO} />

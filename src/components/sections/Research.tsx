@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { researchChecks, researchTiles } from "@/data/research";
 import styles from "./Research.module.scss";
+import { fluid } from "@/lib/sizes";
 
 const tileHref: Record<string, string> = {
   "research-labs": "/research#criw",
@@ -27,7 +28,7 @@ export function Research() {
           outcomes.
         </p>
         <div className={styles.checks}>
-          <Image src="/images/research-labs.jpg" alt="" fill sizes="615px" className={styles.checksBg} />
+          <Image src="/images/research-labs.jpg" alt="" fill sizes={fluid(615)} className={styles.checksBg} />
           <ul>
             {researchChecks.map((c) => (
               <li key={c}>
@@ -40,7 +41,7 @@ export function Research() {
         <ul className={styles.mosaic}>
           {researchTiles.map((t) => (
             <li key={t.photo} className={styles[t.photo.replace("research-", "t_")]}>
-              <Photo name={t.photo} alt={t.alt} cover={t.cover} sizes="304px" className={styles.tilePhoto} />
+              <Photo name={t.photo} alt={t.alt} cover={t.cover} sizes={fluid(304)} className={styles.tilePhoto} />
               <span>{t.label}</span>
               <Link prefetch={false} href={tileHref[t.photo]} className="stretch-link" aria-label={t.label} />
             </li>

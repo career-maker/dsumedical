@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { community } from "@/data/community";
 import styles from "./Community.module.scss";
+import { fluid } from "@/lib/sizes";
 
 export function Community() {
   return (
@@ -13,7 +14,7 @@ export function Community() {
         <ul className={styles.collage}>
           {community.photos.map((p, i) => (
             <li key={p.photo} className={styles[`p${i + 1}`]}>
-              <Photo name={p.photo} alt={p.alt} sizes="394px" className={styles.photo} />
+              <Photo name={p.photo} alt={p.alt} sizes={fluid(394)} className={styles.photo} />
             </li>
           ))}
         </ul>

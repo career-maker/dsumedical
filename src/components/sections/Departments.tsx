@@ -10,6 +10,7 @@ import { departmentTabs, departments } from "@/data/content";
 import { depts } from "@/data/pages/clinical";
 import { photos } from "@/data/photos";
 import styles from "./Departments.module.scss";
+import { fluid } from "@/lib/sizes";
 
 function Chevron() {
   return (
@@ -83,10 +84,10 @@ export function Departments() {
             {items.map((d) => (
               <li key={d.slug} className={styles.card}>
                 {d.art && d.art.photo in photos ? (
-                  <Photo name={d.art.photo} alt={d.art.alt} sizes="404px" className={styles.photo} />
+                  <Photo name={d.art.photo} alt={d.art.alt} sizes={fluid(404)} className={styles.photo} />
                 ) : (
                   <div className={styles.cover}>
-                    <Image src={`/images/${d.image}`} alt="" fill sizes="404px" />
+                    <Image src={`/images/${d.image}`} alt="" fill sizes={fluid(404)} />
                   </div>
                 )}
                 <span className={styles.badge}>

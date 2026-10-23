@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import type { IconName } from "@/data/iconMeta";
 import styles from "./Academics.module.scss";
+import { fluid } from "@/lib/sizes";
 
 type Program = {
   id: string;
@@ -136,10 +137,10 @@ export function Academics() {
           })}
         </ul>
 
-        <Photo name="academics-girl" alt="Smiling postgraduate student holding books" sizes="374px" className={styles.photo} />
+        <Photo name="academics-girl" alt="Smiling postgraduate student holding books" sizes={fluid(374)} className={styles.photo} />
 
         <div id="program-panel" role="tabpanel" aria-labelledby={`tab-${activeId}`} className={styles.card}>
-          <Image src="/images/academics-card.jpg" alt="" fill sizes="677px" className={styles.cardBg} />
+          <Image src="/images/academics-card.jpg" alt="" fill sizes={fluid(677)} className={styles.cardBg} />
           <div className={styles.cardShade} />
           <div className={styles.cardBody}>
             <div key={active.id} className={styles.swap}>

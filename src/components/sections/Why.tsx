@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { whyItems } from "@/data/content";
 import styles from "./Why.module.scss";
+import { fluid } from "@/lib/sizes";
 
 const SLIDE_MS = 2000;
 // Sample video; replace with the CDSIMER campus video's YouTube ID.
@@ -80,7 +81,7 @@ export function Why() {
             />
           ) : (
             <>
-              <Photo name="why-video" alt="CDSIMER campus at dusk" sizes="421px" className={styles.fill} cover position="72% 50%" />
+              <Photo name="why-video" alt="CDSIMER campus at dusk" sizes={fluid(421)} className={styles.fill} cover position="72% 50%" />
               <button type="button" className={styles.play} aria-label="Play campus video" onClick={() => setPlaying(true)}>
                 <svg viewBox="0 0 43 43" width="43" height="43" aria-hidden="true">
                   <circle className={styles.disc} cx="21.5" cy="21.5" r="21.5" />
@@ -112,9 +113,9 @@ export function Why() {
           {slides.map((sl, n) => (
             <div key={sl.src} className={`${styles.slide} ${n === i ? styles.slideOn : ""}`} aria-hidden={n !== i}>
               {n === 0 ? (
-                <Photo name="why-girl" alt={sl.alt} sizes="421px" className={styles.fill} />
+                <Photo name="why-girl" alt={sl.alt} sizes={fluid(421)} className={styles.fill} />
               ) : (
-                <Image src={`/images/${sl.src}`} alt={sl.alt} fill sizes="421px" style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
+                <Image src={`/images/${sl.src}`} alt={sl.alt} fill sizes={fluid(421)} style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
               )}
             </div>
           ))}
