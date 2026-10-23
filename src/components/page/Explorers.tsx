@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { SubmitButton } from "@/components/ui/Button";
 import { deptTabs, depts } from "@/data/pages/clinical";
 import { news, newsTabs } from "@/data/news";
@@ -113,7 +114,9 @@ export function Gallery({ groups }: { groups: Group[] }) {
         ))}
       </ul>
       </div>
-      {open !== null && shown[open] && (
+      {open !== null && shown[open] &&
+        // Portalled to <body>: an animated ancestor (transform) would otherwise become the containing block of this fixed overlay.
+        createPortal(
         <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label={shown[open].alt} onClick={() => setOpen(null)}>
           <button type="button" className={styles.close} aria-label="Close" onClick={() => setOpen(null)}>
             ×
@@ -126,8 +129,9 @@ export function Gallery({ groups }: { groups: Group[] }) {
           <button type="button" className={`${styles.nav} ${styles.next}`} aria-label="Next image" onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % shown.length); }}>
             ›
           </button>
-        </div>
-      )}
+        </div>,
+          document.body,
+        )}
     </>
   );
 }
