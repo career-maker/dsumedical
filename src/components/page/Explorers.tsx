@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SubmitButton } from "@/components/ui/Button";
 import { deptTabs, depts } from "@/data/pages/clinical";
 import { news, newsTabs } from "@/data/news";
 import styles from "./Explorers.module.scss";
@@ -198,9 +199,7 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
           I agree to be contacted and to the <Link prefetch={false} href="/privacy">Privacy Policy</Link>.
         </span>
       </label>
-      <button type="submit" className={styles.submit}>
-        Submit
-      </button>
+      <SubmitButton className={styles.submit}>Submit</SubmitButton>
     </form>
   );
 }

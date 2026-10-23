@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import type { ButtonHTMLAttributes } from "react";
 import { Dots } from "./Icon";
 import styles from "./Button.module.scss";
 
@@ -16,11 +17,11 @@ type ButtonProps = {
   width?: number;
 };
 
-const dotsVariants: Variant[] = ["primary", "outline", "glass"];
+// Trailing glyph colour per variant: white on the dark / gradient fills, ink or brand colour on the light ones.
+const dotColor: Record<Variant, string> = { primary: "#fff", outline: "#fff", glass: "#fff", white: "#dc2725", soft: "#ef6711", gray: "#212121", light: "#212121" };
 
 export function Button({ href, variant = "primary", children, icon, className, width }: ButtonProps) {
-  const trailing =
-    icon === undefined ? (dotsVariants.includes(variant) ? <Dots color={variant === "white" ? "#dc2725" : "#fff"} /> : null) : icon;
+  const trailing = icon === undefined ? <Dots color={dotColor[variant]} /> : icon;
   return (
     <Link prefetch={false} href={href} className={`${styles.btn} ${styles[variant]} ${className ?? ""}`}
       style={width ? ({ "--w": `calc(${width} * var(--u))` } as CSSProperties) : undefined}
@@ -28,5 +29,15 @@ export function Button({ href, variant = "primary", children, icon, className, w
       <span>{children}</span>
       {trailing}
     </Link>
+  );
+}
+
+/** Form submit with the same look and hover motion as the link buttons. */
+export function SubmitButton({ children, className, ...rest }: { children: ReactNode } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button type="submit" className={`${styles.btn} ${styles.primary} ${className ?? ""}`} {...rest}>
+      <span>{children}</span>
+      <Dots />
+    </button>
   );
 }

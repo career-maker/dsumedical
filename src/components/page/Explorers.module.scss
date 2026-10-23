@@ -234,13 +234,7 @@ a.card:hover {
 .submit {
   grid-column: 1 / -1;
   justify-self: start;
-  height: u(52);
-  padding: 0 u(40);
-  border-radius: u(4);
-  background: var(--gradient-cta);
-  font-size: u(18);
-  font-weight: 500;
-  color: #fff;
+  min-width: u(180);
 }
 
 .success {

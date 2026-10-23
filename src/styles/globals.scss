@@ -114,7 +114,7 @@ button img {
   }
 
   // Buttons-as-links (CTAs): lift, glow, shimmer sweep, icon spin.
-  :where(a[class*="btn"]) {
+  :where(a[class*="btn"], button[class*="btn"]) {
     position: relative;
     overflow: hidden;
     isolation: isolate;

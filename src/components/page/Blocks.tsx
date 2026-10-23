@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import type { Block } from "@/data/pages/types";
+import type { Block, ProseItem } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
 import { Carousel } from "./Carousel";
@@ -58,6 +58,39 @@ function Rich({ text }: { text: string }) {
         if (s.startsWith("==") && s.length > 4) return <span key={i} className={styles.accent}>{s.slice(2, -2)}</span>;
         return s;
       })}
+    </>
+  );
+}
+
+function ProseItems({ items }: { items: ProseItem[] }) {
+  return (
+    <>
+      {items.map((it, i) =>
+        "p" in it ? (
+          <p key={i}>
+            <Rich text={it.p} />
+          </p>
+        ) : "h" in it ? (
+          <h3 key={i}>{it.h}</h3>
+        ) : (
+          <ul key={i}>
+            {it.ul.map((li) =>
+              typeof li === "string" ? (
+                <li key={li}>{li}</li>
+              ) : (
+                <li key={li.text}>
+                  {li.text}
+                  <ul>
+                    {li.sub.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                </li>
+              ),
+            )}
+          </ul>
+        ),
+      )}
     </>
   );
 }
@@ -283,47 +316,43 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
           </Aside>
         </Section>
       );
-    case "prose":
+    case "prose": {
+      // cols: the first heading group stays full width; every later heading starts its own card in a row.
+      const groups: ProseItem[][] = [];
+      if (b.cols)
+        for (const it of b.items) {
+          if ("h" in it || !groups.length) groups.push([]);
+          groups[groups.length - 1].push(it);
+        }
       return (
         <Section block={b}>
           <div className={b.image ? `${styles.split} ${b.flip ? styles.flip : ""}` : undefined}>
-          <div className={`${styles.prose} ${styles.proseWide}`}>
-            {b.title && <h2>{b.title}</h2>}
-            {b.items.map((it, i) =>
-              "p" in it ? (
-                <p key={i}>
-                  <Rich text={it.p} />
-                </p>
-              ) : "h" in it ? (
-                <h3 key={i}>{it.h}</h3>
+            <div className={`${styles.prose} ${styles.proseWide}`}>
+              {b.title && <h2>{b.title}</h2>}
+              {b.cols ? (
+                <>
+                  <ProseItems items={groups[0]} />
+                  <div className={styles.proseCols}>
+                    {groups.slice(1).map((g, i) => (
+                      <div key={i} className={styles.proseCard}>
+                        <ProseItems items={g} />
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : (
-                <ul key={i}>
-                  {it.ul.map((li) =>
-                    typeof li === "string" ? (
-                      <li key={li}>{li}</li>
-                    ) : (
-                      <li key={li.text}>
-                        {li.text}
-                        <ul>
-                          {li.sub.map((s) => (
-                            <li key={s}>{s}</li>
-                          ))}
-                        </ul>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              ),
-            )}
-          </div>
-          {b.image && (
-            <div className={styles.media} data-rv>
-              <Image src={`/images/${b.image}`} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" />
+                <ProseItems items={b.items} />
+              )}
             </div>
-          )}
+            {b.image && (
+              <div className={styles.media} data-rv>
+                <Image src={`/images/${b.image}`} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" />
+              </div>
+            )}
           </div>
         </Section>
       );
+    }
     case "phasegrid":
       return (
         <Section block={b}>

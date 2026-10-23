@@ -74,6 +74,7 @@ export const general: PageDef[] = [
         t: "prose",
         wide: true,
         tone: "cream",
+        cols: true,
         items: [
           { h: "2.1.2 International Boards" },
           { p: "The eligibility is based on the qualifications recognized by the Association of Indian Universities (AIU), New Delhi. Refer www.aiu.ac.in for full list of foreign qualifications, as equivalent to the Pre-University or 12th Grade qualification of India, for the purposes of admission in Indian Universities." },

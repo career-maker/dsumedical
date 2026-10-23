@@ -1345,3 +1345,22 @@ a.card:hover .more {
 .accent {
   color: #f05d1a;
 }
+
+// prose with `cols`: sub-sections side by side as cards, so the width is used instead of leaving a gap.
+.proseCols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: max(18px, u(28));
+  margin-top: 28px;
+}
+
+.proseCard {
+  padding: max(20px, u(28));
+  border: 1px solid #f0d9c6;
+  border-radius: u(10);
+  background: #fff;
+
+  h3:first-child {
+    margin-top: 0;
+  }
+}
