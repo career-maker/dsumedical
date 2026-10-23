@@ -10,7 +10,7 @@ import styles from "./Why.module.scss";
 
 const SLIDE_MS = 2000;
 // Sample video; replace with the CDSIMER campus video's YouTube ID.
-const VIDEO_ID = "aqz-KE-bpKQ";
+const VIDEO_ID = "10yxPMitlJs";
 const slides = [
   { src: "why-girl", alt: "Smiling medical student holding a folder" },
   { src: "academics-girl.jpg", alt: "Smiling postgraduate student holding books" },
