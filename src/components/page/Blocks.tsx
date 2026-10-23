@@ -266,8 +266,8 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "faq":
       return (
         <Section block={{ id: b.id, tone: b.plain ? undefined : "cream" }}>
+          <Head title={b.title} lead={b.lead} />
           <Aside img={b.image ?? auto ?? POOL.faq[0]}>
-            <Head title={b.title} lead={b.lead} />
             <div className={styles.faq}>
               {b.items.map((f, i) => (
                 <details key={f.q} name={`faq-${b.id ?? slug(b.title)}`} open={b.open && i === 0}>
