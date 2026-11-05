@@ -1,0 +1,76 @@
+@use "@/styles/tokens" as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: max(24px, u(36)) max(16px, u(24));
+  margin-top: 8px;
+
+  > li {
+    min-width: 0;
+  }
+}
+
+.item {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  text-align: center;
+}
+
+.logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: u(120);
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.fallback {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding: 16px;
+  border: 1px solid rgba(239, 103, 17, 0.18);
+  border-radius: u(10);
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.more {
+  display: block;
+  margin-top: 6px;
+  padding-top: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+.description {
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+@include below($bp-md) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include below($bp-sm) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .logo {
+    width: 70%;
+  }
+}

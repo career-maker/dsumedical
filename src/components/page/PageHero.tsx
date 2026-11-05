@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/Button";
 import { Ticker } from "@/components/ui/Ticker";
 import { crumbs } from "@/data/pages";
 import type { PageDef } from "@/data/pages/types";
+import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
+import { RichText } from "./RichText";
 import styles from "./PageHero.module.scss";
 
 export function PageHero({ page }: { page: PageDef }) {
-  const trail = crumbs(page.slug, page.title);
+  const trail = page.breadcrumbs ?? crumbs(page.slug, page.title);
   return (
     <>
     <section className={styles.hero} aria-labelledby="page-title">
-      <Image src={`/images/${page.hero}`} alt={page.heroAlt} fill fetchPriority="high" sizes="100vw" className={styles.bg} />
+      <Image src={contentImageSrc(page.hero)} alt={page.heroAlt ?? ""} fill fetchPriority="high" sizes="100vw" className={styles.bg} unoptimized={isRemoteContentImage(page.hero)} />
       <div className={styles.shade} />
       <div className={styles.inner}>
         <nav aria-label="Breadcrumb" className={styles.crumbs}>
@@ -23,11 +25,11 @@ export function PageHero({ page }: { page: PageDef }) {
             </span>
           ))}
         </nav>
-        <p className={styles.eyebrow}>{page.eyebrow}</p>
+        {page.eyebrow && <p className={styles.eyebrow}>{page.eyebrow}</p>}
         <h1 id="page-title" className={styles.title}>
           {page.title}
         </h1>
-        <p className={styles.lead}>{page.lead}</p>
+        <RichText content={page.lead} className={styles.lead} />
         {page.actions && (
           <div className={styles.actions}>
             {page.actions.map((a) => (

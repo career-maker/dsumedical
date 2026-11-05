@@ -1,7 +1,7 @@
 import type { PageDef } from "./types";
 import { external } from "../nav";
 
-const years = (list: string[]) => list.map((y) => ({ title: `Student list ${y}`, type: "PDF", note: "Lorem ipsum dolor sit amet" }));
+const years = (list: string[]) => list.map((y) => ({ title: `Student list ${y}`, note: "Lorem ipsum dolor sit amet" }));
 
 export const general: PageDef[] = [
   {
@@ -18,7 +18,7 @@ export const general: PageDef[] = [
       { t: "cards", id: "ongoing", title: "Ongoing Research Activities", tone: "cream", cols: 3, items: [{ title: "Clinical research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-clinical.jpg" }, { title: "Laboratory research", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-labs.jpg" }, { title: "Grants & projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", image: "research-grants.jpg" }] },
       { t: "cards", id: "student-research", title: "Student Research Activities", cols: 3, items: [{ title: "ICMR STS projects", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do." }, { title: "Conferences & posters", text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco.", image: "research-conferences.jpg" }, { title: "Mentored projects", text: "Duis aute irure dolor in reprehenderit in voluptate velit." }] },
       { t: "text", id: "ethics", title: "Ethics Committee", body: ["The Institutional Ethics Committee reviews research involving human participants to protect their rights, safety and well-being."], bullets: ["Committee composition and responsibilities", "Submission guidelines and forms", "Applicable policies and official documents"], tone: "cream", actions: [{ label: "Documents", href: "#ethics-docs", variant: "soft" }] },
-      { t: "docs", id: "ethics-docs", title: "Ethics Committee documents", items: [{ title: "Ethics Committee composition", type: "PDF" }, { title: "Submission guidelines", type: "PDF" }] },
+      { t: "docs", id: "ethics-docs", title: "Ethics Committee documents", items: [{ title: "Ethics Committee composition" }, { title: "Submission guidelines" }] },
       { t: "text", id: "criw", title: "Central Research and Innovation Wing", body: ["The wing supports faculty and students with research facilities, funding guidance, training and innovation programmes."], image: "research-projects.jpg", alt: "Research projects", flip: true },
       { t: "cta", title: "Collaborate with us", text: "Interested in a research partnership?", actions: [{ label: "Contact Us", href: "/contact" }, { label: "Ph.D Programme", href: "/programs/ph-d", variant: "soft" }] },
     ],
@@ -41,12 +41,12 @@ export const general: PageDef[] = [
         title: "Fees, process & brochure",
         tone: "cream",
         items: [
-          { title: "UG Stipend & Fees", type: "PDF" },
-          { title: "PG Stipend & Fees", type: "PDF" },
-          { title: "MBBS (UG) Admission Process", type: "PDF" },
-          { title: "PG Admission Process", type: "PDF" },
-          { title: "Hostel Details 2026–27", type: "PDF" },
-          { title: "Brochure", type: "PDF" },
+          { title: "UG Stipend & Fees" },
+          { title: "PG Stipend & Fees" },
+          { title: "MBBS (UG) Admission Process" },
+          { title: "PG Admission Process" },
+          { title: "Hostel Details 2026–27" },
+          { title: "Brochure" },
         ],
       },
       { t: "docs", title: "UG Student Lists", lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", items: years(["2025–26", "2024–25", "2023–24", "2022–23", "2021–22", "2020–21"]) },
@@ -97,8 +97,8 @@ export const general: PageDef[] = [
     hero: "academics-bg.jpg",
     heroAlt: "Students walking across the campus",
     blocks: [
-      { t: "docs", title: "Notices", items: [{ title: "Examination notice", type: "PDF", note: "Lorem ipsum dolor sit amet" }] },
-      { t: "docs", title: "Timetables & results", tone: "cream", items: [{ title: "Examination timetable", type: "PDF" }, { title: "Results", type: "PDF" }] },
+      { t: "docs", title: "Notices", items: [{ title: "Examination notice", note: "Lorem ipsum dolor sit amet" }] },
+      { t: "docs", title: "Timetables & results", tone: "cream", items: [{ title: "Examination timetable" }, { title: "Results" }] },
       { t: "links", title: "Related", items: [{ label: "Academics", href: "/academics" }, { label: "ERP Login", href: external.erp }] },
     ],
   },
@@ -191,7 +191,7 @@ export const general: PageDef[] = [
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "table", title: "Mandatory information", cols: ["Item", "Details", "Document"], rows: [["Faculty details", "Lorem ipsum dolor sit amet, consectetur adipiscing elit", "View"], ["Infrastructure", "Sed do eiusmod tempor incididunt ut labore et dolore", "View"], ["Clinical material", "Ut enim ad minim veniam, quis nostrud exercitation", "View"]] },
-      { t: "docs", title: "Documents", tone: "cream", items: [{ title: "MSR compliance document", type: "PDF" }] },
+      { t: "docs", title: "Documents", tone: "cream", items: [{ title: "MSR compliance document" }] },
       { t: "links", title: "Related", items: [{ label: "NMC", href: "/university/nmc" }] },
     ],
   },

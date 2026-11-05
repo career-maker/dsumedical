@@ -1,18 +1,23 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import type { Block } from "@/data/pages/types";
+import type { Block, RichTextContent } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
+import { AccreditationLogos, legacyAccreditationLogos } from "./AccreditationLogos";
 import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
+import { AdministrationCarousel } from "./AdministrationCarousel";
+import { LeaderSlides } from "./LeaderSlides";
+import { RichText } from "./RichText";
+import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import styles from "./Blocks.module.scss";
 
-function Head({ title, lead, id }: { title: string; lead?: string; id?: string }) {
+function Head({ title, lead, id, accent = false }: { title: string; lead?: RichTextContent; id?: string; accent?: boolean }) {
   return (
-    <header className={styles.head}>
+    <header className={`${styles.head} ${accent ? styles.headAccent : ""}`}>
       <h2 id={id}>{title}</h2>
-      {lead && <p>{lead}</p>}
+      <RichText content={lead} />
     </header>
   );
 }
@@ -44,19 +49,46 @@ function Cell({ v }: { v: string }) {
   return <>{v}</>;
 }
 
-/** Content on the left, a photo filling the right column so narrow blocks never leave a hole. */
-function Aside({ img, children }: { img: string; children: React.ReactNode }) {
+function PdfIcon() {
   return (
-    <div className={styles.aside}>
+    <span className={styles.docIcon} aria-hidden="true">
+      <svg viewBox="0 0 44 52" width="44" height="52">
+      <defs>
+        <linearGradient id="pdfg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f05a28" />
+          <stop offset="1" stopColor="#d1281c" />
+        </linearGradient>
+      </defs>
+      <path d="M4 6a4 4 0 0 1 4-4h20l12 12v32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="url(#pdfg)" />
+      <path d="M28 2l12 12H32a4 4 0 0 1-4-4z" fill="#fff" opacity=".45" />
+      <text x="22" y="38" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff" fontFamily="inherit">PDF</text>
+      </svg>
+    </span>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14" />
+    </svg>
+  );
+}
+
+/** Content on the left, a photo filling the right column so narrow blocks never leave a hole. */
+function Aside({ img, children }: { img?: string; children: React.ReactNode }) {
+  return (
+    <div className={img ? styles.aside : styles.asideSingle}>
       <div className={styles.asideMain}>{children}</div>
-      <div className={styles.sideMedia} data-rv>
-        <Image src={`/images/${img}`} alt="" fill sizes="(max-width: 960px) 100vw, 640px" />
-      </div>
+      {img && (
+        <div className={styles.sideMedia} data-rv>
+          <Image src={contentImageSrc(img)} alt="" fill sizes="(max-width: 960px) 100vw, 640px" unoptimized={isRemoteContentImage(img)} />
+        </div>
+      )}
     </div>
   );
 }
 
-// Photos auto-assigned to blocks that have none, cycling per kind so neighbouring blocks differ.
 const POOL = {
   text: ["about.jpg", "hospital-ward.jpg", "life-group.jpg", "research-labs.jpg", "life-library.jpg"],
   faq: ["life-students.jpg", "hospital-ward.jpg", "research-labs.jpg"],
@@ -64,18 +96,17 @@ const POOL = {
   address: ["life-campus.jpg", "about.jpg"],
 } as const;
 
-function Render({ b, auto }: { b: Block; auto?: string }) {
+function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFallbackImages: boolean }) {
   switch (b.t) {
-    case "text":
+    case "text": {
+      const image = b.image ?? auto;
       return (
         <Section block={b}>
-          <div className={`${styles.split} ${b.image || auto ? "" : styles.single} ${b.flip ? styles.flip : ""}`}>
+          <div className={`${styles.split} ${image ? "" : styles.single} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
-              {b.body.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
+              <RichText content={b.body} unorderedListClassName={styles.bullets} />
               {b.bullets && (
                 <ul className={styles.bullets}>
                   {b.bullets.map((x) => (
@@ -93,43 +124,55 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                 </div>
               )}
             </div>
-            {(b.image || auto) && (
-              <div className={styles.media} data-rv>
-                <Image src={`/images/${b.image ?? auto}`} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" />
+            {image && (
+              <div className={`${styles.media} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.art : ""}`} data-rv>
+                <Image src={contentImageSrc(image)} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" unoptimized={isRemoteContentImage(image)} />
               </div>
             )}
           </div>
         </Section>
       );
-    case "cards":
+    }
+    case "cards": {
+      const isWhyCdsimer = b.id === "why-cdsimer" || slug(b.title) === "why-cdsimer";
+      const isAccreditations = b.id === "accreditations-and-recognitions" || slug(b.title) === "accreditations-and-recognitions";
+      if (isAccreditations) {
+        return (
+          <Section block={{ ...b, id: "accreditations-and-recognitions" }}>
+            <Head title={b.title} lead={b.lead} />
+            <AccreditationLogos items={legacyAccreditationLogos(b.items)} />
+          </Section>
+        );
+      }
       return (
-        <Section block={b}>
+        <Section block={{ ...b, id: isWhyCdsimer ? "why-cdsimer" : b.id }}>
           <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]}`}>
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${isWhyCdsimer ? styles.cardsColor : ""}`}>
             {b.items.map((c) => {
               const inner = (
                 <>
                   {c.image && (
                     <span className={styles.cardImg}>
-                      <Image src={`/images/${c.image}`} alt="" fill sizes="(max-width: 1280px) 100vw, 540px" />
+                      <Image src={contentImageSrc(c.image)} alt="" fill sizes="(max-width: 1280px) 100vw, 540px" unoptimized={isRemoteContentImage(c.image)} />
                     </span>
                   )}
-                  <span className={styles.cardBody}>
+                  <div className={styles.cardBody}>
                     {c.tag && <span className={styles.tag}>{c.tag}</span>}
                     <h3>{c.title}</h3>
-                    {c.text && <p>{c.text}</p>}
+                    <RichText content={c.text} />
                     {c.href && <span className={styles.more}>Learn more →</span>}
-                  </span>
+                  </div>
                 </>
               );
+              const cardClassName = `${styles.card} ${b.id === "vision" ? styles.visionCard : ""}`;
               return (
                 <li key={c.title}>
                   {c.href ? (
-                    <SmartLink href={c.href} className={styles.card}>
+                    <SmartLink href={c.href} className={cardClassName}>
                       {inner}
                     </SmartLink>
                   ) : (
-                    <div className={styles.card}>{inner}</div>
+                    <div className={cardClassName}>{inner}</div>
                   )}
                 </li>
               );
@@ -137,11 +180,19 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
           </ul>
         </Section>
       );
-    case "stats":
+    }
+    case "logos":
       return (
         <Section block={b}>
           {b.title && <Head title={b.title} lead={b.lead} />}
-          <ul className={styles.stats}>
+          <AccreditationLogos items={b.items} />
+        </Section>
+      );
+    case "stats":
+      return (
+        <Section block={b}>
+          {b.title && <Head title={b.title} lead={b.lead} accent={slug(b.title) === "key-highlights"} />}
+          <ul className={`${styles.stats} ${slug(b.title ?? "") === "key-highlights" ? styles.statsColor : ""}`}>
             {b.items.map((s) => (
               <li key={s.label}>
                 <strong>
@@ -154,6 +205,31 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
         </Section>
       );
     case "steps":
+      if (b.id === "journey") {
+        return (
+          <Section block={{ id: b.id, tone: "cream" }}>
+            <Head title={b.title} lead={b.lead} accent />
+            <div className={styles.journeyMarquee} role="region" aria-label={b.title}>
+              <ol className={styles.journeyTrack}>
+                {[...b.items, ...b.items].map((item, index) => {
+                  const isClone = index >= b.items.length;
+                  return (
+                    <li
+                      key={`${isClone ? "clone-" : ""}${item.title}-${index}`}
+                      className={styles.journeyCard}
+                      aria-hidden={isClone || undefined}
+                    >
+                      {item.label && <span className={styles.journeyLabel}>{item.label}</span>}
+                      <h3>{item.title}</h3>
+                      <RichText content={item.text} />
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </Section>
+        );
+      }
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
@@ -162,13 +238,24 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
               <li key={s.title}>
                 <span className={styles.dot}>{s.label ?? i + 1}</span>
                 <h3>{s.title}</h3>
-                <p>{s.text}</p>
+                <RichText content={s.text} />
               </li>
             ))}
           </ol>
         </Section>
       );
     case "profiles":
+      if (b.id === "leadership") {
+        return <LeaderSlides title={b.title} items={b.items} />;
+      }
+      if (b.id === "administration") {
+        return (
+          <Section block={b}>
+            <Head title={b.title} lead={b.lead} accent />
+            <AdministrationCarousel items={b.items} />
+          </Section>
+        );
+      }
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
@@ -176,11 +263,11 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
             {b.items.map((p) => (
               <li key={p.name} className={`${styles.profile} ${p.image ? "" : styles.plain}`}>
                 <span className={styles.avatar} aria-hidden="true">
-                  {p.image ? <Image src={`/images/${p.image}`} alt="" fill sizes="96px" /> : initials(p.name) || p.name[0]}
+                  {p.image ? <Image src={contentImageSrc(p.image)} alt="" fill sizes="96px" unoptimized={isRemoteContentImage(p.image)} /> : initials(p.name) || p.name[0]}
                 </span>
                 <h3>{p.name}</h3>
                 <p className={styles.role}>{p.role}</p>
-                {p.text && <p>{p.text}</p>}
+                <RichText content={p.text} />
               </li>
             ))}
           </ul>
@@ -189,20 +276,35 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "docs":
       return (
         <Section block={b}>
-          <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles.c3}`}>
-            {b.items.map((d) => (
-              <li key={d.title} className={styles.doc}>
-                <span className={styles.file}>{d.type}</span>
-                <div>
-                  <h3>{d.title}</h3>
-                  {d.note && <p>{d.note}</p>}
-                </div>
-                <SmartLink href={d.href ?? "#"} className={styles.dl}>
-                  View / Download
-                </SmartLink>
-              </li>
-            ))}
+          <Head title={b.title} lead={b.lead} accent />
+          <ul className={`${styles.grid} ${styles.c3} ${styles.docsGrid}`}>
+            {b.items.map((d) => {
+              const tile = (
+                <>
+                  <PdfIcon />
+                  <span className={styles.docBody}>
+                    <h3 data-reveal="in">{d.title}</h3>
+                    <span className={styles.docRule} />
+                    <span className={styles.dl}>View / Download</span>
+                  </span>
+                  <span className={styles.docDeco} aria-hidden="true">
+                    <span className={styles.docSheet} />
+                    <span className={styles.docBtn}><DownloadIcon /></span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={d.title} className={styles.doc}>
+                  {d.href ? (
+                    <a href={d.href} target="_blank" rel="noopener noreferrer" className={styles.docLink}>
+                      {tile}
+                    </a>
+                  ) : (
+                    <div className={styles.docLink}>{tile}</div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </Section>
       );
@@ -237,13 +339,13 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "faq":
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
-          <Aside img={auto ?? POOL.faq[0]}>
+          <Aside img={auto ?? (useFallbackImages ? POOL.faq[0] : undefined)}>
             <Head title={b.title} lead={b.lead} />
             <div className={styles.faq}>
               {b.items.map((f) => (
                 <details key={f.q}>
                   <summary>{f.q}</summary>
-                  <p>{f.a}</p>
+                  <RichText content={f.a} />
                 </details>
               ))}
             </div>
@@ -260,7 +362,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "form":
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
-          <Aside img={auto ?? POOL.form[0]}>
+          <Aside img={auto ?? (useFallbackImages ? POOL.form[0] : undefined)}>
             <Head title={b.title} lead={b.lead} />
             <Enquiry kind={b.kind} />
           </Aside>
@@ -269,7 +371,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "address":
       return (
         <Section block={{ id: b.id }}>
-          <Aside img={auto ?? POOL.address[0]}>
+          <Aside img={auto ?? (useFallbackImages ? POOL.address[0] : undefined)}>
             <Head title={b.title} />
             <address className={styles.address}>
               {b.lines.map((l) => (
@@ -326,7 +428,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
         <section className={styles.cta}>
           <div className={styles.wrap}>
             <h2>{b.title}</h2>
-            <p>{b.text}</p>
+            <RichText content={b.text} />
             <div className={`${styles.row} ${styles.center}`}>
               {b.actions.map((a) => (
                 <Button key={a.label} href={a.href} variant={onLight(a.variant)}>
@@ -352,27 +454,28 @@ function withIds(blocks: Block[]): Block[] {
   });
 }
 
-export function Blocks({ blocks }: { blocks: Block[] }) {
+export function Blocks({ blocks, useFallbackImages = true }: { blocks: Block[]; useFallbackImages?: boolean }) {
   const list = withIds(blocks);
-  // Pick a photo for every block that needs one and has none, cycling through each kind's pool.
   const taken = new Set(list.flatMap((b) => ("image" in b && b.image ? [b.image] : [])));
   const used = { text: 0, faq: 0, form: 0, address: 0 };
-  const autos = list.map((b, i) => {
-    const kind = b.t === "text" ? (b.image ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
-    if (!kind) return undefined;
-    const pool = POOL[kind];
-    const start = used[kind]++ + i;
-    const pick = pool.map((_, k) => pool[(start + k) % pool.length]).find((x) => !taken.has(x)) ?? pool[start % pool.length];
-    taken.add(pick);
-    return pick;
-  });
+  const autos = useFallbackImages
+    ? list.map((b, i) => {
+        const kind = b.t === "text" ? (b.image ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
+        if (!kind) return undefined;
+        const pool = POOL[kind];
+        const start = used[kind]++ + i;
+        const pick = pool.map((_, k) => pool[(start + k) % pool.length]).find((x) => !taken.has(x)) ?? pool[start % pool.length];
+        taken.add(pick);
+        return pick;
+      })
+    : list.map(() => undefined);
   const jump = list.filter((b) => "id" in b && b.id && "title" in b && b.title);
   return (
     <>
-      {jump.length >= 4 && <JumpNav items={jump as { id: string; title: string }[]} />}
+      {jump.length > 0 && <JumpNav items={jump as { id: string; title: string }[]} />}
       <InnerMotion />
       {list.map((b, i) => (
-        <Render key={i} b={b} auto={autos[i]} />
+        <Render key={i} b={b} auto={autos[i]} useFallbackImages={useFallbackImages} />
       ))}
     </>
   );

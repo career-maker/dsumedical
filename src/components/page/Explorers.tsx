@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { deptTabs, depts } from "@/data/pages/clinical";
-import { news, newsTabs } from "@/data/news";
+import { news, newsTabs } from "@/data/home";
+import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import styles from "./Explorers.module.scss";
 
 type Tab = { id: string; label: string };
@@ -33,7 +34,7 @@ export function DeptExplorer() {
           <li key={d.slug}>
             <Link prefetch={false} href={`/department/${d.slug}`} className={styles.card}>
               <span className={styles.img}>
-                <Image src={`/images/${d.image}`} alt="" fill sizes="(max-width: 1280px) 50vw, 404px" />
+                <Image src={contentImageSrc(d.image)} alt="" fill sizes="(max-width: 1280px) 50vw, 404px" unoptimized={isRemoteContentImage(d.image)} />
               </span>
               <span className={styles.body}>
                 <h3>{d.name}</h3>
@@ -61,7 +62,7 @@ export function NewsExplorer() {
           {items.map((n, i) => (
             <li key={n.title} className={styles.card}>
               <span className={styles.img}>
-                <Image src={`/images/${n.photo}.jpg`} alt={n.alt} fill sizes="(max-width: 1280px) 50vw, 404px" />
+                <Image src={contentImageSrc(`/images/${n.photo}.jpg`)} alt={n.alt} fill sizes="(max-width: 1280px) 50vw, 404px" />
               </span>
               <span className={styles.body}>
                 <time dateTime={n.iso}>{n.date}</time>
@@ -106,7 +107,7 @@ export function Gallery({ groups }: { groups: Group[] }) {
         {shown.map((im, i) => (
           <li key={im.src + i}>
             <button type="button" onClick={() => setOpen(i)} aria-label={`Open image: ${im.alt}`}>
-              <Image src={`/images/${im.src}`} alt={im.alt} fill sizes="(max-width: 640px) 100vw, 33vw" />
+              <Image src={contentImageSrc(im.src)} alt={im.alt} fill sizes="(max-width: 640px) 100vw, 33vw" unoptimized={isRemoteContentImage(im.src)} />
             </button>
           </li>
         ))}
@@ -121,7 +122,7 @@ export function Gallery({ groups }: { groups: Group[] }) {
             ‹
           </button>
           <div className={styles.full} onClick={(e) => e.stopPropagation()}>
-            <Image src={`/images/${shown[open].src}`} alt={shown[open].alt} fill sizes="90vw" />
+            <Image src={contentImageSrc(shown[open].src)} alt={shown[open].alt} fill sizes="90vw" unoptimized={isRemoteContentImage(shown[open].src)} />
           </div>
           <button type="button" className={`${styles.nav} ${styles.next}`} aria-label="Next image" onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % shown.length); }}>
             ›
@@ -140,6 +141,8 @@ const fields = {
 
 export function Enquiry({ kind }: { kind: keyof typeof fields }) {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const f = fields[kind];
 
   if (sent)
@@ -154,23 +157,57 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
   return (
     <form
       className={styles.form}
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        // ponytail: front-end only, no submission destination yet. POST to the agreed endpoint here.
-        setSent(true);
+        if (submitting) return;
+        setSubmitting(true);
+        setError("");
+
+        const values = new FormData(e.currentTarget);
+        const submission = {
+          kind,
+          name: values.get("name"),
+          phone: values.get("phone"),
+          email: values.get("email"),
+          ...(f.programme ? { programme: values.get("programme") } : {}),
+          ...(!f.programme ? { city: values.get("city") } : {}),
+          message: values.get("message"),
+          consent: values.get("consent") === "true"
+        };
+
+        try {
+          const response = await fetch("/api/enquiries", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(submission)
+          });
+          if (!response.ok) {
+            setError(
+              response.status === 429
+                ? "Too many submissions. Please try again later."
+                : "We could not submit your request. Please check your details and try again."
+            );
+            return;
+          }
+          setSent(true);
+        } catch {
+          setError("We could not submit your request. Please try again shortly.");
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
       <label>
         Full name
-        <input name="name" required autoComplete="name" />
+        <input name="name" required maxLength={120} autoComplete="name" />
       </label>
       <label>
         Phone
-        <input name="phone" type="tel" required pattern="[0-9+ ]{10,15}" autoComplete="tel" />
+        <input name="phone" type="tel" required maxLength={15} pattern="[0-9+ ]{10,15}" autoComplete="tel" />
       </label>
       <label>
         Email
-        <input name="email" type="email" required autoComplete="email" />
+        <input name="email" type="email" required maxLength={254} autoComplete="email" />
       </label>
       {f.programme ? (
         <label>
@@ -185,21 +222,22 @@ export function Enquiry({ kind }: { kind: keyof typeof fields }) {
       ) : (
         <label>
           City
-          <input name="city" autoComplete="address-level2" />
+          <input name="city" maxLength={120} autoComplete="address-level2" />
         </label>
       )}
       <label className={styles.full2}>
         {f.message}
-        <textarea name="message" rows={4} />
+        <textarea name="message" maxLength={4000} rows={4} />
       </label>
       <label className={`${styles.full2} ${styles.consent}`}>
-        <input type="checkbox" required />
+        <input name="consent" type="checkbox" value="true" required />
         <span>
           I agree to be contacted and to the <Link prefetch={false} href="/privacy">Privacy Policy</Link>.
         </span>
       </label>
-      <button type="submit" className={styles.submit}>
-        Submit
+      {error && <p role="alert">{error}</p>}
+      <button type="submit" className={styles.submit} disabled={submitting}>
+        {submitting ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

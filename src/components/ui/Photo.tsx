@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { photos } from "@/data/photos";
+import { photos } from "@/data/home";
 import styles from "./Photo.module.scss";
 
 type PhotoProps = {
