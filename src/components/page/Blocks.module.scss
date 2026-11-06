@@ -93,7 +93,7 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .single {
-  grid-template-columns: minmax(0, u(1100));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .flip .media {

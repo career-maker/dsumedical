@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 // Server-rendered and driven by a tiny inline script, and opens at DOMContentLoaded (never waits on images, which would hold back FCP/LCP). Styles live in globals.scss (#pl).
 const markup = `<div class="pl-circle"><img src="/icons/dsu-lockup.png" alt="" width="376" height="122"></div>`;
 
@@ -12,7 +14,7 @@ export function Preloader() {
   return (
     <>
       <div id="pl" role="status" aria-label="Loading CDSIMER" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: markup }} />
-      <script dangerouslySetInnerHTML={{ __html: script }} />
+      <Script id="preloader-script" strategy="afterInteractive">{script}</Script>
     </>
   );
 }

@@ -12,6 +12,7 @@ type CmsPageProps = {
   slug: string;
   contentSlug?: string;
   useFallback?: boolean;
+  showJumpNav?: boolean;
 };
 
 async function loadPage({ apiId, slug, contentSlug, useFallback = true }: CmsPageProps) {
@@ -34,14 +35,20 @@ export async function generateCmsMetadata(props: CmsPageProps): Promise<Metadata
   };
 }
 
-export async function CmsPage({ apiId, slug, contentSlug, useFallback = true }: CmsPageProps) {
+export async function CmsPage({
+  apiId,
+  slug,
+  contentSlug,
+  useFallback = true,
+  showJumpNav = true
+}: CmsPageProps) {
   const page = await loadPage({ apiId, slug, contentSlug, useFallback });
   if (!page) notFound();
 
   return (
     <PageShell>
       <PageHero page={page} />
-      <Blocks blocks={page.blocks} useFallbackImages={useFallback} />
+      <Blocks blocks={page.blocks} useFallbackImages={useFallback} showJumpNav={showJumpNav} />
     </PageShell>
   );
 }

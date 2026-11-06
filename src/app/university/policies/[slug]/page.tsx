@@ -25,6 +25,7 @@ export default async function PolicyDetailPage({ params }: PolicyRouteProps) {
       slug={`university/policies/${slug}`}
       contentSlug={slug}
       useFallback={false}
+      showJumpNav={false}
     />
   );
 }

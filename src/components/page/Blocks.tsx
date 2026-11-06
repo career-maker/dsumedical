@@ -49,6 +49,15 @@ function Cell({ v }: { v: string }) {
   return <>{v}</>;
 }
 
+function TableCell({ content }: { content: RichTextContent }) {
+  return typeof content === "string" ? <Cell v={content} /> : <RichText content={content} />;
+}
+
+function isSerialNumberColumn(label: string) {
+  const normalized = label.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return ["slno", "sno", "sino", "serialno", "serialnumber"].includes(normalized);
+}
+
 function PdfIcon() {
   return (
     <span className={styles.docIcon} aria-hidden="true">
@@ -308,7 +317,9 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
           </ul>
         </Section>
       );
-    case "table":
+    case "table": {
+      const columns = b.cols.some(isSerialNumberColumn) ? b.cols : ["SI No", ...b.cols];
+      const serialNumberColumns = columns.map(isSerialNumberColumn);
       return (
         <Section block={{ id: b.id }}>
           <Head title={b.title} lead={b.lead} />
@@ -316,26 +327,38 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
             <table className={styles.table}>
               <thead>
                 <tr>
-                  {b.cols.map((c) => (
+                  {columns.map((c) => (
                     <th key={c}>{c}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {b.rows.map((r, i) => (
-                  <tr key={i}>
-                    {r.map((c, j) => (
-                      <td key={j} data-label={b.cols[j]}>
-                        <Cell v={c} />
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                {b.rows.map((r, i) => {
+                  let dataColumnIndex = 0;
+                  return (
+                    <tr key={i}>
+                      {columns.map((column, j) => {
+                        if (serialNumberColumns[j]) {
+                          return <td key={j} data-label={column}>{i + 1}</td>;
+                        }
+
+                        const content = r[dataColumnIndex] ?? "";
+                        dataColumnIndex += 1;
+                        return (
+                          <td key={j} data-label={column}>
+                            <TableCell content={content} />
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </Section>
       );
+    }
     case "faq":
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
@@ -454,7 +477,15 @@ function withIds(blocks: Block[]): Block[] {
   });
 }
 
-export function Blocks({ blocks, useFallbackImages = true }: { blocks: Block[]; useFallbackImages?: boolean }) {
+export function Blocks({
+  blocks,
+  useFallbackImages = true,
+  showJumpNav = true
+}: {
+  blocks: Block[];
+  useFallbackImages?: boolean;
+  showJumpNav?: boolean;
+}) {
   const list = withIds(blocks);
   const taken = new Set(list.flatMap((b) => ("image" in b && b.image ? [b.image] : [])));
   const used = { text: 0, faq: 0, form: 0, address: 0 };
@@ -472,7 +503,7 @@ export function Blocks({ blocks, useFallbackImages = true }: { blocks: Block[]; 
   const jump = list.filter((b) => "id" in b && b.id && "title" in b && b.title);
   return (
     <>
-      {jump.length > 0 && <JumpNav items={jump as { id: string; title: string }[]} />}
+      {showJumpNav && jump.length > 0 && <JumpNav items={jump as { id: string; title: string }[]} />}
       <InnerMotion />
       {list.map((b, i) => (
         <Render key={i} b={b} auto={autos[i]} useFallbackImages={useFallbackImages} />

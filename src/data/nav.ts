@@ -52,6 +52,7 @@ export const navRight: NavLink[] = [
     children: [
       { label: "About CDSIMER", href: "/university/about" },
       { label: "Policies", href: "/university/policies" },
+      { label: "Anti-Ragging Committee", href: "/university/anti-ragging-committee" },
       { label: "NMC", href: "/university/nmc" },
       { label: "Awards", href: "/university/awards" },
       { label: "Library", href: "/library" },

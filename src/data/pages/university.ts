@@ -200,7 +200,7 @@ export const university: PageDef[] = [
       {
         t: "cards",
         title: "Policies & committees",
-        cols: 2,
+        cols: 3,
         items: [
           { title: "PwBD Committee", text: "Support and accessibility for persons with benchmark disabilities.", href: "/university/policies/pwbd-committee" },
           { title: "Anti-Ragging Policy", text: "Definition, punishable offences and the institution’s stance on ragging.", href: "/university/policies/anti-ragging" },
@@ -279,8 +279,8 @@ export const university: PageDef[] = [
     hero: "life-hall.jpg",
     heroAlt: "Convocation hall",
     blocks: [
-      { t: "text", title: "Recognition of excellence", body: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] },
       { t: "table", title: "Awards & recognitions", cols: ["Award", "Year", "Recipient", "Awarding organisation"], rows: [["Excellence in Medical Education", "2025", "CDSIMER", "State Medical Council"], ["Best Teaching Hospital Award", "2024", "Teaching Hospital", "Healthcare Excellence Forum"], ["Research Innovation Award", "2023", "Research Wing", "National Research Society"]] },
+      { t: "text", title: "Recognition of excellence", body: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."] },
       { t: "cta", title: "Celebrate with us", text: "See more from campus life.", actions: [{ label: "View Gallery", href: "/gallery" }] },
     ],
   },

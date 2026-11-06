@@ -17,7 +17,7 @@ export type Block =
   | { t: "steps"; id?: string; title: string; lead?: RichTextContent; tone?: "cream"; items: { label?: string; title: string; text: RichTextContent }[] }
   | { t: "profiles"; id?: string; title: string; lead?: RichTextContent; tone?: "cream"; items: { name: string; role: string; text?: RichTextContent; image?: string }[] }
   | { t: "docs"; id?: string; title: string; lead?: RichTextContent; tone?: "cream"; items: { title: string; note?: RichTextContent; href?: string }[] }
-  | { t: "table"; id?: string; title: string; lead?: RichTextContent; cols: string[]; rows: string[][] }
+  | { t: "table"; id?: string; title: string; lead?: RichTextContent; cols: string[]; rows: RichTextContent[][] }
   | { t: "faq"; id?: string; title: string; lead?: RichTextContent; items: { q: string; a: RichTextContent }[] }
   | { t: "gallery"; id?: string; title: string; lead?: RichTextContent; groups: { label: string; images: { src: string; alt: string }[] }[] }
   | { t: "form"; id?: string; title: string; lead?: RichTextContent; kind: "admission" | "appointment" | "contact" }

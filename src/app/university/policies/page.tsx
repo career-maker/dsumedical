@@ -8,5 +8,5 @@ export function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <CmsPage apiId="policies" slug="university/policies" contentSlug="policies" />;
+  return <CmsPage apiId="policies" slug="university/policies" contentSlug="policies" showJumpNav={false} />;
 }
