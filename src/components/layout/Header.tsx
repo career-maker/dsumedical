@@ -3,61 +3,105 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { external, navLeft, navRight, topLeft, topRight } from "@/data/nav";
+import { admissionsMenu, external, navLeft, navRight, topLeft, topRight } from "@/data/nav";
 import type { NavLink } from "@/data/nav";
+import { HeaderDrop } from "./HeaderDrop";
 import { HeaderScroll } from "./HeaderScroll";
 import { MobileNav } from "./MobileNav";
 import { fetchHeader } from "@/lib/api/global";
 import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import styles from "./Header.module.scss";
 
-
-function NavItem({ item }: { item: NavLink }) {
+/** Full-width Departments panel: one column per group, laid out by grid areas g0..gN. */
+function MegaMenu({ item }: { item: NavLink }) {
   return (
-    <div className={styles.item}>
-      <SmartLink href={item.href} className={styles.navLink}>
-        {item.label}
-        {item.children && <Icon name="chevron-down" />}
+    <div className={styles.mega}>
+      <div className={styles.megaGrid}>
+        {item.children!.map((g, i) => (
+          <section key={g.label} className={styles.megaCol} style={{ gridArea: `g${i}` }}>
+            <h3>
+              <SmartLink href={g.href}>{g.label}</SmartLink>
+            </h3>
+            <ul className={g.twoCol ? styles.megaTwo : undefined}>
+              {g.children?.map((c) => (
+                <li key={c.label}>
+                  <SmartLink href={c.href}>{c.label}</SmartLink>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+      <SmartLink href={item.href} className={styles.megaAll}>
+        View all departments
       </SmartLink>
-      {item.children && (
-        <ul className={styles.drop}>
-          {item.children.map((c) => (
-            <li key={c.label}>
-              <SmartLink href={c.href}>{c.label}</SmartLink>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
 
+function NavItem({ item }: { item: NavLink }) {
+  const hasKids = Boolean(item.children?.length);
+  return (
+    <div className={`${styles.item} ${item.mega ? styles.megaItem : ""}`}>
+      <SmartLink href={item.href} className={styles.navLink}>
+        {item.label}
+        {hasKids && <Icon name="chevron-down" />}
+      </SmartLink>
+      {hasKids && (item.mega ? <MegaMenu item={item} /> : <HeaderDrop items={item.children!} />)}
+    </div>
+  );
+}
+
+function TopItem({ item }: { item: NavLink }) {
+  if (!item.children?.length) {
+    return (
+      <li>
+        <SmartLink href={item.href}>{item.label}</SmartLink>
+      </li>
+    );
+  }
+  return (
+    <li className={`${styles.item} ${styles.topItem}`}>
+      <SmartLink href={item.href} className={styles.topLink}>
+        {item.label}
+        <Icon name="chevron-down" />
+      </SmartLink>
+      <HeaderDrop items={item.children} />
+    </li>
+  );
+}
+
 export async function Header() {
+  // Menus come from src/data/nav.ts (the beta site's structure: grouped dropdowns and the Departments
+  // mega menu, which the CMS navigation fields cannot express). Logos, phone, ERP and the Admissions
+  // label still come from the CMS when set.
   const content = await fetchHeader();
-  const currentNavLeft = content?.navLeft ?? navLeft;
-  const currentNavRight = content?.navRight ?? navRight;
-  const currentTopLeft = content?.topLeft ?? topLeft;
-  const currentTopRight = content?.topRight ?? topRight;
   const erp = content?.erpLink ?? { label: "ERP Login", href: external.erp };
   const admissions = content?.admissionsAction ?? { label: "Admissions", href: "/admissions", variant: "primary" as const };
   const logo = contentImageSrc(content?.cdsimerLogo ?? "/images/logo-cdsimer.png");
+  const mobileItems: NavLink[] = [
+    { label: "Home", href: "/" },
+    ...navLeft,
+    ...navRight,
+    { label: admissions.label, href: admissions.href, children: admissionsMenu },
+    ...topRight.filter((t) => t.href !== external.aebas && t.href !== external.hostel),
+    ...topLeft,
+    erp,
+    ...topRight.filter((t) => t.href === external.aebas || t.href === external.hostel),
+  ];
   return (
     <header className={styles.wrap} data-site-header>
       <HeaderScroll />
       <div className={styles.topbar}>
         <div className={styles.topInner}>
           <ul className={styles.topList}>
-            {currentTopLeft.map((t) => (
-              <li key={t.label}>
-                <SmartLink href={t.href}>{t.label}</SmartLink>
-              </li>
+            {topLeft.map((t) => (
+              <TopItem key={t.label} item={t} />
             ))}
           </ul>
           <ul className={styles.topList}>
-            {currentTopRight.map((t) => (
-              <li key={t.label}>
-                <SmartLink href={t.href}>{t.label}</SmartLink>
-              </li>
+            {topRight.map((t) => (
+              <TopItem key={t.label} item={t} />
             ))}
             <li>
               <SmartLink href={erp.href} className={styles.erp}>
@@ -73,7 +117,7 @@ export async function Header() {
             <Link prefetch={false} href="/" aria-label="Home">
               <Icon name="home" />
             </Link>
-            {currentNavLeft.map((n) => (
+            {navLeft.map((n) => (
               <NavItem key={n.label} item={n} />
             ))}
           </nav>
@@ -90,17 +134,26 @@ export async function Header() {
             </Link>
           </div>
           <nav className={styles.navRight} aria-label="Secondary">
-            {currentNavRight.map((n) => (
+            {navRight.map((n) => (
               <NavItem key={n.label} item={n} />
             ))}
             <a href={content?.phoneHref || "tel:+916366885501"} className={styles.phone}>
               <Icon name="phone-header" /> {content?.phoneLabel ?? "6366 885 501"}
             </a>
-            <Button href={admissions.href} variant={admissions.variant ?? "primary"} className={styles.admissions} width={170}>
-              {admissions.label}
-            </Button>
+            <div className={styles.item}>
+              <Button
+                href={admissions.href}
+                variant={admissions.variant ?? "primary"}
+                className={styles.admissions}
+                width={170}
+                icon={<Icon name="chevron-down" className={styles.btnChev} />}
+              >
+                {admissions.label}
+              </Button>
+              <HeaderDrop items={admissionsMenu} />
+            </div>
           </nav>
-          <MobileNav items={[...currentNavLeft, ...currentNavRight, ...currentTopRight.slice(1, 3), ...currentTopLeft.slice(0, 1)]} cta={admissions} />
+          <MobileNav items={mobileItems} cta={admissions} />
         </div>
       </div>
     </header>

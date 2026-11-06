@@ -89,12 +89,78 @@
   overscroll-behavior: contain;
 }
 
+.row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #eee;
+
+  a {
+    flex: 1 1;
+    border-bottom: 0;
+  }
+}
+
+.chev {
+  flex: none;
+  position: relative;
+  width: 48px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    translate: -50% -70%;
+    rotate: 45deg;
+    transition: rotate 0.2s;
+  }
+}
+
+.chevOpen::after {
+  rotate: 225deg;
+}
+
+.sub[hidden] {
+  display: none;
+}
+
 .sub li a {
   padding: 10px 0 10px 16px;
   border-bottom: 0;
   font-size: 16px;
   font-weight: 400;
   color: var(--slate);
+}
+
+.subRow {
+  display: flex;
+  align-items: stretch;
+
+  a {
+    flex: 1 1;
+  }
+
+  .chev {
+    width: 40px;
+  }
+}
+
+.sub .subsub {
+  margin: 0 0 4px 16px;
+  border-left: 2px solid var(--cream);
+
+  &[hidden] {
+    display: none;
+  }
+
+  li a {
+    padding: 8px 0 8px 14px;
+    font-size: 15px;
+  }
 }
 
 .cta {

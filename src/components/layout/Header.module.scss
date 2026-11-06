@@ -70,6 +70,7 @@
 
 .barInner {
   @include container;
+  position: relative; // anchors the full-width Departments mega menu
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -79,10 +80,15 @@
 .navLeft,
 .navRight {
   display: flex;
+  white-space: nowrap;
   align-items: center;
   gap: u(48);
   font-size: u(18.8);
   font-weight: 500;
+}
+
+.navLeft {
+  gap: u(30);
 }
 
 .navRight {
@@ -106,7 +112,7 @@
   top: calc(100% - #{u(6)});
   left: u(-24);
   z-index: 30;
-  min-width: u(270);
+  min-width: u(290);
   padding: u(10);
   border-radius: u(14);
   border-top: u(3) solid var(--orange);
@@ -195,7 +201,9 @@
 }
 
 .item:hover .drop,
-.item:focus-within .drop {
+.item:focus-within .drop,
+.item:hover .mega,
+.item:focus-within .mega {
   opacity: 1;
   visibility: visible;
   translate: 0 0;
@@ -300,6 +308,202 @@
 .admissions {
   height: u(52);
   margin-left: u(-25);
+}
+
+// Dropdown entries with a nested list (e.g. University › About, Admissions › Fees).
+.drop .group > .groupRow > a {
+  font-weight: 600;
+}
+
+.groupRow {
+  display: flex;
+  align-items: center;
+
+  a {
+    flex: 1 1;
+  }
+}
+
+.toggle {
+  flex: none;
+  width: u(36);
+  height: u(36);
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    display: block;
+    width: u(8);
+    height: u(8);
+    margin: u(-3) auto 0;
+    border-right: u(2) solid;
+    border-bottom: u(2) solid;
+    rotate: 45deg;
+    transition: rotate 0.25s;
+  }
+
+  &:hover {
+    color: var(--orange);
+  }
+}
+
+.toggleOpen::before {
+  margin-top: u(3);
+  rotate: 225deg;
+}
+
+.drop .subList {
+  margin: 0 0 u(6) u(14);
+  padding-left: u(10);
+  border-left: u(2) solid var(--cream);
+
+  &[hidden] {
+    display: none;
+  }
+
+  a {
+    padding: u(6) u(12);
+    font-size: u(15);
+    font-weight: 400;
+    gap: u(10);
+  }
+}
+
+// Top-bar entry with a dropdown (Contact us).
+.topLink {
+  display: inline-flex;
+  align-items: center;
+  gap: u(6);
+
+  img {
+    width: u(9) !important;
+  }
+}
+
+.topLink img,
+.btnChev {
+  filter: brightness(0) invert(1);
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btnChev {
+  width: u(12) !important;
+}
+
+.item:hover .btnChev,
+.item:focus-within .btnChev,
+.item:hover .topLink img,
+.item:focus-within .topLink img {
+  rotate: 180deg;
+}
+
+.topItem {
+  padding-block: 0;
+
+  .drop {
+    top: calc(100% - #{u(2)});
+    color: var(--ink, #222);
+    line-height: 1.4;
+    text-align: left;
+  }
+}
+
+// Departments mega menu: spans the whole bar, positioned against .barInner.
+.megaItem {
+  position: static;
+}
+
+.mega {
+  position: absolute;
+  top: calc(100% - #{u(8)});
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: u(28) u(36) u(22);
+  border-radius: u(14);
+  border-top: u(3) solid var(--orange);
+  background: #fff;
+  box-shadow: 0 u(20) u(44) rgba(60, 20, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  font-size: u(16);
+  letter-spacing: 0;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 u(10);
+  transition: opacity 0.28s, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
+}
+
+.megaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 2.4fr;
+  grid-template-areas:
+    "g0 g2 g3 g4"
+    "g1 g2 g3 g4";
+  grid-template-rows: auto 1fr;
+  gap: u(22) u(36);
+}
+
+.megaCol {
+  min-width: 0;
+
+  h3 {
+    margin-bottom: u(10);
+    padding-bottom: u(8);
+    border-bottom: 1px solid var(--peach);
+    font-size: u(14);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  ul {
+    display: grid;
+    gap: u(2);
+  }
+
+  li {
+    min-width: 0;
+  }
+
+  a {
+    display: block;
+    padding: u(5) u(8);
+    margin-inline: u(-8) 0;
+    overflow-wrap: anywhere;
+    border-radius: u(6);
+    line-height: 1.35;
+    transition: background-color 0.2s, color 0.2s, padding 0.25s;
+
+    &:hover,
+    &:focus-visible {
+      padding-left: u(14);
+      background: var(--cream);
+      color: var(--orange);
+    }
+  }
+}
+
+.megaCol .megaTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: u(24);
+}
+
+.megaAll {
+  display: inline-block;
+  margin-top: u(18);
+  font-weight: 500;
+  color: var(--orange);
+
+  &::after {
+    content: " →";
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 @include below($bp-lg) {
