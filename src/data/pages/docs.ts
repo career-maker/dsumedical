@@ -28,6 +28,7 @@ export const doc = {
   ug2324: "/docs/list_of_mbbs_students_for_the_a_y_2023-24.pdf",
   ug2223: "https://cdsimer.edu.in/images/Admission/Student_List_of_2022-23_Batch_for_Website.pdf",
   ug2122: "https://cdsimer.edu.in/images/2022/pdf/List_of_Student_Details_of_2021-22_year.pdf",
+  ug2021: "https://cdsimer.edu.in/images/student_list/StudentsList2020Website.pdf",
   pg2526: "/docs/5_a_pg_2025_1.pdf",
   pg2425: "/docs/pg_student_list_2024-25.pdf",
   nmcLop: "/docs/letter_of_permission-min.pdf",

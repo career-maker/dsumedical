@@ -31,7 +31,7 @@ export function Journey() {
               onMouseEnter={() => setOn(i)}
               onFocus={() => setOn(i)}
             >
-              <Photo name={`journey-${j.key}`} alt={j.alt} sizes={`(max-width: 960px) 100vw, ${fluid(547)}`} className={styles.photo} />
+              <Photo name={`home-journey-${j.key}`} alt={j.alt} sizes={`(max-width: 960px) 100vw, ${fluid(547)}`} className={styles.photo} />
               <div className={styles.body}>
                 <h3 className={styles.head}>
                   <Icon name={`${j.icon}-o` as IconName} className={styles.icoO} />

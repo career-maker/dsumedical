@@ -60,6 +60,7 @@ export const iconMeta = {
   "lw-nabh": { w: 29.8, h: 35.0 },
   "tab-pre": { w: 22.2, h: 29.2 },
   "tab-para": { w: 27.5, h: 24.5 },
+  "tab-para-idle": { w: 27.5, h: 24.5 },
   "tab-clinical": { w: 25.0, h: 24.8 },
   "tab-super": { w: 27.5, h: 24.5 },
   "tab-others": { w: 27.8, h: 27.8 },

@@ -54,9 +54,6 @@ export function PhaseGrid({ data }: { data: AcademicYear }) {
             </div>
             {cell && (
               <div className={styles.panel}>
-                <p className={styles.panelHead}>
-                  {cell.label} · {r.year}
-                </p>
                 {cell.groups.map((g) => {
                   const key = `${ri}-${g.title}`;
                   const isOpen = group === key;

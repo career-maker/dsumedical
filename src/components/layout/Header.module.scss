@@ -72,28 +72,20 @@
   @include container;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
+  column-gap: u(32);
   align-items: center;
   height: 100%;
 }
 
-.navLeft,
-.navRight {
+.nav {
   display: flex;
   white-space: nowrap;
   align-items: center;
-  gap: u(48);
+  justify-content: center;
+  gap: u(28);
   font-size: u(18.8);
   font-weight: 500;
-}
-
-.navLeft {
-  gap: u(30);
-}
-
-.navRight {
-  justify-content: flex-end;
-  gap: u(36);
 }
 
 .navLink {
@@ -220,7 +212,7 @@
   }
 }
 
-.navRight .drop {
+.edge .drop {
   left: auto;
   right: u(-24);
 
@@ -285,7 +277,7 @@
 
   a {
     padding: u(6) u(12);
-    font-size: u(14);
+    font-size: u(15);
     font-weight: 400;
     gap: u(10);
   }
@@ -310,69 +302,24 @@
   color: var(--orange);
 }
 
-.logos {
+.logoL,
+.logoR {
   display: flex;
   align-items: center;
-  gap: u(24);
 }
 
-.phone {
-  display: inline-flex;
-  align-items: center;
-  gap: u(9);
-  height: u(52);
-  width: u(164);
-  padding: 0 u(18);
-  margin-left: u(-18);
-  border: 1px solid rgba(255, 109, 0, 0.55);
-  border-radius: u(4);
-  background: rgba(255, 109, 0, 0.14);
-  font-size: u(17);
-  font-weight: 500;
-  white-space: nowrap;
+.logoR {
+  justify-self: end;
 }
 
-.phone {
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
-
-  img {
-    transition: filter 0.3s;
-  }
-
-  &:hover {
-    border-color: transparent;
-    background: var(--gradient-cta);
-    color: #fff;
-    box-shadow: 0 u(8) u(20) rgba(220, 39, 37, 0.3);
-
-    img {
-      filter: brightness(0) invert(1);
-      scale: 1;
-      animation: ring 0.9s ease-in-out infinite;
-    }
-  }
-}
-
-@keyframes ring {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-
-  15%,
-  45% {
-    rotate: -18deg;
-  }
-
-  30%,
-  60% {
-    rotate: 18deg;
-  }
+.phoneIcon {
+  width: u(16) !important;
+  filter: brightness(0) invert(1);
+  margin-right: u(2);
 }
 
 .admissions {
   height: u(52);
-  margin-left: u(-25);
 }
 
 @include below($bp-lg) {
@@ -394,20 +341,24 @@
   }
 
   .barInner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto auto 1fr;
+    column-gap: 12px;
     width: 100%;
+
+    > :last-child {
+      justify-self: end;
+    }
   }
 
-  .navLeft,
-  .navRight {
+  .nav {
     display: none;
   }
 
-  .logos {
-    gap: 12px;
+  .logoR {
+    justify-self: start;
   }
 
-  .logos img {
+  .logoR img {
     width: 120px;
     height: auto;
   }
@@ -424,6 +375,31 @@
   .wrap {
     z-index: 60;
   }
+}
+
+// Dropdown arrow on the top-strip link and the Admissions button: the same chevron, turned white for the dark/red fills.
+.topLink {
+  display: inline-flex;
+  align-items: center;
+  gap: u(6);
+
+  img {
+    width: u(9) !important;
+    filter: brightness(0) invert(1);
+    transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.btnChev {
+  width: u(12) !important;
+  filter: brightness(0) invert(1);
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item:hover .topLink img,
+.item:hover .btnChev,
+.item:has(:focus-visible) .btnChev {
+  rotate: 180deg;
 }
 
 // Contact us in the top strip opens the same dropdown as the main menu.
@@ -505,7 +481,7 @@
   a {
     display: block;
     padding: u(5) u(8);
-    margin-inline: u(-8);
+    margin-inline: u(-8) 0;
     overflow-wrap: anywhere;
     border-radius: u(6);
     line-height: 1.35;

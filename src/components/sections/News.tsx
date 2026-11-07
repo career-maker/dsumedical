@@ -3,14 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { Photo } from "@/components/ui/Photo";
+import Image from "next/image";
 import { news, newsTabs } from "@/data/news";
 import styles from "./News.module.scss";
 import { fluid } from "@/lib/sizes";
 
 export function News() {
   const [tab, setTab] = useState("all");
-  const items = tab === "all" ? news : news.filter((n) => n.tag === tab);
+  // The home grid is a fixed 3-column layout: show the three newest of the tab; /news lists everything.
+  const items = (tab === "all" ? news : news.filter((n) => n.tag === tab)).slice(0, 3);
 
   return (
     <section className={styles.section} aria-labelledby="news-title">
@@ -44,12 +45,14 @@ export function News() {
         {items.length > 0 ? (
           <ul className={styles.cards}>
             {items.map((n) => (
-              <li key={n.title} className={styles.card}>
-                <Photo name={n.photo} alt={n.alt} sizes={`(max-width: 768px) 100vw, ${fluid(640)}`} className={styles.photo} />
-                <time className={styles.date} dateTime={n.iso}>{n.date}</time>
+              <li key={n.slug} className={styles.card}>
+                <div className={styles.photo}>
+                  <Image src={`/images/${n.photo}`} alt={n.alt} fill sizes={`(max-width: 768px) 100vw, ${fluid(640)}`} />
+                </div>
+                {n.date && <time className={styles.date} dateTime={n.iso}>{n.date}</time>}
                 <h3>{n.title}</h3>
                 <p>{n.text}</p>
-                <Link prefetch={false} href="/news" className={styles.more}>
+                <Link prefetch={false} href={`/news/${n.slug}`} className={styles.more} aria-label={`Read more: ${n.title}`}>
                   READ MORE &gt;
                 </Link>
               </li>

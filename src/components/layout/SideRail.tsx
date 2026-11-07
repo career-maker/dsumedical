@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { doc } from "@/data/pages/docs";
 import { ShareMenu } from "./ShareMenu";
 import styles from "./SideRail.module.scss";
 
 // Every action opens its target directly: no intermediate pages.
 const actions = [
-  { icon: "download-side", label: "Download brochure", href: doc.brochure },
   { icon: "phone-side", label: "Call admissions", href: "tel:+916366885501" },
   { icon: "whatsapp", label: "Chat on WhatsApp", href: "https://wa.me/916366885501" },
   { icon: "play-side", label: "Watch our videos on YouTube", href: "https://www.youtube.com/@Dayanandasagaruniversityblr" },

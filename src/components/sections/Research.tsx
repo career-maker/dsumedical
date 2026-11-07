@@ -7,12 +7,12 @@ import styles from "./Research.module.scss";
 import { fluid } from "@/lib/sizes";
 
 const tileHref: Record<string, string> = {
-  "research-labs": "/research#criw",
-  "research-projects": "/research#ongoing",
-  "research-clinical": "/research#ongoing",
-  "research-publications": "/research#published-articles",
-  "research-conferences": "/research#student-research",
-  "research-grants": "/research#ongoing",
+  "home-research-labs": "/research#criw",
+  "home-research-projects": "/research#ongoing",
+  "home-research-clinical": "/research#ongoing",
+  "home-research-publications": "/research#published-articles",
+  "home-research-conferences": "/research#student-research",
+  "home-research-grants": "/research#ongoing",
 };
 
 export function Research() {
@@ -28,7 +28,7 @@ export function Research() {
           outcomes.
         </p>
         <div className={styles.checks}>
-          <Image src="/images/research-labs.jpg" alt="" fill sizes={fluid(615)} className={styles.checksBg} />
+          <Image src="/images/home-research-bg.jpg" alt="" fill sizes={fluid(615)} className={styles.checksBg} />
           <ul>
             {researchChecks.map((c) => (
               <li key={c}>
@@ -40,7 +40,7 @@ export function Research() {
         </div>
         <ul className={styles.mosaic}>
           {researchTiles.map((t) => (
-            <li key={t.photo} className={styles[t.photo.replace("research-", "t_")]}>
+            <li key={t.photo} className={styles[t.photo.replace("home-research-", "t_")]}>
               <Photo name={t.photo} alt={t.alt} cover={t.cover} sizes={fluid(304)} className={styles.tilePhoto} />
               <span>{t.label}</span>
               <Link prefetch={false} href={tileHref[t.photo]} className="stretch-link" aria-label={t.label} />

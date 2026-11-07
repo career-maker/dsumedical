@@ -14,6 +14,8 @@ export const external = {
 
 const L = (label: string, href: string, children?: NavLink[]): NavLink => ({ label, href, children });
 
+const nmc = L("NMC", "/university/nmc");
+
 // Menu structure and order follow the "CDSIMER Pages & Sections" sheet.
 const university = L("University", "/university", [
   L("About", "/university/about", [
@@ -31,7 +33,7 @@ const university = L("University", "/university", [
     L("Prevention of Sexual Harassment", "/university/policies/prevention-of-sexual-harassment"),
     L("Grievance Redressal Committee", "/university/policies/grievance-redressal"),
   ]),
-  L("NMC", "/university/nmc"),
+  nmc,
   L("Vision and Mission", doc.visionMission),
   L("Code of Conduct", doc.codeOfConduct),
   L("Anti-Ragging Committee", "/university/anti-ragging-committee"),
@@ -45,16 +47,14 @@ const programmes = L("Programmes", "/programs", [
 ]);
 
 const academics = L("Academics", "/academics", [
-  L("Academics", "/academics", [
-    L("Academics Year", "/academics#academic-year"),
-    L("AETCOM Module", doc.aetcom),
-    L("Holiday List", doc.holidays),
-    L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum"),
-  ]),
+  L("Academics Year", "/academics#academic-year"),
+  L("AETCOM Module", doc.aetcom),
+  L("Holiday List", doc.holidays),
+  L("Student Feedback on Curriculum", "/academics#student-feedback-on-curriculum"),
 ]);
 
-// Grouped and ordered as on the existing cdsimer.edu.in menu. Departments without a page here link to the listing.
-const dept = (label: string, slug?: string) => L(label, slug ? `/department/${slug}` : "/department");
+// Grouped and ordered as on the existing cdsimer.edu.in menu. 
+const dept = (label: string, slug = label.toLowerCase().replace(/[^a-z0-9]+/g, "-")) => L(label, `/department/${slug}`);
 const departments: NavLink = { mega: true, ...L("Departments", "/department", [
   L("Pre-Clinical", "/department", [dept("Anatomy", "anatomy"), dept("Biochemistry", "biochemistry"), dept("Physiology", "physiology")]),
   L("Others", "/department", [dept("Medical Education Unit"), L("Library", "/library"), dept("Skill Lab")]),
@@ -71,7 +71,7 @@ const departments: NavLink = { mega: true, ...L("Departments", "/department", [
   L("Super Speciality", "/department", [
     dept("Neurology", "neurology"), dept("Paediatric Surgery"), dept("Nephrology", "nephrology"), dept("Urology"), dept("Plastic Surgery"),
     dept("Oncology"), dept("Surgical Oncology"), dept("Cardiology", "cardiology"), dept("Cardiothoracic and Vascular Surgery"),
-    dept("Neurosurgery"), dept("Surgical Gastroenterology"), dept("Endocrinology"), dept("Cardiac Anesthesiology"),
+    dept("Neurosurgery"), dept("Surgical Gastroenterology"), dept("Endocrinology"), dept("Cardiac Anaesthesiology"),
   ]),
 ]) };
 
@@ -110,18 +110,18 @@ const admissions = L("Admissions", "/admissions", [
     L("Student List 2023-24", doc.ug2324),
     L("Student List 2022-23", doc.ug2223),
     L("Student List 2021-22", doc.ug2122),
+    L("Student List 2020-21", doc.ug2021),
   ]),
   L("PG Student List", "/admissions", [
     L("Student List 2025-26", doc.pg2526),
     L("Student List 2024-25", doc.pg2425),
-    L("Brochure", doc.brochure),
   ]),
 ]);
 
 const career = L("Career", "/career");
 const examination = L("Examination", "/examination");
 const contact = L("Contact us", "/contact", [
-  L("Key Contact us", "/contact/key-contacts"),
+  L("Key Contact", "/contact/key-contacts"),
   L("Postal Address", "/contact/postal-address"),
   L("Maps & Directions", "/contact/maps-and-directions"),
 ]);
@@ -135,7 +135,7 @@ const hostel = L("Hostel", external.hostel);
 /** Mobile menu: every main menu in sheet order. */
 export const mobileMenu: NavLink[] = [
   L("Home", "/"), university, programmes, academics, departments, hospital, research, admissions,
-  career, examination, contact, library, gallery, msr, erp, aebas, hostel,
+  nmc, career, examination, contact, library, gallery, msr, erp, aebas, hostel,
 ];
 
 // Desktop bar: main row splits around the logo; the rest sit in the top strip, same relative order.
@@ -143,5 +143,10 @@ export const navLeft: NavLink[] = [university, programmes, academics, department
 export const navRight: NavLink[] = [hospital, research];
 export const navAdmissions = admissions;
 export const topLeft: NavLink[] = [msr];
-export const topRight: NavLink[] = [career, examination, contact, library, gallery, aebas, hostel];
+export const topRight: NavLink[] = [nmc, career, examination, contact, library, gallery, aebas, hostel];
 export const topErp = erp;
+// Replaces the single phone number in the header: one tab, two numbers.
+export const topEnquiry: NavLink = L("Enquiry", "/enquiry", [
+  L("Student Admission Enquiry: 6366 885 501", "tel:+916366885501"),
+  L("Hospital Enquiry: 080 2608 6500", "tel:08026086500"),
+]);

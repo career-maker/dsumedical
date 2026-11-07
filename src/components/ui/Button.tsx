@@ -22,8 +22,10 @@ const dotColor: Record<Variant, string> = { primary: "#fff", outline: "#fff", gl
 
 export function Button({ href, variant = "primary", children, icon, className, width }: ButtonProps) {
   const trailing = icon === undefined ? <Dots color={dotColor[variant]} /> : icon;
+  // Files and external sites open in a new tab.
+  const newTab = href.startsWith("/docs/") || href.startsWith("http");
   return (
-    <Link prefetch={false} href={href} className={`${styles.btn} ${styles[variant]} ${className ?? ""}`}
+    <Link prefetch={false} href={href} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`${styles.btn} ${styles[variant]} ${className ?? ""}`}
       style={width ? ({ "--w": `calc(${width} * var(--u))` } as CSSProperties) : undefined}
     >
       <span>{children}</span>

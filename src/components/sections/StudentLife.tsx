@@ -21,7 +21,7 @@ export function StudentLife() {
         </Button>
         <ul className={styles.grid}>
           {studentLife.map((s) => (
-            <li key={s.photo} className={styles[s.photo.replace("life-", "g_")]}>
+            <li key={s.photo} className={styles[s.photo.replace("home-life-", "g_")]}>
               <Photo name={s.photo} alt={s.alt} sizes={`(max-width: 960px) 100vw, ${fluid(683)}`} className={styles.photo} />
               {s.label && <span>{s.label}</span>}
               <Link prefetch={false} href="/gallery" className="stretch-link" aria-label={s.label} />

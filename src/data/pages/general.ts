@@ -14,7 +14,7 @@ export const general: PageDef[] = [
     heroAlt: "Smiling medical student holding textbooks on the CDSIMER campus",
     actions: [{ label: "Enquire Now", href: "#enquiry", variant: "primary" }, { label: "Download Brochure", href: doc.brochure, variant: "glass" }],
     blocks: [
-      { t: "cards", title: "Select a programme", tone: "cream", cols: 3, items: [{ title: "MBBS", text: "Admission through NEET-UG.", href: "/programs/mbbs" }, { title: "Post Graduation", text: "Admission through NEET-PG.", href: "/programs/post-graduation" }, { title: "Ph.D", text: "Entrance and interview as per DSU rules.", href: "/programs/ph-d" }] },
+      { t: "cards", title: "Select a Programme", tone: "cream", cols: 3, items: [{ title: "MBBS", text: "Admission through NEET-UG.", href: "/programs/mbbs" }, { title: "Post Graduation", text: "Admission through NEET-PG.", href: "/programs/post-graduation" }, { title: "Ph.D", text: "Entrance and interview as per DSU rules.", href: "/programs/ph-d" }] },
       {
         t: "prose",
         id: "criteria",
@@ -24,7 +24,7 @@ export const general: PageDef[] = [
         items: [
           { p: "The MBBS program is affiliated to Dayananda Sagar University, Karnataka." },
           { p: "This course covers all preclinical, para-clinical and clinical disciplines through theory classes and clinical training as mandated by the MCI guidelines." },
-          { p: "**DURATION OF THE COURSE:** 4½ years plus 1 year of compulsory rotatory internship. **INTAKE: 150** students per year" },
+          { p: "**DURATION OF THE COURSE:** 4½ years plus 1 year of compulsory rotatory internship. **INTAKE: 200** students per year" },
           { p: "**KEA (CET) CODE: ==M083==**" },
         ],
       },
@@ -91,7 +91,7 @@ export const general: PageDef[] = [
         t: "prose",
         wide: true,
         id: "process",
-        title: "3. Admission Process for General/ Foreign/ NRI Category",
+        title: "Admission Process for General/ Foreign/ NRI Category",
         items: [
           {
             ul: [
@@ -125,7 +125,7 @@ export const general: PageDef[] = [
     heroAlt: "Hospital ward",
     blocks: [
       { t: "form", title: "Appointment request", lead: "We will confirm your slot by phone.", kind: "appointment" },
-      { t: "cta", title: "Emergency?", text: "Do not wait for an appointment.", actions: [{ label: "Call 1800 425 9900", href: "tel:18004259900" }] },
+      { t: "cta", title: "Emergency?", text: "Do not wait for an appointment.", actions: [{ label: "Hospital Enquiry: 080 2608 6500", href: "tel:08026086500" }] },
     ],
   },
   {
@@ -158,11 +158,11 @@ export const general: PageDef[] = [
     title: "Contact Us",
     eyebrow: "Contact",
     lead: "Reach the right office quickly.",
-    hero: "about.jpg",
+    hero: "banner-contact.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "cards", title: "How can we help?", cols: 3, items: [{ title: "Key Contacts", text: "Offices, departments and helplines.", href: "/contact/key-contacts" }, { title: "Postal Address", text: "Official address.", href: "/contact/postal-address" }, { title: "Maps & Directions", text: "Find us and get directions.", href: "/contact/maps-and-directions" }] },
-      { t: "form", title: "Send a message", kind: "contact" },
+      { t: "form", title: "Send a message", image: "contact-message.jpg", kind: "contact" },
     ],
   },
   {
@@ -170,7 +170,7 @@ export const general: PageDef[] = [
     title: "Key Contacts",
     eyebrow: "Contact",
     lead: "Verified offices and helplines.",
-    hero: "about.jpg",
+    hero: "banner-contact.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
       {
@@ -178,14 +178,13 @@ export const general: PageDef[] = [
         title: "Contacts",
         cols: ["Office", "Phone", "Email"],
         rows: [
-          ["Admission Enquiry: MBBS", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"],
+          ["Student Admission Enquiry", "+91 6366885501", "admissions.cdsimer@dsu.edu.in"],
           ["Admission Enquiry: Allied Health Sciences", "+91 8046461800", "admissions@dsu.edu.in"],
           ["Principal & Dean", "+91 9448015663", "principal.cdsimer@dsu.edu.in"],
           ["Medical Superintendent", "+91 7760051978", "md.vp.cdsimer@dsu.edu.in"],
           ["HR Manager", "+91 9886698368", "sairam-hr@dsu.edu.in"],
           ["Registrar", "+91 9845716228", "registrar@dsu.edu.in"],
-          ["CDSIMER Hospital", "080 26086500", "—"],
-          ["Toll Free Number", "1800 425 9900", "—"],
+          ["Hospital Enquiry", "080 26086500", "—"],
         ],
       },
       { t: "links", title: "Contact", items: [{ label: "Postal Address", href: "/contact/postal-address" }, { label: "Maps & Directions", href: "/contact/maps-and-directions" }] },
@@ -196,7 +195,7 @@ export const general: PageDef[] = [
     title: "Postal Address",
     eyebrow: "Contact",
     lead: "Official address for correspondence.",
-    hero: "about.jpg",
+    hero: "banner-contact.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "address", title: "Address", lines: ["Dr. Chandramma Dayananda Sagar Institute of Medical Education & Research", "Devarakaggalahalli, Kanakapura Road", "Bengaluru South District, Karnataka - 562112"], phone: "080 26086500", email: "info@cdsimer.edu.in", mapsHref: "/contact/maps-and-directions" },
@@ -207,7 +206,7 @@ export const general: PageDef[] = [
     title: "Maps & Directions",
     eyebrow: "Contact",
     lead: "Find CDSIMER and plan your visit.",
-    hero: "life-campus.jpg",
+    hero: "banner-contact.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "map", title: "Campus location", lead: "Devarakaggalahalli, Kanakapura Road, Bengaluru South District, Karnataka - 562112.", query: "Dr. Chandramma Dayananda Sagar Institute of Medical Education and Research" },
@@ -266,6 +265,7 @@ export const general: PageDef[] = [
         t: "profiles",
         id: "staff",
         title: "Library staff",
+        cols: 4,
         items: [
           { name: "Dr. Johnson C David", role: "Chief Librarian", text: "M.L.I.Sc., M.Phil., Ph.D.", image: "lib-johnson.jpg" },
           { name: "Dr. Malleshappa G K", role: "Incharge Librarian", text: "M.L.I.Sc., Ph.D.", image: "lib-malleshappa.jpg" },
@@ -320,7 +320,7 @@ export const general: PageDef[] = [
     title: "Gallery",
     eyebrow: "University",
     lead: "Campus, hospital and academic life in pictures.",
-    hero: "life-campus.jpg",
+    hero: "banner-contact.jpg",
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "gallery", title: "Module-wise gallery", groups: galleryGroups },

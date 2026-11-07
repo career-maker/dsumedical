@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import styles from "./EnquiryPopup.module.scss";
@@ -45,9 +46,18 @@ export function EnquiryPopup() {
     <div className={styles.backdrop} onClick={() => setOpen(false)}>
       <div ref={panel} className={styles.panel} role="dialog" aria-modal="true" aria-label="Admission enquiry" data-lenis-prevent onClick={(e) => e.stopPropagation()}>
         <button type="button" className={styles.close} aria-label="Close" onClick={() => setOpen(false)} />
-        <h2>Admission Enquiry</h2>
-        <p>Share your details and our counsellors will reach out.</p>
-        <Enquiry kind="admission" />
+        <aside className={styles.media}>
+          <Image src="/images/contact-message.jpg" alt="" fill sizes="(max-width: 900px) 0px, 380px" />
+          <div className={styles.caption}>
+            <strong>Begin your medical career at CDSIMER</strong>
+            <span>NAAC A+ · NABH · NABL accredited</span>
+          </div>
+        </aside>
+        <div className={styles.body}>
+          <h2>Admission Enquiry</h2>
+          <p>Share your details and our counsellors will reach out.</p>
+          <Enquiry kind="admission" />
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import type { Block, ProseItem } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
 import { Carousel } from "./Carousel";
+import { LeaderSlides } from "./LeaderSlides";
+import marquee from "./Marquee.module.scss";
 import { VideoFrame } from "./VideoFrame";
 import { PhaseGrid } from "./PhaseGrid";
 import { JumpNav } from "./JumpNav";
@@ -128,7 +130,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
     case "text":
       return (
         <Section block={b}>
-          <div className={`${styles.split} ${b.image || b.video || auto ? "" : styles.single} ${b.flip ? styles.flip : ""}`}>
+          <div className={`${styles.split} ${b.image || b.video || auto ? "" : styles.single} ${b.center ? styles.centered : ""} ${b.flip ? styles.flip : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
@@ -166,6 +168,33 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
         </Section>
       );
     case "cards":
+      if (b.logos)
+        return (
+          <Section block={b}>
+            <Head title={b.title} lead={b.lead} />
+            <ul className={`${styles.logoGrid} ${styles[`c${b.cols ?? 4}`]}`}>
+              {b.items.map((c) => {
+                const inner = (
+                  <>
+                    <span className={styles.logo}>{c.image && <Image src={`/images/${c.image}`} alt={`${c.title}${c.text ? `: ${c.text}` : ""}`} fill sizes="(max-width: 640px) 70vw, 300px" />}</span>
+                    {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
+                  </>
+                );
+                return (
+                  <li key={c.title}>
+                    {c.href ? (
+                      <SmartLink href={c.href} className={styles.logoItem}>
+                        {inner}
+                      </SmartLink>
+                    ) : (
+                      <div className={styles.logoItem}>{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </Section>
+        );
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
@@ -182,6 +211,13 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
                     {c.tag && <span className={styles.tag}>{c.tag}</span>}
                     <h3>{c.title}</h3>
                     {c.text && <p>{c.text}</p>}
+                    {c.bullets && (
+                      <ul className={styles.cardList}>
+                        {c.bullets.map((x) => (
+                          <li key={x}>{x}</li>
+                        ))}
+                      </ul>
+                    )}
                     {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
                   </span>
                 </>
@@ -218,6 +254,25 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
         </Section>
       );
     case "steps":
+      if (b.marquee)
+        return (
+          <Section block={b}>
+            <Head title={b.title} lead={b.lead} />
+            <div className={marquee.root}>
+              <ol className={marquee.track}>
+                {[0, 1].map((copy) =>
+                  b.items.map((s, i) => (
+                    <li key={`${copy}-${s.title}`} className={marquee.card} aria-hidden={copy ? true : undefined}>
+                      <span className={marquee.label}>{s.label ?? i + 1}</span>
+                      <h3>{s.title}</h3>
+                      <p>{s.text}</p>
+                    </li>
+                  )),
+                )}
+              </ol>
+            </div>
+          </Section>
+        );
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
@@ -236,7 +291,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles.c3}`}>
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${b.items.length === 1 ? styles.single : ""}`}>
             {b.items.map((p) => (
               <li key={p.name} className={`${styles.profile} ${p.image ? "" : styles.plain}`}>
                 <span className={styles.avatar} aria-hidden="true">
@@ -254,16 +309,39 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles.c3}`}>
+          <ul className={`${styles.grid} ${styles.c2}`}>
             {b.items.map((d) => (
               <li key={d.title} className={styles.doc}>
-                <span className={styles.file}>{d.type}</span>
-                <div>
-                  <h3>{d.title}</h3>
-                  {d.note && <p>{d.note}</p>}
-                </div>
-                <SmartLink href={d.href ?? "#"} className={styles.dl}>
-                  View / Download
+                <SmartLink href={d.href ?? "#"} className={styles.docLink}>
+                  <span className={styles.docIcon} aria-hidden="true">
+                    <svg viewBox="0 0 44 52" width="44" height="52">
+                      <defs>
+                        <linearGradient id="pdfg" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0" stopColor="#f05a28" />
+                          <stop offset="1" stopColor="#d1281c" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M4 6a4 4 0 0 1 4-4h20l12 12v32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="url(#pdfg)" />
+                      <path d="M28 2l12 12H32a4 4 0 0 1-4-4z" fill="#fff" opacity=".45" />
+                      <text x="22" y="38" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff" fontFamily="inherit">
+                        {d.type}
+                      </text>
+                    </svg>
+                  </span>
+                  <span className={styles.docBody}>
+                    <h3>{d.title}</h3>
+                    {d.note && <p>{d.note}</p>}
+                    <span className={styles.docRule} />
+                    <span className={styles.dl}>{d.type === "LINK" ? "Open link" : "View / Download"}</span>
+                  </span>
+                  <span className={styles.docDeco} aria-hidden="true">
+                    <span className={styles.docSheet} />
+                    <span className={styles.docBtn}>
+                      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14" />
+                      </svg>
+                    </span>
+                  </span>
                 </SmartLink>
               </li>
             ))}
@@ -364,7 +442,14 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
-          <Carousel items={b.items} />
+          <Carousel items={b.items} grid={b.grid} />
+        </Section>
+      );
+    case "slides":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <LeaderSlides items={b.items} />
         </Section>
       );
     case "gallery":
@@ -378,7 +463,7 @@ function Render({ b, auto }: { b: Block; auto?: string }) {
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
           <Head title={b.title} lead={b.lead} />
-          <Aside img={auto ?? POOL.form[0]}>
+          <Aside img={b.image ?? auto ?? POOL.form[0]}>
             <Enquiry kind={b.kind} />
           </Aside>
         </Section>
@@ -475,7 +560,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
   const taken = new Set(list.flatMap((b) => ("image" in b && b.image ? [b.image] : [])));
   const used = { text: 0, faq: 0, form: 0, address: 0 };
   const autos = list.map((b, i) => {
-    const kind = b.t === "text" ? (b.image || b.video ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
+    const kind = b.t === "text" ? (b.image || b.video || b.center ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
     if (!kind) return undefined;
     const pool = POOL[kind];
     const start = used[kind]++ + i;

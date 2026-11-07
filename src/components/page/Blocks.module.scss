@@ -86,6 +86,24 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   grid-template-columns: minmax(0, u(1100));
 }
 
+// Centred intro text sits tight above the block that follows it.
+.section:has(.centered) {
+  padding-bottom: u(10);
+}
+
+.section:has(.centered) + .section {
+  padding-top: u(30);
+}
+
+.centered {
+  justify-content: center;
+  text-align: center;
+
+  .row {
+    justify-content: center;
+  }
+}
+
 .flip .media {
   order: -1;
 
@@ -229,6 +247,12 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   --min: 240px;
 }
 
+// A lone profile keeps a normal card size, centred, instead of stretching full width.
+.single {
+  max-width: 340px;
+  margin-inline: auto;
+}
+
 // Same recipe as the homepage cards: white, hairline border, soft shadow, orange on hover.
 .card {
   position: relative;
@@ -267,6 +291,35 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     background: var(--gradient-cta);
     transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
+}
+
+.cardList {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+
+  li {
+    position: relative;
+    padding-left: 22px;
+    font-size: fs(17, 15);
+    line-height: 1.65;
+    color: var(--slate);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.65em;
+      left: 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+  }
+}
+
+.c2 .cardList li {
+  font-size: fs(18, 16);
 }
 
 a.card:hover,
@@ -309,11 +362,6 @@ a.card:focus-visible {
 
 .c2 .card:hover .cardImg img {
   scale: 1.04;
-}
-
-.c2 .cardBody {
-  border-top: 3px solid transparent;
-  border-image: var(--gradient-cta) 1;
 }
 
 .c2 .card h3 {
@@ -515,27 +563,55 @@ a.card:focus-visible {
 }
 
 // ---- documents ----
+// Wide card: PDF tile, title and action on the left; a faint sheet and a download button on the right.
 .doc {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 16px;
-  align-items: center;
+  position: relative;
   height: 100%;
-  padding: max(18px, u(24));
-  border: 1px solid $line;
-  border-radius: u(10);
-  background: #fff;
-  box-shadow: $shadow;
+  border: 1px solid rgba(239, 103, 17, 0.14);
+  border-radius: u(14);
+  background: linear-gradient(100deg, #fff 48%, #fff3ea);
+  box-shadow: 0 6px 18px rgba(60, 20, 0, 0.06);
+  overflow: hidden;
+}
 
-  > div {
-    flex: 1 1 150px;
-    min-width: 0;
+.docLink {
+  display: flex;
+  align-items: center;
+  gap: max(16px, u(26));
+  min-height: u(150);
+  padding: max(18px, u(28)) max(104px, u(150)) max(18px, u(28)) max(18px, u(28));
+  background-image: none;
+}
+
+.docIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: u(76);
+  height: u(76);
+  min-width: 60px;
+  min-height: 60px;
+  border-radius: u(16);
+  background: #fde3d6;
+  box-shadow: 0 8px 16px rgba(239, 103, 17, 0.14);
+
+  svg {
+    width: 56%;
+    height: auto;
   }
+}
+
+.docBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
 
   h3 {
-    font-size: fs(18, 16);
-    font-weight: 500;
-    line-height: 1.4;
+    font-size: fs(21, 17);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
   }
 
   p {
@@ -546,27 +622,122 @@ a.card:focus-visible {
   }
 }
 
-.file {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 48px;
-  height: 56px;
-  border-radius: 6px;
-  background: var(--peach);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--red);
+.docRule {
+  width: 54px;
+  height: 3px;
+  margin-block: 14px;
+  border-radius: 2px;
+  background: #e6e2de;
 }
 
-.dl,
-.pending {
-  flex: 1 1 100%;
-  padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
-  font-size: 15px;
-  font-weight: 500;
+.docDeco {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: max(104px, u(170));
+  pointer-events: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: -30%;
+    top: -10%;
+    width: 120%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(239, 103, 17, 0.1), rgba(239, 103, 17, 0) 70%);
+  }
 }
+
+.docSheet {
+  position: absolute;
+  right: 22%;
+  top: 22%;
+  width: 46%;
+  aspect-ratio: 0.8;
+  border-radius: 10px;
+  background:
+    linear-gradient(#f7c9b4, #f7c9b4) 18% 22% / 56% 6px no-repeat,
+    linear-gradient(#f7c9b4, #f7c9b4) 18% 40% / 64% 6px no-repeat,
+    linear-gradient(#f7c9b4, #f7c9b4) 18% 58% / 48% 6px no-repeat,
+    #fff;
+  box-shadow: 0 8px 18px rgba(239, 103, 17, 0.16);
+  opacity: 0.8;
+  rotate: 8deg;
+
+  @include below($bp-sm) {
+    display: none;
+  }
+}
+
+.docBtn {
+  position: absolute;
+  right: max(18px, u(30));
+  bottom: max(16px, u(26));
+  display: grid;
+  place-items: center;
+  width: u(60);
+  height: u(60);
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(60, 20, 0, 0.14);
+  color: var(--orange);
+  transition: background-color 0.3s, color 0.3s, scale 0.3s;
+}
+
+.docLink:hover .docBtn,
+.docLink:focus-visible .docBtn {
+  background: var(--orange);
+  color: #fff;
+  scale: 1.06;
+}
+
+@include below($bp-sm) {
+  .docLink {
+    gap: 14px;
+    min-height: 0;
+    padding: 18px 76px 18px 16px;
+  }
+
+  .docIcon {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+  }
+
+  .docDeco {
+    width: 76px;
+  }
+
+  .dl {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .docBtn {
+    right: 14px;
+    bottom: 50%;
+    translate: 0 50%;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+.docLink:hover .dl::after,
+.docLink:focus-visible .dl::after {
+  translate: 5px 0;
+}
+
+
 
 .dl {
   background-image: none;
@@ -777,8 +948,9 @@ a.card:focus-visible {
 // ---- in-page jump bar ----
 .jump {
   position: sticky;
-  top: 0;
+  top: var(--jump-top, 0px);
   z-index: 15;
+  transition: top 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   border-bottom: 1px solid $line;
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(8px);
@@ -1320,6 +1492,117 @@ a.card:hover .more {
 
 .cardsColor > li:nth-child(3n) .card {
   background: linear-gradient(135deg, #b81c1c, #dc2725);
+}
+
+// Accreditation logos: shown whole on the section background, caption beneath.
+.logoGrid {
+  display: grid;
+  gap: max(28px, u(48)) max(20px, u(32));
+  margin-top: 8px;
+  list-style: none;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  @include below($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.logoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+
+  p {
+    margin-top: 14px;
+    font-size: fs(17, 15);
+    line-height: 1.5;
+    color: var(--slate);
+  }
+}
+
+.logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: u(160);
+  min-height: 110px;
+  transition: scale 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.logoItem .more {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+a.logoItem:hover .logo,
+a.logoItem:focus-visible .logo,
+.logoItem:hover .logo {
+  scale: 1.06;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoItem:hover .logo {
+    scale: 1;
+  }
+}
+
+// Four across: each card gets its own colour instead of repeating the first one on the fourth.
+.c4.cardsColor > li:nth-child(4n + 1) .card {
+  background: linear-gradient(135deg, #440a03, #7b1b1b);
+}
+
+.c4.cardsColor > li:nth-child(4n + 2) .card {
+  background: linear-gradient(135deg, #c2410c, #d95a0e);
+}
+
+.c4.cardsColor > li:nth-child(4n + 3) .card {
+  background: linear-gradient(135deg, #b81c1c, #dc2725);
+}
+
+.c4.cardsColor > li:nth-child(4n) .card {
+  background: linear-gradient(135deg, #1e2a5e, #34468f);
+}
+
+// Hover: the card lifts and a soft highlight sweeps across it.
+.cardsColor .card {
+  transition: translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+    translate: -110% 0;
+    transition: translate 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  &:hover {
+    translate: 0 -8px;
+    box-shadow: 0 16px 30px rgba(60, 20, 0, 0.28);
+
+    &::before {
+      translate: 110% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      translate: 0 0;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
 }
 
 // Prose beside a photo: the text takes its column rather than the reading width.

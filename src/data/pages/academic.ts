@@ -25,6 +25,8 @@ type Prog = {
   faq: { q: string; a: string }[];
   /** Programme-specific blocks (documents, intake tables) shown after the curriculum. */
   extra?: Block[];
+  /** Section photos (files in /images). */
+  img: { about: string; why: string; clinical: string; elig: string; faq: string; detail?: string };
 };
 
 const prog = (p: Prog): PageDef => {
@@ -34,11 +36,10 @@ const prog = (p: Prog): PageDef => {
       eyebrow: "Overview",
       title: `${p.name} at CDSIMER`,
       body: p.overview,
-      image: "life-students.jpg",
+      image: p.img.about,
       alt: p.heroAlt,
       actions: [
         { label: "Apply Now", href: "/admissions", variant: "primary" },
-        { label: "Download Brochure", href: doc.brochure, variant: "soft" },
       ],
     },
     { t: "stats", title: `${p.name} at a Glance`, tone: "cream", colored: true, items: p.glance },
@@ -47,7 +48,7 @@ const prog = (p: Prog): PageDef => {
       title: `Why study ${p.name} at CDSIMER?`,
       plain: true,
       open: true,
-      image: "why-faculty.jpg",
+      image: p.img.why,
       items: [
         { q: "Teaching hospital", a: "A 900+ bed hospital with 1000+ daily patient footfall." },
         { q: "Experienced faculty", a: "Mentorship from clinicians, teachers and researchers." },
@@ -58,33 +59,33 @@ const prog = (p: Prog): PageDef => {
     {
       t: "carousel",
       id: "curriculum",
+      grid: true,
       title: p.curriculumTitle ?? "Curriculum as per NMC norms",
       tone: "cream",
-      items: [...p.phases.map((x) => ({ tag: x.label, title: x.title, text: x.text })), ...(p.curriculumDocs ?? []).map((d) => ({ tag: "PDF", title: d.title, href: d.href }))],
+      items: p.phases.map((x) => ({ tag: x.label, title: x.title, text: x.text })),
     },
+    ...(p.curriculumDocs?.length ? [{ t: "docs" as const, title: "Curriculum documents", items: p.curriculumDocs.map((d) => ({ title: d.title, type: "PDF", href: d.href })) }] : []),
     {
       t: "carousel",
       id: "outcomes",
+      grid: true,
       title: "Programme outcomes",
-      items: [
-        ...p.outcomes.map((o, i) => ({ tag: String(i + 1).padStart(2, "0"), title: o.title, text: o.text })),
-        ...(p.outcomesDoc ? [{ tag: "PDF", title: "Programme outcomes document", href: p.outcomesDoc }] : []),
-      ],
+      items: p.outcomes.map((o, i) => ({ tag: String(i + 1).padStart(2, "0"), title: o.title, text: o.text })),
     },
+    ...(p.outcomesDoc ? [{ t: "docs" as const, title: "Programme outcomes document", items: [{ title: "Programme outcomes", type: "PDF", href: p.outcomesDoc }] }] : []),
     ...(p.extra ?? []),
-    { t: "text", title: "Clinical experience", body: ["Learning is anchored in real patient care across the teaching hospital."], bullets: p.clinical, image: "hospital-ward.jpg", alt: "CDSIMER teaching hospital ward", flip: true, tone: "cream" },
-    { t: "text", id: "eligibility", title: "Eligibility, entrance exam & admissions", body: ["Eligibility and entrance-exam rules follow current NMC and university regulations. Confirm the latest details with the admissions office."], bullets: p.eligibility, actions: [{ label: "Admission process", href: "/admissions#process", variant: "soft" }] },
-    ...(p.eligibilityDetail ? [{ t: "faq" as const, id: "eligibility-detail", title: "Eligibility criteria in detail", items: p.eligibilityDetail, image: "life-library.jpg" }] : []),
+    { t: "text", title: "Clinical experience", body: ["Learning is anchored in real patient care across the teaching hospital."], bullets: p.clinical, image: p.img.clinical, alt: "CDSIMER teaching hospital ward", flip: true, tone: "cream" },
+    { t: "text", id: "eligibility", title: "Eligibility, entrance exam & admissions", body: ["Eligibility and entrance-exam rules follow current NMC and university regulations. Confirm the latest details with the admissions office."], bullets: p.eligibility, image: p.img.elig, alt: "Students at CDSIMER", actions: [{ label: "Admission process", href: "/admissions#process", variant: "soft" }] },
+    ...(p.eligibilityDetail ? [{ t: "faq" as const, id: "eligibility-detail", title: "Eligibility criteria in detail", items: p.eligibilityDetail, image: p.img.detail }] : []),
     { t: "cards", title: "Career opportunities", tone: p.eligibilityDetail ? undefined : "cream", cols: 4, items: p.careers.map((c) => ({ title: c, text: "" })) },
-    { t: "faq", title: "Frequently asked questions", plain: !p.eligibilityDetail, items: p.faq },
+    { t: "faq", title: "Frequently asked questions", plain: !p.eligibilityDetail, image: p.img.faq, items: p.faq },
     {
       t: "cta",
       title: `Ready to begin your ${p.name} journey?`,
-      text: "Apply, enquire or download the brochure to take the next step.",
+      text: "Apply or enquire to take the next step.",
       actions: [
         { label: "Apply Now", href: "/admissions" },
         { label: "Enquire", href: "/enquiry", variant: "outline" },
-        { label: "Download Brochure", href: "/brochure", variant: "soft" },
       ],
     },
   ];
@@ -95,7 +96,7 @@ const prog = (p: Prog): PageDef => {
     lead: p.lead,
     hero: p.hero,
     heroAlt: p.heroAlt,
-    actions: [{ label: "Apply Now", href: "/admissions", variant: "primary" }, { label: "Download Brochure", href: "/brochure", variant: "glass" }],
+    actions: [{ label: "Apply Now", href: "/admissions", variant: "primary" }],
     blocks,
   };
 };
@@ -104,7 +105,7 @@ const prog = (p: Prog): PageDef => {
 const ay = (slug: string) => `https://cdsimer.edu.in/${slug}`;
 
 const common = {
-  hero: "hero.jpg",
+  hero: "banner-mbbs.jpg",
   heroAlt: "Smiling medical student holding textbooks on the CDSIMER campus",
 };
 
@@ -114,7 +115,7 @@ export const academic: PageDef[] = [
     title: "Programs",
     eyebrow: "Academics",
     lead: "Undergraduate, postgraduate and doctoral programmes designed to prepare future healthcare leaders.",
-    hero: "academics-bg.jpg",
+    hero: "banner-academic.jpg",
     heroAlt: "Students walking across the campus",
     blocks: [
       {
@@ -134,6 +135,7 @@ export const academic: PageDef[] = [
   prog({
     ...common,
     slug: "mbbs",
+    img: { about: "mbbs-about.jpg", why: "mbbs-why.jpg", clinical: "mbbs-clinical.jpg", elig: "mbbs-elig.jpg", faq: "mbbs-faq.jpg", detail: "mbbs-detail.jpg" },
     name: "MBBS",
     full: "MBBS Programme",
     lead: "A rigorous undergraduate medical degree with early clinical exposure in a 900+ bed teaching hospital.",
@@ -141,7 +143,7 @@ export const academic: PageDef[] = [
       "The MBBS of four and a half years duration, is followed by one year of Compulsory Rotating Internship. The Medical Council of India (now National Medical Commission) has revised the curriculum from the academic year 2019-2020 onwards.",
       "The new curriculum “Competency Based Medical Education” focuses on the Indian Medical Graduate being competent enough to perform tasks of a primary care physician of first contact upon completion of training. The course begins with a short foundation course sensitizing students to basic principles of communication and ethics, health situation in India and role of doctors in community.",
     ],
-    glance: [{ value: "150", label: "Students per year" }, { value: "5.5 Years", label: "Total Duration" }, { value: "NEET-UG", label: "Admission route" }, { value: "900+", label: "Teaching hospital beds" }],
+    glance: [{ value: "200", label: "Students per year" }, { value: "5.5 Years", label: "Total Duration" }, { value: "NEET-UG", label: "Admission route" }, { value: "900+", label: "Teaching hospital beds" }],
     phases: [
       { label: "Phase I", title: "Pre-clinical", text: "Anatomy, physiology, biochemistry and the foundation course." },
       { label: "Phase II", title: "Para-clinical", text: "Pathology, pharmacology, microbiology, forensic medicine and community exposure." },
@@ -186,18 +188,19 @@ export const academic: PageDef[] = [
     faq: [
       { q: "Is NEET mandatory for MBBS admission?", a: "Yes. Admission is through NEET-UG and the applicable counselling process." },
       { q: "How long is the MBBS course?", a: "4½ years plus one year of compulsory rotatory internship, as per NMC norms." },
-      { q: "How many students are admitted each year?", a: "The intake is 150 students per year." },
+      { q: "How many students are admitted each year?", a: "The intake is 200 students per year." },
       { q: "Is hostel accommodation available?", a: "Yes. See hostel details on the Admissions page." },
     ],
   }),
   prog({
     ...common,
     slug: "post-graduation",
+    img: { about: "pg-about.jpg", why: "pg-why.jpg", clinical: "pg-clinical.jpg", elig: "pg-elig.jpg", faq: "pg-faq.jpg" },
     name: "Post Graduation",
     full: "Post Graduation Programme",
     lead: "MD / MS and super-speciality training with senior faculty, advanced facilities and a research culture.",
-    hero: "hospital-ward.jpg",
-    heroAlt: "CDSIMER teaching hospital ward",
+    hero: "banner-pg.jpg",
+    heroAlt: "Postgraduate students at CDSIMER",
     overview: ["The Post Graduate programme is offered under Dayananda Sagar University, Karnataka. Training deepens clinical expertise through supervised practice, academic seminars and research in a large teaching hospital."],
     glance: [{ value: "MD / MS", label: "Degrees" }, { value: "3 yrs", label: "Duration" }, { value: "47", label: "Total PG seats" }, { value: "NEET-PG", label: "Admission route" }],
     phases: [
@@ -245,11 +248,12 @@ export const academic: PageDef[] = [
   prog({
     ...common,
     slug: "ph-d",
+    img: { about: "phd-about.jpg", why: "phd-why.jpg", clinical: "phd-clinical.jpg", elig: "phd-elig.jpg", faq: "phd-faq.jpg" },
     name: "Ph.D",
     full: "Ph.D Programme",
     lead: "Doctoral research with expert guides, modern laboratories and institutional ethics oversight.",
-    hero: "research-labs.jpg",
-    heroAlt: "Researchers working in a laboratory",
+    hero: "banner-phd.jpg",
+    heroAlt: "Ph.D scholars at CDSIMER",
     overview: ["The Ph.D programme is offered under Dayananda Sagar University, Karnataka, and supports original research in biomedical and clinical sciences under the university research framework."],
     glance: [{ value: "3–5 yrs", label: "MBBS, MD / MS candidates" }, { value: "4–6 yrs", label: "M.Sc candidates" }, { value: "2", label: "Candidates per guide, per year" }, { value: "Entrance + interview", label: "Admission route" }],
     phases: [
@@ -290,7 +294,7 @@ export const academic: PageDef[] = [
     title: "Academics",
     eyebrow: "Academics",
     lead: "Academic year timetables, the AETCOM module, the holiday list and student feedback on the curriculum.",
-    hero: "academics-bg.jpg",
+    hero: "banner-academic.jpg",
     heroAlt: "Students walking across the campus",
     blocks: [
       {
@@ -311,10 +315,10 @@ export const academic: PageDef[] = [
         cols: 4,
         more: "View report",
         items: [
-          { tag: "Phase I", title: "Pre-clinical", text: "Student feedback report for Phase I.", image: "life-students.jpg", href: doc.feedback1 },
-          { tag: "Phase II", title: "Para-clinical", text: "Student feedback report for Phase II.", image: "life-library.jpg", href: doc.feedback2 },
-          { tag: "Phase III – Part I", title: "Clinical I", text: "Student feedback report for Phase III, Part I.", image: "hospital-ward.jpg", href: doc.feedback31 },
-          { tag: "Phase III – Part II", title: "Clinical II", text: "Student feedback report for Phase III, Part II.", image: "hospital-surgery.jpg", href: doc.feedback32 },
+          { tag: "Phase I", title: "Pre-clinical", text: "Student feedback report for Phase I.", image: "fb-pre.jpg", href: doc.feedback1 },
+          { tag: "Phase II", title: "Para-clinical", text: "Student feedback report for Phase II.", image: "fb-para.jpg", href: doc.feedback2 },
+          { tag: "Phase III – Part I", title: "Clinical I", text: "Student feedback report for Phase III, Part I.", image: "fb-clin1.jpg", href: doc.feedback31 },
+          { tag: "Phase III – Part II", title: "Clinical II", text: "Student feedback report for Phase III, Part II.", image: "fb-clin2.jpg", href: doc.feedback32 },
         ],
       },
       { t: "links", title: "Related", items: [{ label: "Programs", href: "/programs" }, { label: "Examination", href: "/examination" }, { label: "Departments", href: "/department" }] },

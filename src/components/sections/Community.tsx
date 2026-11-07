@@ -20,7 +20,7 @@ export function Community() {
         </ul>
         <div className={styles.bar}>
           <p>Committed to improving public health through accessible, compassionate, and community-focused healthcare services</p>
-          <Link prefetch={false} href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.follow}>
+          <Link prefetch={false} href="https://www.instagram.com/cdsimerblr/" target="_blank" rel="noopener noreferrer" className={styles.follow}>
             <Icon name="instagram" />
             Follow Us
           </Link>

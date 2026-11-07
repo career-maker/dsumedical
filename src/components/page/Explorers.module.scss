@@ -269,3 +269,53 @@ a.card:hover {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+// gallery pagination
+.galTop {
+  display: block;
+  scroll-margin-top: 150px;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: max(28px, u(44));
+
+  button {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #d5d3d3;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pageOn,
+.pager button.pageOn {
+  border-color: transparent;
+  background: var(--gradient-cta);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    color: #fff;
+  }
+}

@@ -24,7 +24,7 @@ function Chevron() {
 
 // Home cards: the four designed ones keep their exact art; every other department comes from the shared list.
 const designed = new Map(departments.map((d) => [d.title, d]));
-const tabIcon = { pre: "ac-mbbs", para: "d-path", clinical: "ac-pg", super: "ac-ss" } as const;
+const tabIcon = { pre: "ac-mbbs", para: "d-path", clinical: "ac-pg", super: "ac-ss", others: "ac-mbbs" } as const;
 const others = ["radiodiagnosis", "anaesthesiology", "forensic-medicine-and-toxicology"];
 const cardsFor = (tab: string) =>
   depts
@@ -72,7 +72,7 @@ export function Departments() {
               className={`${styles.tab} ${tab === t.id ? styles.tabOn : ""}`}
               onClick={() => setTab(t.id)}
             >
-              <Icon name={t.icon} />
+              <Icon name={t.id === "para" && tab !== "para" ? "tab-para-idle" : t.icon} />
               {t.label}
             </button>
           ))}

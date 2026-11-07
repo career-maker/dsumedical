@@ -1,7 +1,7 @@
 import type { IconName } from "./iconMeta";
 
 export const stats: { icon: IconName; value: string; label: string }[] = [
-  { icon: "stat-mbbs", value: "150+", label: "MBBS Seats" },
+  { icon: "stat-mbbs", value: "200+", label: "MBBS Seats" },
   { icon: "stat-spec", value: "30+", label: "Super Specialities" },
   { icon: "stat-pub", value: "200+", label: "Research Publications" },
   { icon: "stat-beds", value: "900+", label: "Teaching Hospital Beds" },
@@ -73,7 +73,7 @@ export const departmentTabs: { id: string; label: string; icon: IconName }[] = [
 export const departments: { tab: string; photo: string; icon: IconName; title: string; text: string; alt: string }[] = [
   {
     tab: "para",
-    photo: "dept-pathology",
+    photo: "home-dept-pathology",
     icon: "d-path",
     title: "Pathology",
     text: "Explore the science of disease through advanced diagnostics, laboratory research, and hands-on clinical training.",
@@ -81,7 +81,7 @@ export const departments: { tab: string; photo: string; icon: IconName; title: s
   },
   {
     tab: "para",
-    photo: "dept-pharmacology",
+    photo: "home-dept-pharmacology",
     icon: "d-pharm",
     title: "Pharmacology",
     text: "Explore drug mechanisms, therapeutic effects, and rational prescribing through practical learning.",
@@ -89,7 +89,7 @@ export const departments: { tab: string; photo: string; icon: IconName; title: s
   },
   {
     tab: "para",
-    photo: "dept-microbiology",
+    photo: "home-dept-microbiology",
     icon: "d-micro",
     title: "Microbiology",
     text: "Explore microorganisms and their role in health, disease, diagnosis, and infection control through advanced laboratory training.",
@@ -97,7 +97,7 @@ export const departments: { tab: string; photo: string; icon: IconName; title: s
   },
   {
     tab: "para",
-    photo: "dept-community",
+    photo: "home-dept-community",
     icon: "d-comm",
     title: "Community Medicine",
     text: "Delivering preventive healthcare, rural outreach, and community wellness through compassionate medical services.",

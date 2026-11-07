@@ -36,7 +36,7 @@ const programs: Program[] = [
       facts: [
         { icon: "ac-years", text: "4.5 years" },
         { icon: "ac-time", text: "Full Time" },
-        { icon: "ac-students", text: "150+ seats" },
+        { icon: "ac-students", text: "200+ seats" },
       ],
     },
   },
@@ -137,7 +137,7 @@ export function Academics() {
           })}
         </ul>
 
-        <Photo name="academics-girl" alt="Smiling postgraduate student holding books" sizes={fluid(374)} className={styles.photo} />
+        <Photo name="home-academics" alt="Smiling postgraduate student holding books" sizes={fluid(374)} className={styles.photo} />
 
         <div id="program-panel" role="tabpanel" aria-labelledby={`tab-${activeId}`} className={styles.card}>
           <Image src="/images/academics-card.jpg" alt="" fill sizes={fluid(677)} className={styles.cardBg} />

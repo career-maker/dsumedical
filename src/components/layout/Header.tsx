@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { external, mobileMenu, navAdmissions, navLeft, navRight, topErp, topLeft, topRight } from "@/data/nav";
+import { external, mobileMenu, navAdmissions, navLeft, navRight, topEnquiry, topErp, topLeft, topRight } from "@/data/nav";
 import type { NavLink } from "@/data/nav";
 import { HeaderScroll } from "./HeaderScroll";
 import { NavDrop } from "./NavDrop";
@@ -61,11 +61,22 @@ export function Header() {
                 <SmartLink href={t.href}>{t.label}</SmartLink>
               </li>
             ))}
+            <li className={`${styles.item} ${styles.topItem}`}>
+              <SmartLink href={topEnquiry.href} className={styles.topLink}>
+                <Icon name="phone-header" className={styles.phoneIcon} />
+                {topEnquiry.label}
+                <Icon name="chevron-down" />
+              </SmartLink>
+              <NavDrop items={topEnquiry.children ?? []} />
+            </li>
           </ul>
           <ul className={styles.topList}>
             {topRight.map((t) => (
               <li key={t.label} className={t.children ? `${styles.item} ${styles.topItem}` : undefined}>
-                <SmartLink href={t.href}>{t.label}</SmartLink>
+                <SmartLink href={t.href} className={t.children ? styles.topLink : undefined}>
+                  {t.label}
+                  {t.children && <Icon name="chevron-down" />}
+                </SmartLink>
                 {t.children && <NavDrop items={t.children} />}
               </li>
             ))}
@@ -79,36 +90,30 @@ export function Header() {
       </div>
       <div className={styles.bar}>
         <div className={styles.barInner}>
-          <nav className={styles.navLeft} aria-label="Primary">
-            <Link prefetch={false} href="/" aria-label="Home">
-              <Icon name="home" />
-            </Link>
-            {navLeft.map((n) => (
-              <NavItem key={n.label} item={n} />
-            ))}
-          </nav>
-          <div className={styles.logos}>
+          <div className={styles.logoL}>
             <SmartLink href={external.dsu} aria-label="Dayananda Sagar University">
               <Icon name="dsu-lockup" className={styles.dsu} />
             </SmartLink>
-            <Link prefetch={false} href="/" aria-label="CDSIMER home">
-              <Image src="/images/logo-cdsimer.png" alt="CDSIMER" width={183} height={73} preload />
-            </Link>
           </div>
-          <nav className={styles.navRight} aria-label="Secondary">
-            {navRight.map((n) => (
+          <nav className={styles.nav} aria-label="Primary">
+            <Link prefetch={false} href="/" aria-label="Home">
+              <Icon name="home" />
+            </Link>
+            {[...navLeft, ...navRight].map((n) => (
               <NavItem key={n.label} item={n} />
             ))}
-            <a href="tel:+916366885501" className={styles.phone}>
-              <Icon name="phone-header" /> 6366 885 501
-            </a>
-            <div className={styles.item}>
-              <Button href="/admissions" variant="primary" className={styles.admissions} width={170}>
+            <div className={`${styles.item} ${styles.edge}`}>
+              <Button href="/admissions" variant="primary" className={styles.admissions} width={170} icon={<Icon name="chevron-down" className={styles.btnChev} />}>
                 Admissions
               </Button>
               <NavDrop items={navAdmissions.children ?? []} />
             </div>
           </nav>
+          <div className={styles.logoR}>
+            <Link prefetch={false} href="/" aria-label="CDSIMER home">
+              <Image src="/images/logo-cdsimer.png" alt="CDSIMER" width={183} height={73} preload />
+            </Link>
+          </div>
           <MobileNav items={mobileMenu} cta={{ label: "Admissions", href: "/admissions" }} />
         </div>
       </div>

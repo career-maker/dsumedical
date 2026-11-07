@@ -1,0 +1,170 @@
+@use "@/styles/tokens" as *;
+
+.stage {
+  display: grid;
+}
+
+.slide {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, u(440));
+  gap: max(32px, u(80));
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  translate: 24px 0;
+  transition: opacity 0.6s, translate 0.6s, visibility 0s 0.6s;
+
+  @include below($bp-md) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  &.on {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition: opacity 0.6s, translate 0.6s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    translate: 0 0;
+  }
+}
+
+.copy {
+  min-width: 0;
+
+  h3 {
+    font-size: clamp(24px, calc(36 * var(--u)), 36px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    margin-top: 16px;
+    font-size: fs(18, 16);
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+}
+
+.photo {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4 / 5;
+  border-radius: u(14);
+  overflow: hidden;
+  background: var(--peach);
+  // Offset orange frame outside the photo, plus a fine white inner keyline.
+  outline: 2px solid var(--orange);
+  outline-offset: 10px;
+  box-shadow: 0 18px 40px -18px rgba(60, 30, 10, 0.35);
+  transition: outline-offset 0.45s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s;
+
+  img {
+    object-fit: cover;
+    object-position: 50% 15%;
+    transition: scale 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: calc(u(14) - 6px);
+    pointer-events: none;
+    transition: inset 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      outline-offset: 16px;
+      translate: 0 -6px;
+      box-shadow: 0 28px 50px -18px rgba(60, 30, 10, 0.45);
+
+      img {
+        scale: 1.06;
+      }
+
+      &::after {
+        inset: 16px;
+      }
+    }
+  }
+
+  @include below($bp-md) {
+    order: -1;
+    max-width: 320px;
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 28px;
+
+  > button {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--orange);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--orange);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 9px;
+      height: 9px;
+      border-left: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      translate: -35% -50%;
+      rotate: 45deg;
+    }
+
+    &:hover {
+      background: var(--orange);
+      color: #fff;
+    }
+  }
+
+  .next::before {
+    translate: -65% -50%;
+    rotate: -135deg;
+  }
+}
+
+.dots {
+  display: flex;
+  gap: 10px;
+
+  button {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #e3d3c4;
+    cursor: pointer;
+    transition: width 0.3s, background-color 0.3s;
+
+    &.active {
+      width: 28px;
+      background: var(--orange);
+    }
+  }
+}

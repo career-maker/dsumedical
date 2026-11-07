@@ -35,7 +35,7 @@ export function LearnWhere() {
             </li>
           ))}
         </ul>
-        <Photo name="hospital-ward" alt="Doctors and students around a patient bed in a hospital ward" sizes={fluid(596)} className={styles.photo} />
+        <Photo name="home-hospital-ward" alt="Doctors and students around a patient bed in a hospital ward" sizes={fluid(596)} className={styles.photo} />
       </div>
     </section>
   );

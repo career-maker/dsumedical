@@ -113,7 +113,7 @@ export function Why() {
           {slides.map((sl, n) => (
             <div key={sl.src} className={`${styles.slide} ${n === i ? styles.slideOn : ""}`} aria-hidden={n !== i}>
               {n === 0 ? (
-                <Photo name="why-girl" alt={sl.alt} sizes={fluid(421)} className={styles.fill} />
+                <Photo name="home-why" alt={sl.alt} sizes={fluid(421)} className={styles.fill} />
               ) : (
                 <Image src={`/images/${sl.src}`} alt={sl.alt} fill sizes={fluid(421)} style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
               )}

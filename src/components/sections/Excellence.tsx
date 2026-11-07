@@ -15,7 +15,7 @@ export function Excellence() {
           CDSIMER at Dayananda Sagar University delivers quality medical education through experienced faculty, modern
           infrastructure, clinical exposure, and a strong focus on research and patient care.
         </p>
-        <Photo name="about" alt="Three CDSIMER doctors holding medical textbooks" sizes={`(max-width: 960px) 100vw, ${fluid(767)}`} className={styles.photo} />
+        <Photo name="home-about" alt="Three CDSIMER doctors holding medical textbooks" sizes={`(max-width: 960px) 100vw, ${fluid(767)}`} className={styles.photo} />
         <ul className={styles.stats}>
           {stats.map((s) => (
             <li key={s.label} className={styles.stat}>

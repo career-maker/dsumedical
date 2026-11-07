@@ -3,19 +3,20 @@ export type ProseItem = { p: string } | { h: string } | { ul: (string | { text: 
 export type Action = { label: string; href: string; variant?: "primary" | "outline" | "glass" | "soft" };
 
 export type Block =
-  | { t: "text"; id?: string; eyebrow?: string; title: string; body: string[]; bullets?: string[]; image?: string; alt?: string; /** YouTube video id shown in the media slot instead of a photo. */ video?: string; flip?: boolean; fit?: "portrait" | "art"; tone?: "cream"; actions?: Action[] }
-  | { t: "cards"; id?: string; title: string; lead?: string; cols?: 2 | 3 | 4; tone?: "cream"; more?: string; colored?: boolean; items: { title: string; text: string; href?: string; tag?: string; image?: string }[] }
+  | { t: "text"; id?: string; eyebrow?: string; title: string; body: string[]; bullets?: string[]; image?: string; alt?: string; /** YouTube video id shown in the media slot instead of a photo. */ video?: string; flip?: boolean; fit?: "portrait" | "art"; tone?: "cream"; actions?: Action[]; /** Centred text only: no side photo, no auto-picked image. */ center?: boolean }
+  | { t: "cards"; id?: string; title: string; lead?: string; cols?: 2 | 3 | 4; tone?: "cream"; more?: string; colored?: boolean; /** Items are shown as logos (image fitted whole, no photo crop). */ logos?: boolean; items: { title: string; text?: string; bullets?: string[]; href?: string; tag?: string; image?: string }[] }
   | { t: "stats"; title?: string; lead?: string; tone?: "cream"; colored?: boolean; items: { value: string; label: string }[] }
-  | { t: "steps"; id?: string; title: string; lead?: string; tone?: "cream"; items: { label?: string; title: string; text: string }[] }
-  | { t: "profiles"; id?: string; title: string; lead?: string; tone?: "cream"; items: { name: string; role: string; text?: string; image?: string }[] }
+  | { t: "steps"; id?: string; title: string; lead?: string; tone?: "cream"; /** Endless auto-scrolling strip instead of a static row. */ marquee?: boolean; items: { label?: string; title: string; text: string }[] }
+  | { t: "profiles"; id?: string; title: string; lead?: string; tone?: "cream"; cols?: 3 | 4; items: { name: string; role: string; text?: string; image?: string }[] }
   | { t: "docs"; id?: string; title: string; lead?: string; tone?: "cream"; items: { title: string; type: string; note?: string; href?: string }[] }
   | { t: "table"; id?: string; title: string; lead?: string; cols: string[]; rows: string[][] }
   | { t: "faq"; id?: string; title: string; lead?: string; image?: string; plain?: boolean; open?: boolean; items: { q: string; a: string }[] }
   | { t: "phasegrid"; id?: string; title: string; lead?: string; tone?: "cream"; data: AcademicYear }
   | { t: "prose"; id?: string; title?: string; tone?: "cream"; image?: string; alt?: string; flip?: boolean; wide?: boolean; cols?: boolean; items: ProseItem[] }
-  | { t: "carousel"; id?: string; title: string; lead?: string; tone?: "cream"; items: { title: string; text?: string; tag?: string; href?: string }[] }
+  | { t: "carousel"; id?: string; title: string; lead?: string; tone?: "cream"; /** Static wrapped rows instead of a scrolling strip. */ grid?: boolean; items: { title: string; text?: string; tag?: string; href?: string; /** Portrait in /images: renders a compact person card. */ image?: string; /** Link label (defaults to "View / Download →"). */ more?: string; /** File in /images shown on top of a text card. */ cover?: string }[] }
+  | { t: "slides"; id?: string; title: string; lead?: string; tone?: "cream"; items: { title: string; body: string[]; image: string; alt?: string }[] }
   | { t: "gallery"; id?: string; title: string; lead?: string; groups: { label: string; images: { src: string; alt: string }[] }[] }
-  | { t: "form"; id?: string; title: string; lead?: string; kind: "admission" | "appointment" | "contact" }
+  | { t: "form"; id?: string; title: string; lead?: string; image?: string; kind: "admission" | "appointment" | "contact" }
   | { t: "address"; id?: string; title: string; lines: string[]; phone: string; email: string; mapsHref: string }
   | { t: "map"; id?: string; title: string; lead?: string; query: string }
   | { t: "links"; id?: string; title: string; items: { label: string; href: string }[] }

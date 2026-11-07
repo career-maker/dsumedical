@@ -1,17 +1,12 @@
 import { Icon } from "./Icon";
 import styles from "./Ticker.module.scss";
 
-export const updates = [
-  "Hospital Enquiry",
-  "MBBS Admission Enquiry",
-  "Hospital Enquiry",
-  "MBBS Admission Enquiry",
-  "CDSIMER Newsletter",
-  "Hospital Enquiry",
-  "CDSIMER Newsletter",
-  "MBBS Admission Enquiry",
-  "MBBS Admission Enquiry",
+// The live cdsimer.edu.in bar carries these two enquiry numbers (and a newsletter link, dropped here). Repeated so the strip fills a wide screen.
+const base = [
+  { text: "Student Admission Enquiry : 6366885501", href: "tel:+916366885501" },
+  { text: "Hospital Enquiry : 080-26086500", href: "tel:08026086500" },
 ];
+export const updates = Array.from({ length: 5 }, () => base).flat();
 
 function Sparkle() {
   return (
@@ -32,8 +27,10 @@ export function Ticker({ loop = true, className }: { loop?: boolean; className?:
       <div className={styles.track} role="marquee" aria-label="Latest updates">
         <ul className={styles.slide}>
           {(loop ? [...updates, ...updates] : updates).map((u, i) => (
-            <li key={`${u}-${i}`} aria-hidden={i >= updates.length}>
-              <span>{u}</span>
+            <li key={`${u.text}-${i}`} aria-hidden={i >= updates.length}>
+              <a href={u.href} tabIndex={i >= updates.length ? -1 : undefined}>
+                {u.text}
+              </a>
               <Sparkle />
             </li>
           ))}

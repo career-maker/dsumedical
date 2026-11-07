@@ -37,11 +37,10 @@ $gap: 20px;
   align-items: flex-start;
   height: 100%;
   padding: max(22px, u(30));
-  border: 1px solid #eee3d8;
-  border-top: 3px solid var(--orange);
-  border-radius: u(10);
+  border: 1px solid #f0e6dc;
+  border-radius: 14px;
   background: #fff;
-  box-shadow: 0 2px 10px rgba(60, 20, 0, 0.06);
+  box-shadow: 0 1px 2px rgba(60, 20, 0, 0.04), 0 14px 30px -20px rgba(60, 20, 0, 0.3);
   transition: box-shadow 0.25s, translate 0.25s;
 
   h3 {
@@ -58,6 +57,70 @@ $gap: 20px;
   }
 }
 
+// People: photo-led, four across on desktop. The portrait carries the card; the caption sits on the page, so there is no second box.
+.track > .personItem {
+  flex-basis: calc((100% - #{$gap * 3}) / 4);
+
+  @include below($bp-md) {
+    flex-basis: calc((100% - #{$gap}) / 2);
+  }
+
+  @include below($bp-sm) {
+    flex-basis: 78%;
+  }
+}
+
+.person {
+  margin: 0;
+
+  figcaption {
+    padding: 16px 0 0;
+  }
+
+  h3 {
+    font-size: fs(20, 18);
+    font-weight: 700;
+    line-height: 1.25;
+    transition: color 0.25s;
+  }
+
+  p {
+    margin-top: 4px;
+    font-size: fs(16, 15);
+    line-height: 1.4;
+    color: var(--slate);
+  }
+
+  &:hover h3 {
+    color: var(--orange);
+  }
+}
+
+.portrait {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: u(14);
+  overflow: hidden;
+  background: var(--peach);
+
+  img {
+    object-fit: cover;
+    object-position: 50% 18%;
+    transition: scale 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.person:hover .portrait img {
+  scale: 1.04;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .person:hover .portrait img {
+    scale: 1;
+  }
+}
+
 a.card:hover,
 a.card:focus-visible {
   translate: 0 -3px;
@@ -65,13 +128,12 @@ a.card:focus-visible {
 }
 
 .tag {
-  margin-bottom: 12px;
-  padding: 3px 12px;
-  border-radius: 999px;
-  background: var(--peach);
+  margin-bottom: 10px;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--orange);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b3470a; // 5.3:1 on white
 }
 
 .more {
@@ -126,5 +188,72 @@ a.card:focus-visible {
   .next::before {
     translate: -65% -50%;
     rotate: -135deg;
+  }
+}
+
+// Static rows (no scrolling).
+.track.grid {
+  flex-wrap: wrap;
+  gap: max(20px, u(28)) $gap;
+  overflow: visible;
+  scroll-snap-type: none;
+
+  > li {
+    scroll-snap-align: none;
+  }
+}
+
+// People: five across, centred so a short last row is not left-stranded.
+.gridPeople {
+  justify-content: center;
+
+  > li,
+  > .personItem {
+    flex: 0 0 calc((100% - #{$gap * 4}) / 5);
+
+    @include below($bp-lg) {
+      flex-basis: calc((100% - #{$gap * 2}) / 3);
+    }
+
+    @include below($bp-md) {
+      flex-basis: calc((100% - #{$gap}) / 2);
+    }
+
+    @include below($bp-sm) {
+      flex-basis: 100%;
+      max-width: 320px;
+    }
+  }
+}
+
+// Text cards: three across, reading left to right.
+.gridCards {
+  justify-content: flex-start;
+
+  > li {
+    flex: 0 0 calc((100% - #{$gap * 2}) / 3);
+
+    @include below($bp-md) {
+      flex-basis: calc((100% - #{$gap}) / 2);
+    }
+
+    @include below($bp-sm) {
+      flex-basis: 100%;
+    }
+  }
+}
+
+// Optional cover photo at the top of a text card, running edge to edge inside the card padding.
+.cover {
+  position: relative;
+  align-self: stretch;
+  aspect-ratio: 16 / 9;
+  margin: calc(-1 * max(22px, u(30))) calc(-1 * max(22px, u(30))) 18px;
+  border-radius: u(10) u(10) 0 0;
+  overflow: hidden;
+  background: var(--cream);
+
+  img {
+    object-fit: cover;
   }
 }

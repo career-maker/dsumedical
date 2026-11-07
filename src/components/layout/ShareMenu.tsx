@@ -12,6 +12,8 @@ const paths = {
     "M5.4 8.7H2.2V21h3.2V8.7zM3.8 3.5a1.9 1.9 0 100 3.8 1.9 1.9 0 000-3.8zM21.8 21v-6.7c0-3.3-1.8-4.8-4.1-4.8-1.9 0-2.7 1-3.2 1.8V8.7h-3.2V21h3.2v-6.8c0-.4 0-.7.1-1 .3-.7.9-1.4 2-1.4 1.4 0 2 1.1 2 2.6V21h3.2z",
   whatsapp:
     "M12 2a10 10 0 00-8.6 15L2 22l5.1-1.3A10 10 0 1012 2zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.1.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z",
+  instagram:
+    "M7.5 2h9A5.5 5.5 0 0122 7.5v9a5.5 5.5 0 01-5.5 5.5h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zM7.5 4A3.5 3.5 0 004 7.5v9A3.5 3.5 0 007.5 20h9a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0016.5 4h-9zM12 7a5 5 0 100 10 5 5 0 000-10zM12 9a3 3 0 110 6 3 3 0 010-6zM17.3 5.7a1 1 0 100 2 1 1 0 000-2z",
   mail: "M3 5h18v14H3V5zm2 2v.5l7 4.8 7-4.8V7H5zm14 3.1l-7 4.8-7-4.8V17h14v-6.9z",
   link: "M10.6 13.4a3 3 0 004.2 0l3-3a3 3 0 10-4.2-4.2l-1 1M13.4 10.6a3 3 0 00-4.2 0l-3 3a3 3 0 104.2 4.2l1-1",
 } as const;
@@ -36,6 +38,8 @@ export function ShareMenu() {
     { key: "x", label: "Share on X", href: `https://twitter.com/intent/tweet?url=${u}&text=${t}` },
     { key: "linkedin", label: "Share on LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
     { key: "whatsapp", label: "Share on WhatsApp", href: `https://wa.me/?text=${t}%20${u}` },
+    // Instagram has no web share URL: copy the link, then open Instagram to paste it.
+    { key: "instagram", label: "Share on Instagram (copies link)", href: "https://www.instagram.com/cdsimerblr/" },
     { key: "mail", label: "Share by email", href: `mailto:?subject=${t}&body=${u}` },
   ] as const;
 
@@ -54,7 +58,7 @@ export function ShareMenu() {
       </button>
       <div className={styles.fan} role="group" aria-label="Share this page">
         {links.map((l) => (
-          <a key={l.key} href={l.href} aria-label={l.label} title={l.label} target={l.key === "mail" ? undefined : "_blank"} rel="noopener noreferrer">
+          <a key={l.key} href={l.href} aria-label={l.label} title={l.label} target={l.key === "mail" ? undefined : "_blank"} rel="noopener noreferrer" onClick={l.key === "instagram" ? copy : undefined}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
               <path d={paths[l.key]} fillRule="evenodd" />
             </svg>
