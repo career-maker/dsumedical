@@ -155,8 +155,8 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       }
       return (
         <Section block={{ ...b, id: isWhyCdsimer ? "why-cdsimer" : b.id }}>
-          <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${isWhyCdsimer ? styles.cardsColor : ""}`}>
+          <Head title={b.title} lead={b.lead} accent={b.id === "programs-listing"} />
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${isWhyCdsimer ? styles.cardsColor : ""} ${b.id === "programs-listing" ? styles.fixed3 : ""}`}>
             {b.items.map((c) => {
               const inner = (
                 <>
@@ -424,7 +424,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
     case "links":
       return (
         <Section block={{ id: b.id }}>
-          <Head title={b.title} />
+          <Head title={b.title} accent />
           <ul className={styles.chips}>
             {b.items.map((l) => (
               <li key={l.label}>

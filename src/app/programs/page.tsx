@@ -8,5 +8,5 @@ export function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <CmsPage apiId="programs" slug="programs" />;
+  return <CmsPage apiId="programs" slug="programs" showJumpNav={false} />;
 }
