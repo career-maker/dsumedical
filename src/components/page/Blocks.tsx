@@ -1,14 +1,19 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import type { Block, RichTextContent } from "@/data/pages/types";
+import type { Block, ProseItem, RichTextContent } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
 import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
 import { AccreditationLogos, legacyAccreditationLogos } from "./AccreditationLogos";
+import { Carousel } from "./Carousel";
+import { LeaderSlides } from "./LeaderSlides";
+import marquee from "./Marquee.module.scss";
+import { VideoFrame } from "./VideoFrame";
+import { PhaseGrid } from "./PhaseGrid";
 import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
 import { AdministrationCarousel } from "./AdministrationCarousel";
-import { LeaderSlides } from "./LeaderSlides";
+import { LeadershipSlides } from "./LeadershipSlides";
 import { RichText } from "./RichText";
 import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import styles from "./Blocks.module.scss";
@@ -43,7 +48,63 @@ const initials = (n: string) =>
 /** Outline/glass buttons are white-on-translucent (hero only); swap for light backgrounds. */
 const onLight = (v?: "primary" | "outline" | "glass" | "soft") => (v === "outline" || v === "glass" ? "gray" : (v ?? "primary"));
 
+/** Inline markup in running text: [label](url) links, **semi-bold** and ==accent colour==. */
+function Rich({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|==[^=]+==)/g);
+  return (
+    <>
+      {parts.map((s, i) => {
+        const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(s);
+        if (link)
+          return (
+            <SmartLink key={i} href={link[2]}>
+              {link[1]}
+            </SmartLink>
+          );
+        if (s.startsWith("**") && s.length > 4) return <strong key={i}><Rich text={s.slice(2, -2)} /></strong>;
+        if (s.startsWith("==") && s.length > 4) return <span key={i} className={styles.accent}>{s.slice(2, -2)}</span>;
+        return s;
+      })}
+    </>
+  );
+}
+
+function ProseItems({ items }: { items: ProseItem[] }) {
+  return (
+    <>
+      {items.map((it, i) =>
+        "p" in it ? (
+          <p key={i}>
+            <Rich text={it.p} />
+          </p>
+        ) : "h" in it ? (
+          <h3 key={i}>{it.h}</h3>
+        ) : (
+          <ul key={i}>
+            {it.ul.map((li) =>
+              typeof li === "string" ? (
+                <li key={li}>{li}</li>
+              ) : (
+                <li key={li.text}>
+                  {li.text}
+                  <ul>
+                    {li.sub.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                </li>
+              ),
+            )}
+          </ul>
+        ),
+      )}
+    </>
+  );
+}
+
 function Cell({ v }: { v: string }) {
+  const link = /^\[(.+)\]\((.+)\)$/.exec(v);
+  if (link) return <SmartLink href={link[2]}>{link[1]}</SmartLink>;
   if (v.includes("@")) return <a href={`mailto:${v}`}>{v}</a>;
   if (/^\+?[\d ]{8,}$/.test(v)) return <a href={`tel:${v.replace(/ /g, "")}`}>{v}</a>;
   return <>{v}</>;
@@ -58,7 +119,7 @@ function isSerialNumberColumn(label: string) {
   return ["slno", "sno", "sino", "serialno", "serialnumber"].includes(normalized);
 }
 
-function PdfIcon() {
+function PdfIcon({ label = "PDF" }: { label?: string }) {
   return (
     <span className={styles.docIcon} aria-hidden="true">
       <svg viewBox="0 0 44 52" width="44" height="52">
@@ -70,7 +131,7 @@ function PdfIcon() {
       </defs>
       <path d="M4 6a4 4 0 0 1 4-4h20l12 12v32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="url(#pdfg)" />
       <path d="M28 2l12 12H32a4 4 0 0 1-4-4z" fill="#fff" opacity=".45" />
-      <text x="22" y="38" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff" fontFamily="inherit">PDF</text>
+      <text x="22" y="38" textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff" fontFamily="inherit">{label}</text>
       </svg>
     </span>
   );
@@ -108,10 +169,10 @@ const POOL = {
 function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFallbackImages: boolean }) {
   switch (b.t) {
     case "text": {
-      const image = b.image ?? auto;
+      const image = b.center ? undefined : b.image ?? auto;
       return (
         <Section block={b}>
-          <div className={`${styles.split} ${image ? "" : styles.single} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
+          <div className={`${styles.split} ${image || b.video ? "" : styles.single} ${b.center ? styles.centered : ""} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
@@ -133,9 +194,14 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                 </div>
               )}
             </div>
-            {image && (
-              <div className={`${styles.media} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.art : ""}`} data-rv>
-                <Image src={contentImageSrc(image)} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" unoptimized={isRemoteContentImage(image)} />
+            {b.video && (
+              <div className={`${styles.media} ${styles.video}`} data-rv>
+                <VideoFrame id={b.video} title={b.title} />
+              </div>
+            )}
+            {!b.video && image && (
+              <div className={`${styles.media} ${b.fit ? styles[b.fit] : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.art : ""}`} data-rv>
+                <Image src={contentImageSrc(image)} alt={b.alt ?? ""} fill sizes={b.fit ? "(max-width: 1280px) 100vw, 620px" : "(max-width: 1280px) 100vw, 700px"} unoptimized={isRemoteContentImage(image)} />
               </div>
             )}
           </div>
@@ -143,6 +209,33 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       );
     }
     case "cards": {
+      if (b.logos)
+        return (
+          <Section block={b}>
+            <Head title={b.title} lead={b.lead} />
+            <ul className={`${styles.logoGrid} ${styles[`c${b.cols ?? 4}`]}`}>
+              {b.items.map((c) => {
+                const inner = (
+                  <>
+                    <span className={styles.logo}>{c.image && <Image src={contentImageSrc(c.image)} alt={`${c.title}${typeof c.text === "string" && c.text ? `: ${c.text}` : ""}`} fill sizes="(max-width: 640px) 70vw, 300px" unoptimized={isRemoteContentImage(c.image)} />}</span>
+                    {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
+                  </>
+                );
+                return (
+                  <li key={c.title}>
+                    {c.href ? (
+                      <SmartLink href={c.href} className={styles.logoItem}>
+                        {inner}
+                      </SmartLink>
+                    ) : (
+                      <div className={styles.logoItem}>{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </Section>
+        );
       const isWhyCdsimer = b.id === "why-cdsimer" || slug(b.title) === "why-cdsimer";
       const isAccreditations = b.id === "accreditations-and-recognitions" || slug(b.title) === "accreditations-and-recognitions";
       if (isAccreditations) {
@@ -156,7 +249,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       return (
         <Section block={{ ...b, id: isWhyCdsimer ? "why-cdsimer" : b.id }}>
           <Head title={b.title} lead={b.lead} accent={b.id === "programs-listing"} />
-          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${isWhyCdsimer ? styles.cardsColor : ""} ${b.id === "programs-listing" ? styles.fixed3 : ""}`}>
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${isWhyCdsimer || b.colored ? styles.cardsColor : ""} ${b.id === "programs-listing" ? styles.fixed3 : ""}`}>
             {b.items.map((c) => {
               const inner = (
                 <>
@@ -169,7 +262,14 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                     {c.tag && <span className={styles.tag}>{c.tag}</span>}
                     <h3>{c.title}</h3>
                     <RichText content={c.text} />
-                    {c.href && <span className={styles.more}>Learn more →</span>}
+                    {c.bullets && (
+                      <ul className={styles.cardList}>
+                        {c.bullets.map((x) => (
+                          <li key={x}>{x}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
                   </div>
                 </>
               );
@@ -201,7 +301,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       return (
         <Section block={b}>
           {b.title && <Head title={b.title} lead={b.lead} accent={slug(b.title) === "key-highlights"} />}
-          <ul className={`${styles.stats} ${slug(b.title ?? "") === "key-highlights" ? styles.statsColor : ""}`}>
+          <ul className={`${styles.stats} ${b.colored || slug(b.title ?? "") === "key-highlights" ? styles.statsColor : ""}`}>
             {b.items.map((s) => (
               <li key={s.label}>
                 <strong>
@@ -214,26 +314,21 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
         </Section>
       );
     case "steps":
-      if (b.id === "journey") {
+      if (b.marquee || b.id === "journey") {
         return (
-          <Section block={{ id: b.id, tone: "cream" }}>
+          <Section block={b.id === "journey" ? { id: b.id, tone: "cream" } : b}>
             <Head title={b.title} lead={b.lead} accent />
-            <div className={styles.journeyMarquee} role="region" aria-label={b.title}>
-              <ol className={styles.journeyTrack}>
-                {[...b.items, ...b.items].map((item, index) => {
-                  const isClone = index >= b.items.length;
-                  return (
-                    <li
-                      key={`${isClone ? "clone-" : ""}${item.title}-${index}`}
-                      className={styles.journeyCard}
-                      aria-hidden={isClone || undefined}
-                    >
-                      {item.label && <span className={styles.journeyLabel}>{item.label}</span>}
-                      <h3>{item.title}</h3>
-                      <RichText content={item.text} />
+            <div className={marquee.root} role="region" aria-label={b.title}>
+              <ol className={marquee.track}>
+                {[0, 1].map((copy) =>
+                  b.items.map((s, i) => (
+                    <li key={`${copy}-${s.title}`} className={marquee.card} aria-hidden={copy ? true : undefined}>
+                      <span className={marquee.label}>{s.label ?? i + 1}</span>
+                      <h3>{s.title}</h3>
+                      <RichText content={s.text} />
                     </li>
-                  );
-                })}
+                  )),
+                )}
               </ol>
             </div>
           </Section>
@@ -255,7 +350,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       );
     case "profiles":
       if (b.id === "leadership") {
-        return <LeaderSlides title={b.title} items={b.items} />;
+        return <LeadershipSlides title={b.title} items={b.items} />;
       }
       if (b.id === "administration") {
         return (
@@ -268,11 +363,11 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       return (
         <Section block={b}>
           <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles.c3}`}>
+          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${b.items.length === 1 ? styles.singleProfile : ""}`}>
             {b.items.map((p) => (
               <li key={p.name} className={`${styles.profile} ${p.image ? "" : styles.plain}`}>
                 <span className={styles.avatar} aria-hidden="true">
-                  {p.image ? <Image src={contentImageSrc(p.image)} alt="" fill sizes="96px" unoptimized={isRemoteContentImage(p.image)} /> : initials(p.name) || p.name[0]}
+                  {p.image ? <Image src={contentImageSrc(p.image)} alt="" fill sizes="(max-width: 640px) 100vw, 420px" unoptimized={isRemoteContentImage(p.image)} /> : initials(p.name) || p.name[0]}
                 </span>
                 <h3>{p.name}</h3>
                 <p className={styles.role}>{p.role}</p>
@@ -290,11 +385,12 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
             {b.items.map((d) => {
               const tile = (
                 <>
-                  <PdfIcon />
+                  <PdfIcon label={d.type ?? "PDF"} />
                   <span className={styles.docBody}>
                     <h3 data-reveal="in">{d.title}</h3>
+                    <RichText content={d.note} />
                     <span className={styles.docRule} />
-                    <span className={styles.dl}>View / Download</span>
+                    <span className={styles.dl}>{d.type === "LINK" ? "Open link" : "View / Download"}</span>
                   </span>
                   <span className={styles.docDeco} aria-hidden="true">
                     <span className={styles.docSheet} />
@@ -305,9 +401,9 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
               return (
                 <li key={d.title} className={styles.doc}>
                   {d.href ? (
-                    <a href={d.href} target="_blank" rel="noopener noreferrer" className={styles.docLink}>
+                    <SmartLink href={d.href} className={styles.docLink}>
                       {tile}
-                    </a>
+                    </SmartLink>
                   ) : (
                     <div className={styles.docLink}>{tile}</div>
                   )}
@@ -361,18 +457,80 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
     }
     case "faq":
       return (
-        <Section block={{ id: b.id, tone: "cream" }}>
-          <Aside img={auto ?? (useFallbackImages ? POOL.faq[0] : undefined)}>
-            <Head title={b.title} lead={b.lead} />
+        <Section block={{ id: b.id, tone: b.tone ?? (b.plain ? undefined : "cream") }}>
+          <Head title={b.title} lead={b.lead} />
+          <Aside img={b.image ?? auto ?? (useFallbackImages ? POOL.faq[0] : undefined)}>
             <div className={styles.faq}>
-              {b.items.map((f) => (
-                <details key={f.q}>
+              {b.items.map((f, i) => (
+                <details key={f.q} name={`faq-${b.id ?? slug(b.title)}`} open={b.open !== false && i === 0}>
                   <summary>{f.q}</summary>
-                  <RichText content={f.a} />
+                  {typeof f.a === "string" ? (
+                    f.a.split("\n\n").map((para) => <p key={para}>{para}</p>)
+                  ) : (
+                    <RichText content={f.a} />
+                  )}
                 </details>
               ))}
             </div>
           </Aside>
+        </Section>
+      );
+    case "prose": {
+      // cols: the first heading group stays full width; every later heading starts its own card in a row.
+      const groups: ProseItem[][] = [];
+      if (b.cols)
+        for (const it of b.items) {
+          if ("h" in it || !groups.length) groups.push([]);
+          groups[groups.length - 1].push(it);
+        }
+      return (
+        <Section block={b}>
+          <div className={b.image ? `${styles.split} ${b.flip ? styles.flip : ""}` : undefined}>
+            <div className={`${styles.prose} ${styles.proseWide}`}>
+              {b.title && <h2>{b.title}</h2>}
+              {b.cols ? (
+                <>
+                  <ProseItems items={groups[0]} />
+                  <div className={styles.proseCols}>
+                    {groups.slice(1).map((g, i) => (
+                      <div key={i} className={styles.proseCard}>
+                        <ProseItems items={g} />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <ProseItems items={b.items} />
+              )}
+            </div>
+            {b.image && (
+              <div className={styles.media} data-rv>
+                <Image src={contentImageSrc(b.image)} alt={b.alt ?? ""} fill sizes="(max-width: 1280px) 100vw, 700px" unoptimized={isRemoteContentImage(b.image)} />
+              </div>
+            )}
+          </div>
+        </Section>
+      );
+    }
+    case "phasegrid":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <PhaseGrid data={b.data} />
+        </Section>
+      );
+    case "carousel":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <Carousel items={b.items} grid={b.grid} />
+        </Section>
+      );
+    case "slides":
+      return (
+        <Section block={b}>
+          <Head title={b.title} lead={b.lead} />
+          <LeaderSlides items={b.items} />
         </Section>
       );
     case "gallery":
@@ -385,8 +543,8 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
     case "form":
       return (
         <Section block={{ id: b.id, tone: "cream" }}>
-          <Aside img={auto ?? (useFallbackImages ? POOL.form[0] : undefined)}>
-            <Head title={b.title} lead={b.lead} />
+          <Head title={b.title} lead={b.lead} />
+          <Aside img={b.image ?? auto ?? (useFallbackImages ? POOL.form[0] : undefined)}>
             <Enquiry kind={b.kind} />
           </Aside>
         </Section>
@@ -486,12 +644,13 @@ export function Blocks({
   useFallbackImages?: boolean;
   showJumpNav?: boolean;
 }) {
-  const list = withIds(blocks);
+  const list = withIds(blocks.filter((b) => !(b.t === "links" && b.title.startsWith("Related"))));
+  // Pick a photo for every block that needs one and has none, cycling through each kind's pool.
   const taken = new Set(list.flatMap((b) => ("image" in b && b.image ? [b.image] : [])));
   const used = { text: 0, faq: 0, form: 0, address: 0 };
   const autos = useFallbackImages
     ? list.map((b, i) => {
-        const kind = b.t === "text" ? (b.image ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
+        const kind = b.t === "text" ? (b.image || b.video || b.center ? null : "text") : b.t === "faq" || b.t === "form" || b.t === "address" ? b.t : null;
         if (!kind) return undefined;
         const pool = POOL[kind];
         const start = used[kind]++ + i;

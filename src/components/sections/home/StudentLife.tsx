@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Photo } from "@/components/ui/Photo";
 import { studentLife } from "@/data/home";
 import styles from "./StudentLife.module.scss";
+import { fluid } from "@/lib/sizes";
 
 export function StudentLife() {
   return (
@@ -20,10 +21,10 @@ export function StudentLife() {
         </Button>
         <ul className={styles.grid}>
           {studentLife.map((s) => (
-            <li key={s.photo} className={styles[s.photo.replace("life-", "g_")]}>
-              <Photo name={s.photo} alt={s.alt} sizes="(max-width: 960px) 100vw, 683px" className={styles.photo} />
+            <li key={s.photo} className={styles[s.photo.replace("home-life-", "g_")]}>
+              <Photo name={s.photo} alt={s.alt} sizes={`(max-width: 960px) 100vw, ${fluid(683)}`} className={styles.photo} />
               {s.label && <span>{s.label}</span>}
-              <Link prefetch={false} href="/gallery" className="stretch-link" aria-label={s.label || s.alt} />
+              <Link prefetch={false} href="/gallery" className="stretch-link" aria-label={s.label} />
             </li>
           ))}
         </ul>

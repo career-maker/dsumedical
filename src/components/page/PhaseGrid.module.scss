@@ -1,0 +1,211 @@
+@use "@/styles/tokens" as *;
+
+$cols: minmax(110px, 1fr) repeat(4, minmax(0, 1.2fr));
+
+.grid {
+  border: 1px solid #eee3d8;
+  border-radius: u(10);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(60, 20, 0, 0.05);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: $cols;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 14px max(16px, u(22));
+}
+
+.head {
+  background: var(--peach);
+  font-weight: 700;
+  font-size: fs(17, 15);
+}
+
+.block + .block {
+  border-top: 1px solid #f1e8de;
+}
+
+.year {
+  font-size: fs(18, 16);
+}
+
+.phase {
+  padding: 7px 14px;
+  margin-left: -14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: fs(17, 15);
+  color: var(--orange);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 0 3px 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    rotate: 45deg;
+    transition: rotate 0.2s;
+  }
+
+  &:hover {
+    background: var(--peach);
+  }
+
+  &.on {
+    border-color: var(--orange);
+    background: var(--orange);
+    color: #fff;
+
+    &::after {
+      rotate: 225deg;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.none {
+  padding-left: 0;
+  color: var(--slate);
+}
+
+.panel {
+  display: grid;
+  gap: 10px;
+  padding: 14px max(16px, u(22)) 18px;
+  background: var(--cream);
+}
+
+.groupBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #f0d9c6;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: fs(17, 15);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &::after {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    margin-left: auto;
+    border-radius: 50%;
+    background: var(--peach);
+    font-size: 20px;
+    line-height: 1;
+    color: var(--orange);
+  }
+
+  &[aria-expanded="true"]::after {
+    content: "−";
+  }
+
+  &:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+}
+
+.count {
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--peach);
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.items {
+  padding: 0 0 12px;
+
+  ul {
+    display: grid;
+    gap: 4px;
+  }
+
+  a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: fs(16, 14);
+    line-height: 1.45;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background: #fff;
+      color: var(--orange);
+    }
+  }
+}
+
+.sub {
+  margin-top: 10px;
+
+  p {
+    padding: 4px 8px;
+    font-size: fs(15, 13);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+}
+
+.pdf {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+// Phones: year on its own line, phases as wrapping chips.
+@include below($bp-md) {
+  .head {
+    display: none;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .year {
+    flex: 0 0 100%;
+    font-weight: 700;
+  }
+
+  .cell:has(.none) {
+    display: none;
+  }
+
+  .phase {
+    margin-left: 0;
+    border-color: #f1d9c6;
+  }
+}

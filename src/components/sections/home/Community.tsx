@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { community } from "@/data/home";
 import styles from "./Community.module.scss";
+import { fluid } from "@/lib/sizes";
 
 export function Community() {
   return (
@@ -13,13 +14,13 @@ export function Community() {
         <ul className={styles.collage}>
           {community.photos.map((p, i) => (
             <li key={p.photo} className={styles[`p${i + 1}`]}>
-              <Photo name={p.photo} alt={p.alt} sizes="394px" className={styles.photo} />
+              <Photo name={p.photo} alt={p.alt} sizes={fluid(394)} className={styles.photo} />
             </li>
           ))}
         </ul>
         <div className={styles.bar}>
           <p>Committed to improving public health through accessible, compassionate, and community-focused healthcare services</p>
-          <Link prefetch={false} href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.follow}>
+          <Link prefetch={false} href="https://www.instagram.com/cdsimerblr/" target="_blank" rel="noopener noreferrer" className={styles.follow}>
             <Icon name="instagram" />
             Follow Us
           </Link>

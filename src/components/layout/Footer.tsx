@@ -12,19 +12,21 @@ const quickLinks = [
   { label: "Academics", href: "/programs" },
   { label: "Hospital", href: "/hospital" },
   { label: "Research", href: "/research" },
+  { label: "News & Events", href: "/news" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Admissions", href: "/admissions" },
   { label: "Contact", href: "/contact" },
 ];
 
-const departments = ["Pre clinical", "Para clinical", "Clinical", "Super Speciality"];
+const departments = ["Pre clinical", "Para clinical", "Clinical", "Super Speciality", "Others"];
 
-// Social profile URLs were not supplied with the design; these point to each network's root until confirmed.
+// Official profiles, as linked from cdsimer.edu.in.
 const socials: { icon: IconName; label: string; href: string }[] = [
-  { icon: "fb", label: "Facebook", href: "https://www.facebook.com/" },
-  { icon: "x", label: "X (Twitter)", href: "https://x.com/" },
-  { icon: "ig", label: "Instagram", href: "https://www.instagram.com/" },
-  { icon: "in", label: "LinkedIn", href: "https://www.linkedin.com/" },
-  { icon: "yt", label: "YouTube", href: "https://www.youtube.com/" },
+  { icon: "fb", label: "Facebook", href: "https://www.facebook.com/Cdsimer-103453821618631" },
+  { icon: "x", label: "X (Twitter)", href: "https://twitter.com/CDSIMER_DSU" },
+  { icon: "ig", label: "Instagram", href: "https://www.instagram.com/cdsimerblr/" },
+  { icon: "in", label: "LinkedIn", href: "https://www.linkedin.com/in/cd-simer-839531200/" },
+  { icon: "yt", label: "YouTube", href: "https://www.youtube.com/channel/UCaM-Ha3YDgcH203jPh0iReQ" },
 ];
 
 export async function Footer() {
@@ -67,15 +69,20 @@ export async function Footer() {
             <Icon name="mail" />
             {content?.contactEmail ?? "admissions.cdsimer@dsu.edu.in"}
           </a>
-          <a href={tel(content?.contactPhone ?? "1800 425 9900")}>
+          <a href={content?.contactPhone ? tel(content.contactPhone) : "tel:+916366885501"}>
             <Icon name="phone-footer" />
-            {content?.contactPhone ?? "1800 425 9900"}
+            {content?.contactPhone ?? "Student Admission Enquiry: 6366 885 501"}
           </a>
+          <a href="tel:08026086500">
+            <Icon name="phone-footer" />
+            Hospital Enquiry: 080 2608 6500
+          </a>
+          <p className={styles.kea}>KEA (CET) CODE: M083</p>
         </FoldCol>
         <div className={styles.about}>
           <Image src={aboutLogo} alt="CDSIMER" width={237} height={95} className={styles.logo} unoptimized={isRemoteContentImage(aboutLogo)} />
           <RichText
-            content={content?.aboutDescription ?? "Founded in the 1960s by Dr. Chandramma D. Sagar, the Sagar Group’s healthcare journey grew into a trusted institution under the leadership of Dr. D. Hemachandra Sagar and Dr. Premachandra Sagar."}
+            content={content?.aboutDescription ?? "Founded in the 1960s by Dr. Chandramma D. Sagar, the Sagar Group’s healthcare journey grew into a trusted institution under the leadership of Dr. D. Hemachandra Sagar and Dr. D. Premachandra Sagar."}
           />
         </div>
 
@@ -97,10 +104,6 @@ export async function Footer() {
             ))}
           </ul>
           <Icon name="dsu-lockup" size={176} className={styles.dsu} />
-          <SmartLink href={content?.brochureAction.href ?? "/brochure"} className={styles.brochure}>
-            <Icon name="download-btn" />
-            {content?.brochureAction.label ?? "Download Brochure"}
-          </SmartLink>
         </div>
 
         <div className={styles.legal}>

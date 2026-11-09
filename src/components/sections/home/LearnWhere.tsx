@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { hospitalFacilities } from "@/data/home";
 import styles from "./LearnWhere.module.scss";
+import { fluid } from "@/lib/sizes";
 
 export function LearnWhere() {
   return (
@@ -34,7 +35,7 @@ export function LearnWhere() {
             </li>
           ))}
         </ul>
-        <Photo name="hospital-ward" alt="Doctors and students around a patient bed in a hospital ward" sizes="596px" className={styles.photo} />
+        <Photo name="home-hospital-ward" alt="Doctors and students around a patient bed in a hospital ward" sizes={fluid(596)} className={styles.photo} />
       </div>
     </section>
   );

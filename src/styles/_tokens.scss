@@ -21,6 +21,11 @@ $bp-sm: 640px;
   @return calc(#{$n} * var(--u));
 }
 
+// Fluid font size with a px floor for laptop / tablet widths.
+@function fs($n, $min) {
+  @return max(#{$min}px, calc(#{$n} * var(--u)));
+}
+
 
 // Mobile card rail: a full-bleed, scroll-snapping row inside a section that has 24px side padding.
 @mixin carousel($w: 78%) {

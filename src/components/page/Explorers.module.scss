@@ -83,13 +83,16 @@ a.card:hover {
 }
 
 .body {
-  display: block;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: u(22);
 }
 
 .more {
-  display: inline-block;
-  margin-top: u(14);
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: u(14); // pins the link to the card bottom so it lines up across a row
   font-weight: 500;
   color: var(--orange);
 }
@@ -134,13 +137,12 @@ a.card:hover {
 }
 
 .full {
-  position: relative;
-  width: min(90vw, 1100px);
-  height: min(80vh, 760px);
-
-  img {
-    object-fit: contain;
-  }
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 1400px);
+  max-height: 88vh;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .close,
@@ -223,21 +225,17 @@ a.card:hover {
   gap: 10px !important;
   font-weight: 400 !important;
 
+  // Darker orange: the brand orange is under 4.5:1 on the cream background.
   a {
-    color: var(--orange);
+    color: #b84a00;
+    text-decoration: underline;
   }
 }
 
 .submit {
   grid-column: 1 / -1;
   justify-self: start;
-  height: u(52);
-  padding: 0 u(40);
-  border-radius: u(4);
-  background: var(--gradient-cta);
-  font-size: u(18);
-  font-weight: 500;
-  color: #fff;
+  min-width: u(180);
 }
 
 .success {
@@ -259,5 +257,65 @@ a.card:hover {
   button {
     color: var(--orange);
     font-weight: 500;
+  }
+}
+
+// Visually hidden label text: the placeholder carries the visible hint, screen readers still get the label.
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// gallery pagination
+.galTop {
+  display: block;
+  scroll-margin-top: 150px;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: max(28px, u(44));
+
+  button {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #d5d3d3;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pageOn,
+.pager button.pageOn {
+  border-color: transparent;
+  background: var(--gradient-cta);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    color: #fff;
   }
 }

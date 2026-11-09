@@ -95,7 +95,7 @@
   border-bottom: 1px solid #eee;
 
   a {
-    flex: 1 1;
+    flex: 1;
     border-bottom: 0;
   }
 }
@@ -112,8 +112,8 @@
     left: 50%;
     width: 8px;
     height: 8px;
-    border-right: 2px solid;
-    border-bottom: 2px solid;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
     translate: -50% -70%;
     rotate: 45deg;
     transition: rotate 0.2s;
@@ -141,7 +141,7 @@
   align-items: stretch;
 
   a {
-    flex: 1 1;
+    flex: 1;
   }
 
   .chev {
@@ -149,18 +149,18 @@
   }
 }
 
+.sub .subsub[hidden] {
+  display: none;
+}
+
 .sub .subsub {
   margin: 0 0 4px 16px;
   border-left: 2px solid var(--cream);
+}
 
-  &[hidden] {
-    display: none;
-  }
-
-  li a {
-    padding: 8px 0 8px 14px;
-    font-size: 15px;
-  }
+.sub .subsub li a {
+  padding: 8px 0 8px 14px;
+  font-size: 15px;
 }
 
 .cta {

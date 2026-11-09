@@ -43,7 +43,7 @@ export function AdministrationCarousel({ items }: { items: Profile[] }) {
         {items.map((profile, index) => (
           <li key={`${profile.name}-${index}`} className={styles.profileItem}>
             <figure className={styles.person}>
-              <span className={styles.portrait}>
+              <span className={styles.personPortrait}>
                 {profile.image && (
                   <Image
                     src={contentImageSrc(profile.image)}

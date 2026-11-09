@@ -54,11 +54,26 @@
     letter-spacing: 0;
   }
 
+  // Titles and their scrim show on hover / keyboard focus only.
+  span,
+  &:has(span)::after {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
   &:has(span)::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.55) 100%);
+  }
+
+  &:hover,
+  &:focus-within {
+    span,
+    &::after {
+      opacity: 1;
+    }
   }
 }
 

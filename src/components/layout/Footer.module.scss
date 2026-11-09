@@ -1,7 +1,7 @@
 @use "@/styles/tokens" as *;
 
 .footer {
-  height: u(595);
+  height: u(660);
   background: linear-gradient(180deg, #fff8ed 0%, #fff3e1 100%);
 }
 
@@ -73,6 +73,12 @@
   }
 }
 
+.col3 .kea {
+  margin-top: u(20);
+  font-size: u(18);
+  font-weight: 500;
+}
+
 .about {
   position: absolute;
   top: u(78);
@@ -95,7 +101,7 @@
 
 .helpline {
   position: absolute;
-  inset: u(384) 0 auto;
+  inset: u(449) 0 auto;
   height: u(99);
   border-block: 1px solid #ecdcc6;
 }
@@ -200,7 +206,7 @@
 
 .legal {
   position: absolute;
-  inset: u(525) 0 auto;
+  inset: u(590) 0 auto;
   height: u(40);
   font-size: u(16);
 

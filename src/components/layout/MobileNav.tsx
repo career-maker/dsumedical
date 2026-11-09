@@ -6,73 +6,11 @@ import styles from "./MobileNav.module.scss";
 
 type NavItem = { label: string; href: string; children?: NavItem[] };
 
-function Chevron({ open, label, onClick, controls }: { open: boolean; label: string; onClick: () => void; controls?: string }) {
-  return (
-    <button
-      type="button"
-      className={`${styles.chev} ${open ? styles.chevOpen : ""}`}
-      aria-expanded={open}
-      aria-controls={controls}
-      aria-label={`${open ? "Collapse" : "Expand"} ${label}`}
-      onClick={onClick}
-    />
-  );
-}
-
-/** Second level; its own children (third level) expand inline. */
-function SubItem({ item, close }: { item: NavItem; close: () => void }) {
-  const [open, setOpen] = useState(false);
-  const kids = item.children?.length ? item.children : null;
-  return (
-    <li>
-      <div className={styles.subRow}>
-        <Link href={item.href} onClick={close}>
-          {item.label}
-        </Link>
-        {kids && <Chevron open={open} label={item.label} onClick={() => setOpen((v) => !v)} />}
-      </div>
-      {kids && (
-        <ul className={styles.subsub} hidden={!open}>
-          {kids.map((c) => (
-            <li key={c.label + c.href}>
-              <Link href={c.href} onClick={close}>
-                {c.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-}
-
-function TopItem({ item, close, idBase }: { item: NavItem; close: () => void; idBase: string }) {
-  const [open, setOpen] = useState(false);
-  const kids = item.children?.length ? item.children : null;
-  const subId = `${idBase}-${item.label.replace(/\W+/g, "-")}`;
-  return (
-    <li>
-      <div className={styles.row}>
-        <Link href={item.href} onClick={close}>
-          {item.label}
-        </Link>
-        {kids && <Chevron open={open} label={item.label} controls={subId} onClick={() => setOpen((v) => !v)} />}
-      </div>
-      {kids && (
-        <ul id={subId} className={styles.sub} hidden={!open}>
-          {kids.map((c) => (
-            <SubItem key={c.label + c.href} item={c} close={close} />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-}
-
 export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [group, setGroup] = useState<string | null>(null);
   const panelId = useId();
-  const close = () => setOpen(false);
 
   useEffect(() => {
     if (!open) return;
@@ -97,11 +35,67 @@ export function MobileNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
       </button>
       <nav id={panelId} className={styles.panel} hidden={!open} aria-label="Mobile" data-lenis-prevent>
         <ul>
-          {items.map((i) => (
-            <TopItem key={i.label + i.href} item={i} close={close} idBase={panelId} />
-          ))}
+          {items.map((i) => {
+            const isOpen = expanded === i.label;
+            const subId = `${panelId}-${i.label.replace(/\W+/g, "-")}`;
+            return (
+              <li key={i.label}>
+                <div className={styles.row}>
+                  <Link href={i.href} onClick={() => setOpen(false)}>
+                    {i.label}
+                  </Link>
+                  {i.children && (
+                    <button
+                      type="button"
+                      className={`${styles.chev} ${isOpen ? styles.chevOpen : ""}`}
+                      aria-expanded={isOpen}
+                      aria-controls={subId}
+                      aria-label={`${isOpen ? "Collapse" : "Expand"} ${i.label}`}
+                      onClick={() => {
+                        setExpanded(isOpen ? null : i.label);
+                        setGroup(null);
+                      }}
+                    />
+                  )}
+                </div>
+                {i.children && (
+                  <ul id={subId} className={styles.sub} hidden={!isOpen}>
+                    {i.children.map((c) => (
+                      <li key={c.label}>
+                        <div className={styles.subRow}>
+                          <Link href={c.href} onClick={() => setOpen(false)}>
+                            {c.label}
+                          </Link>
+                          {c.children && (
+                            <button
+                              type="button"
+                              className={`${styles.chev} ${group === `${i.label}/${c.label}` ? styles.chevOpen : ""}`}
+                              aria-expanded={group === `${i.label}/${c.label}`}
+                              aria-label={`${group === `${i.label}/${c.label}` ? "Collapse" : "Expand"} ${c.label}`}
+                              onClick={() => setGroup(group === `${i.label}/${c.label}` ? null : `${i.label}/${c.label}`)}
+                            />
+                          )}
+                        </div>
+                        {c.children && (
+                          <ul className={styles.subsub} hidden={group !== `${i.label}/${c.label}`}>
+                            {c.children.map((g) => (
+                              <li key={g.label}>
+                                <Link href={g.href} onClick={() => setOpen(false)}>
+                                  {g.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
-        <Link href={cta.href} className={styles.cta} onClick={close}>
+        <Link href={cta.href} className={styles.cta} onClick={() => setOpen(false)}>
           {cta.label}
         </Link>
       </nav>

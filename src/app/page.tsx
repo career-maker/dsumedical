@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import lazy from "next/dynamic";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Blocks } from "@/components/page/Blocks";
@@ -6,19 +7,21 @@ import { PageHero } from "@/components/page/PageHero";
 import { PageShell } from "@/components/page/PageShell";
 import { richTextToPlainText } from "@/components/page/RichText";
 import { SideRail } from "@/components/layout/SideRail";
-import { Academics } from "@/components/sections/home/Academics";
 import { Community } from "@/components/sections/home/Community";
 import { Cta } from "@/components/sections/home/Cta";
-import { Departments } from "@/components/sections/home/Departments";
 import { Excellence } from "@/components/sections/home/Excellence";
 import { Hero } from "@/components/sections/home/Hero";
-import { Journey } from "@/components/sections/home/Journey";
 import { LearnWhere } from "@/components/sections/home/LearnWhere";
-import { News } from "@/components/sections/home/News";
 import { Research } from "@/components/sections/home/Research";
 import { StudentLife } from "@/components/sections/home/StudentLife";
-import { Why } from "@/components/sections/home/Why";
 import { fetchPage } from "@/lib/api/pages";
+
+// Below-the-fold interactive sections: still server-rendered, but their JavaScript hydrates lazily instead of blocking the first load.
+const Academics = lazy(() => import("@/components/sections/home/Academics").then((m) => m.Academics));
+const Departments = lazy(() => import("@/components/sections/home/Departments").then((m) => m.Departments));
+const Journey = lazy(() => import("@/components/sections/home/Journey").then((m) => m.Journey));
+const News = lazy(() => import("@/components/sections/home/News").then((m) => m.News));
+const Why = lazy(() => import("@/components/sections/home/Why").then((m) => m.Why));
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +45,7 @@ export default async function Home() {
     return (
       <PageShell>
         <PageHero page={cmsPage} />
-        <Blocks blocks={cmsPage.blocks} />
+        <Blocks blocks={cmsPage.blocks} useFallbackImages={false} />
       </PageShell>
     );
   }

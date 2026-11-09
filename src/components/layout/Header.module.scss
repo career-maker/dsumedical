@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
 
-  li + li::before {
+  > li + li::before {
     content: "";
     display: inline-block;
     width: 1px;
@@ -70,30 +70,22 @@
 
 .barInner {
   @include container;
-  position: relative; // anchors the full-width Departments mega menu
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
+  column-gap: u(32);
   align-items: center;
   height: 100%;
 }
 
-.navLeft,
-.navRight {
+.nav {
   display: flex;
   white-space: nowrap;
   align-items: center;
-  gap: u(48);
+  justify-content: center;
+  gap: u(28);
   font-size: u(18.8);
   font-weight: 500;
-}
-
-.navLeft {
-  gap: u(30);
-}
-
-.navRight {
-  justify-content: flex-end;
-  gap: u(36);
 }
 
 .navLink {
@@ -112,7 +104,7 @@
   top: calc(100% - #{u(6)});
   left: u(-24);
   z-index: 30;
-  min-width: u(290);
+  min-width: u(270);
   padding: u(10);
   border-radius: u(14);
   border-top: u(3) solid var(--orange);
@@ -201,9 +193,9 @@
 }
 
 .item:hover .drop,
-.item:focus-within .drop,
 .item:hover .mega,
-.item:focus-within .mega {
+.item:has(:focus-visible) .mega,
+.item:has(:focus-visible) .drop {
   opacity: 1;
   visibility: visible;
   translate: 0 0;
@@ -220,7 +212,7 @@
   }
 }
 
-.navRight .drop {
+.edge .drop {
   left: auto;
   right: u(-24);
 
@@ -230,88 +222,8 @@
   }
 }
 
-.navLink img {
-  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.item:hover .navLink img,
-.item:focus-within .navLink img {
-  rotate: 180deg;
-  scale: 1;
-}
-
-.item:hover > .navLink,
-.item:focus-within > .navLink {
-  color: var(--orange);
-}
-
-.logos {
-  display: flex;
-  align-items: center;
-  gap: u(24);
-}
-
-.phone {
-  display: inline-flex;
-  align-items: center;
-  gap: u(9);
-  height: u(52);
-  width: u(164);
-  padding: 0 u(18);
-  margin-left: u(-18);
-  border: 1px solid rgba(255, 109, 0, 0.55);
-  border-radius: u(4);
-  background: rgba(255, 109, 0, 0.14);
-  font-size: u(17);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.phone {
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
-
-  img {
-    transition: filter 0.3s;
-  }
-
-  &:hover {
-    border-color: transparent;
-    background: var(--gradient-cta);
-    color: #fff;
-    box-shadow: 0 u(8) u(20) rgba(220, 39, 37, 0.3);
-
-    img {
-      filter: brightness(0) invert(1);
-      scale: 1;
-      animation: ring 0.9s ease-in-out infinite;
-    }
-  }
-}
-
-@keyframes ring {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-
-  15%,
-  45% {
-    rotate: -18deg;
-  }
-
-  30%,
-  60% {
-    rotate: 18deg;
-  }
-}
-
-.admissions {
-  height: u(52);
-  margin-left: u(-25);
-}
-
-// Dropdown entries with a nested list (e.g. University › About, Admissions › Fees).
-.drop .group > .groupRow > a {
+// Nested items from the sheet's third level: indented, smaller, under their parent.
+.drop .group > a {
   font-weight: 600;
 }
 
@@ -320,7 +232,7 @@
   align-items: center;
 
   a {
-    flex: 1 1;
+    flex: 1;
   }
 }
 
@@ -338,8 +250,8 @@
     width: u(8);
     height: u(8);
     margin: u(-3) auto 0;
-    border-right: u(2) solid;
-    border-bottom: u(2) solid;
+    border-right: u(2) solid currentColor;
+    border-bottom: u(2) solid currentColor;
     rotate: 45deg;
     transition: rotate 0.25s;
   }
@@ -371,7 +283,101 @@
   }
 }
 
-// Top-bar entry with a dropdown (Contact us).
+.drop {
+  min-width: u(290);
+}
+
+.navLink img {
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item:hover .navLink img,
+.item:has(:focus-visible) .navLink img {
+  rotate: 180deg;
+  scale: 1;
+}
+
+.item:hover > .navLink,
+.item:has(:focus-visible) > .navLink {
+  color: var(--orange);
+}
+
+.logoL,
+.logoR {
+  display: flex;
+  align-items: center;
+}
+
+.logoR {
+  justify-self: end;
+}
+
+.phoneIcon {
+  width: u(16) !important;
+  filter: brightness(0) invert(1);
+  margin-right: u(2);
+}
+
+.admissions {
+  height: u(52);
+}
+
+@include below($bp-lg) {
+  .wrap {
+    --topbar: 0px;
+    position: sticky;
+    top: 0;
+  }
+
+  .topbar {
+    display: none;
+  }
+
+  .bar {
+    position: relative;
+    height: auto;
+    padding: 12px 24px;
+    background: #fff;
+  }
+
+  .barInner {
+    grid-template-columns: auto auto 1fr;
+    column-gap: 12px;
+    width: 100%;
+
+    > :last-child {
+      justify-self: end;
+    }
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .logoR {
+    justify-self: start;
+  }
+
+  .logoR img {
+    width: 120px;
+    height: auto;
+  }
+}
+
+@include below($bp-sm) {
+  .dsu {
+    display: none;
+  }
+}
+
+// Phones/tablets: the open menu must sit above the fixed bottom action bar.
+@include below($bp-lg) {
+  .wrap {
+    z-index: 60;
+  }
+}
+
+// Dropdown arrow on the top-strip link and the Admissions button: the same chevron, turned white for the dark/red fills.
 .topLink {
   display: inline-flex;
   align-items: center;
@@ -379,26 +385,24 @@
 
   img {
     width: u(9) !important;
+    filter: brightness(0) invert(1);
+    transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
-}
-
-.topLink img,
-.btnChev {
-  filter: brightness(0) invert(1);
-  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btnChev {
   width: u(12) !important;
+  filter: brightness(0) invert(1);
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.item:hover .btnChev,
-.item:focus-within .btnChev,
 .item:hover .topLink img,
-.item:focus-within .topLink img {
+.item:hover .btnChev,
+.item:has(:focus-visible) .btnChev {
   rotate: 180deg;
 }
 
+// Contact us in the top strip opens the same dropdown as the main menu.
 .topItem {
   padding-block: 0;
 
@@ -410,7 +414,7 @@
   }
 }
 
-// Departments mega menu: spans the whole bar, positioned against .barInner.
+// Departments: a wide multi-column panel under the bar instead of a long single list.
 .megaItem {
   position: static;
 }
@@ -428,11 +432,17 @@
   box-shadow: 0 u(20) u(44) rgba(60, 20, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
   font-size: u(16);
   letter-spacing: 0;
-  white-space: normal;
   opacity: 0;
   visibility: hidden;
   translate: 0 u(10);
   transition: opacity 0.28s, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
+}
+
+.item:hover .mega,
+.item:has(:focus-visible) .mega {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
 }
 
 .megaGrid {
@@ -486,7 +496,7 @@
   }
 }
 
-.megaCol .megaTwo {
+.megaTwo {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: u(24);
 }
@@ -503,56 +513,5 @@
 
   &:hover {
     text-decoration: underline;
-  }
-}
-
-@include below($bp-lg) {
-  .wrap {
-    --topbar: 0px;
-    position: sticky;
-    top: 0;
-  }
-
-  .topbar {
-    display: none;
-  }
-
-  .bar {
-    position: relative;
-    height: auto;
-    padding: 12px 24px;
-    background: #fff;
-  }
-
-  .barInner {
-    grid-template-columns: 1fr auto;
-    width: 100%;
-  }
-
-  .navLeft,
-  .navRight {
-    display: none;
-  }
-
-  .logos {
-    gap: 12px;
-  }
-
-  .logos img {
-    width: 120px;
-    height: auto;
-  }
-}
-
-@include below($bp-sm) {
-  .dsu {
-    display: none;
-  }
-}
-
-// Phones/tablets: the open menu must sit above the fixed bottom action bar.
-@include below($bp-lg) {
-  .wrap {
-    z-index: 60;
   }
 }

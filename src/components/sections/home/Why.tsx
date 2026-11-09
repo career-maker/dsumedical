@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { whyItems } from "@/data/home";
 import styles from "./Why.module.scss";
+import { fluid } from "@/lib/sizes";
 
 const SLIDE_MS = 2000;
+// Sample video; replace with the CDSIMER campus video's YouTube ID.
+const VIDEO_ID = "10yxPMitlJs";
 const slides = [
   { src: "why-girl", alt: "Smiling medical student holding a folder" },
   { src: "academics-girl.jpg", alt: "Smiling postgraduate student holding books" },
@@ -28,6 +30,7 @@ function Arrow({ flip }: { flip?: boolean }) {
 export function Why() {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const go = (d: number) => setI((n) => (n + d + slides.length) % slides.length);
 
   useEffect(() => {
@@ -68,13 +71,25 @@ export function Why() {
         </div>
 
         <div className={styles.video}>
-          <Photo name="why-video" alt="CDSIMER campus at dusk" sizes="421px" className={styles.fill} cover position="72% 50%" />
-          <Link prefetch={false} href="/campus-tour" className={styles.play} aria-label="Play campus video">
-            <svg viewBox="0 0 43 43" width="43" height="43" aria-hidden="true">
-              <circle className={styles.disc} cx="21.5" cy="21.5" r="21.5" />
-              <path className={styles.tri} d="M17 13.5 30 21.5 17 29.5z" />
-            </svg>
-          </Link>
+          {playing ? (
+            <iframe
+              className={styles.fill}
+              src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0`}
+              title="CDSIMER campus video"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+            />
+          ) : (
+            <>
+              <Photo name="why-video" alt="CDSIMER campus at dusk" sizes={fluid(421)} className={styles.fill} cover position="72% 50%" />
+              <button type="button" className={styles.play} aria-label="Play campus video" onClick={() => setPlaying(true)}>
+                <svg viewBox="0 0 43 43" width="43" height="43" aria-hidden="true">
+                  <circle className={styles.disc} cx="21.5" cy="21.5" r="21.5" />
+                  <path className={styles.tri} d="M17 13.5 30 21.5 17 29.5z" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
         <ul className={styles.badges}>
           <li>
@@ -98,9 +113,9 @@ export function Why() {
           {slides.map((sl, n) => (
             <div key={sl.src} className={`${styles.slide} ${n === i ? styles.slideOn : ""}`} aria-hidden={n !== i}>
               {n === 0 ? (
-                <Photo name="why-girl" alt={sl.alt} sizes="421px" className={styles.fill} />
+                <Photo name="home-why" alt={sl.alt} sizes={fluid(421)} className={styles.fill} />
               ) : (
-                <Image src={`/images/${sl.src}`} alt={sl.alt} fill sizes="421px" style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
+                <Image src={`/images/${sl.src}`} alt={sl.alt} fill sizes={fluid(421)} style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
               )}
             </div>
           ))}

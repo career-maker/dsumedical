@@ -9,6 +9,7 @@ import { crosses, departmentTabs, departments } from "@/data/home";
 import { depts } from "@/data/pages/clinical";
 import { photos } from "@/data/home";
 import styles from "./Departments.module.scss";
+import { fluid } from "@/lib/sizes";
 
 function Chevron() {
   return (
@@ -22,7 +23,7 @@ function Chevron() {
 
 // Home cards: the four designed ones keep their exact art; every other department comes from the shared list.
 const designed = new Map(departments.map((d) => [d.title, d]));
-const tabIcon = { pre: "ac-mbbs", para: "d-path", clinical: "ac-pg", super: "ac-ss" } as const;
+const tabIcon = { pre: "ac-mbbs", para: "d-path", clinical: "ac-pg", super: "ac-ss", others: "ac-mbbs" } as const;
 const others = ["radiodiagnosis", "anaesthesiology", "forensic-medicine-and-toxicology"];
 const cardsFor = (tab: string) =>
   depts
@@ -70,7 +71,7 @@ export function Departments() {
               className={`${styles.tab} ${tab === t.id ? styles.tabOn : ""}`}
               onClick={() => setTab(t.id)}
             >
-              <Icon name={t.icon} />
+              <Icon name={t.id === "para" && tab !== "para" ? "tab-para-idle" : t.icon} />
               {t.label}
             </button>
           ))}
@@ -82,10 +83,10 @@ export function Departments() {
             {items.map((d) => (
               <li key={d.slug} className={styles.card}>
                 {d.art && d.art.photo in photos ? (
-                  <Photo name={d.art.photo} alt={d.art.alt} sizes="404px" className={styles.photo} />
+                  <Photo name={d.art.photo} alt={d.art.alt} sizes={fluid(404)} className={styles.photo} />
                 ) : (
                   <div className={styles.cover}>
-                    <Image src={`/images/${d.image}`} alt="" fill sizes="404px" />
+                    <Image src={`/images/${d.image}`} alt="" fill sizes={fluid(404)} />
                   </div>
                 )}
                 <span className={styles.badge}>

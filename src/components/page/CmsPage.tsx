@@ -17,11 +17,13 @@ type CmsPageProps = {
 
 async function loadPage({ apiId, slug, contentSlug, useFallback = true }: CmsPageProps) {
   const cmsPage = await fetchPage(apiId, contentSlug);
-  return (cmsPage ? { ...cmsPage, slug } : null) ?? (useFallback ? getPage(slug) ?? null : null);
+  if (cmsPage) return { page: { ...cmsPage, slug }, fromCms: true };
+  const fallback = useFallback ? getPage(slug) ?? null : null;
+  return fallback ? { page: fallback, fromCms: false } : null;
 }
 
 export async function generateCmsMetadata(props: CmsPageProps): Promise<Metadata> {
-  const page = await loadPage(props);
+  const page = (await loadPage(props))?.page;
   if (!page) return {};
 
   return {
@@ -42,13 +44,14 @@ export async function CmsPage({
   useFallback = true,
   showJumpNav = true
 }: CmsPageProps) {
-  const page = await loadPage({ apiId, slug, contentSlug, useFallback });
-  if (!page) notFound();
+  const loaded = await loadPage({ apiId, slug, contentSlug, useFallback });
+  if (!loaded) notFound();
+  const { page, fromCms } = loaded;
 
   return (
     <PageShell>
       <PageHero page={page} />
-      <Blocks blocks={page.blocks} useFallbackImages={useFallback} showJumpNav={showJumpNav} />
+      <Blocks blocks={page.blocks} useFallbackImages={!fromCms} showJumpNav={showJumpNav} />
     </PageShell>
   );
 }

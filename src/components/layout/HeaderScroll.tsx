@@ -18,6 +18,10 @@ export function HeaderScroll() {
       else if (delta > 6) header.dataset.hidden = "true";
       else if (delta < -6) header.dataset.hidden = "false";
       if (Math.abs(delta) > 6) last = y;
+      // The in-page tab bar sticks just under whatever part of the header is showing.
+      const topbar = header.firstElementChild as HTMLElement | null;
+      const shown = header.dataset.hidden === "true" ? 0 : header.offsetHeight - (header.dataset.stuck === "true" ? (topbar?.offsetHeight ?? 0) : 0);
+      document.documentElement.style.setProperty("--jump-top", `${shown}px`);
     };
     const onScroll = () => {
       if (!ticking) {
@@ -29,9 +33,12 @@ export function HeaderScroll() {
     const onFocus = () => (header.dataset.hidden = "false");
     header.addEventListener("focusin", onFocus);
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      document.documentElement.style.removeProperty("--jump-top");
       header.removeEventListener("focusin", onFocus);
     };
   }, []);

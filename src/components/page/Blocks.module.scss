@@ -3,10 +3,6 @@
 // Inner-page blocks, styled like the homepage: white surfaces, 1px #e6e6e6 borders, 8-12px radii,
 // soft shadow, orange only on hover/active. Grids are auto-fit and cards stretch to the row, so any
 // item count or text length keeps rows aligned. Type has a px floor for laptop/tablet widths.
-@function fs($n, $min) {
-  @return max(#{$min}px, calc(#{$n} * var(--u)));
-}
-
 $line: #e6e6e6;
 $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
@@ -45,10 +41,21 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     text-wrap: balance;
   }
 
+  // Short orange rule under the title, then breathing room before the intro paragraph.
+  h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: max(12px, u(16));
+    border-radius: 2px;
+    background: var(--gradient-cta);
+  }
+
   p {
-    margin-top: 14px;
+    margin-top: max(16px, u(22));
     font-size: fs(18, 16);
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--ink-soft);
   }
 }
@@ -94,6 +101,24 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
 .single {
   grid-template-columns: minmax(0, 1fr);
+}
+
+// Centred intro text sits tight above the block that follows it.
+.section:has(.centered) {
+  padding-bottom: u(10);
+}
+
+.section:has(.centered) + .section {
+  padding-top: u(30);
+}
+
+.centered {
+  justify-content: center;
+  text-align: center;
+
+  .row {
+    justify-content: center;
+  }
 }
 
 .flip .media {
@@ -182,8 +207,28 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 }
 
+// Leadership portraits: whole head and shoulders, never a thin strip.
+.portrait {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 480px;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 4 / 5;
+  box-shadow: none;
+
+  img {
+    object-position: 50% 15%;
+  }
+}
+
+// Founders: the supplied artwork (photo on a wave) shown whole, at no more than its native width.
 .art {
   align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 600px;
   min-height: 0;
   max-height: none;
   aspect-ratio: 3 / 2;
@@ -243,6 +288,12 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   @include below($bp-sm) {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+// A lone profile keeps a normal card size, centred, instead of stretching full width.
+.singleProfile {
+  max-width: 340px;
+  margin-inline: auto;
 }
 
 // Same recipe as the homepage cards: white, hairline border, soft shadow, orange on hover.
@@ -308,6 +359,35 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   color: inherit;
 }
 
+.cardList {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+
+  li {
+    position: relative;
+    padding-left: 22px;
+    font-size: fs(17, 15);
+    line-height: 1.65;
+    color: var(--slate);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.65em;
+      left: 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+  }
+}
+
+.c2 .cardList li {
+  font-size: fs(18, 16);
+}
+
 a.card:hover,
 a.card:focus-visible {
   translate: 0 -3px;
@@ -338,6 +418,34 @@ a.card:focus-visible {
 .visionCard:hover .cardImg,
 .visionCard:focus-visible .cardImg {
   border-bottom-color: transparent;
+}
+
+// Two-up cards with photos (Vision & Mission): taller photo with a soft fade into the text.
+.c2 .cardImg {
+  aspect-ratio: 16 / 9;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 55% 0 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+  }
+
+  img {
+    transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.c2 .card:hover .cardImg img {
+  scale: 1.04;
+}
+
+.c2 .card h3 {
+  font-size: fs(28, 22);
+}
+
+.c2 .card p {
+  font-size: fs(18, 16);
 }
 
 .cardBody {
@@ -547,7 +655,7 @@ a.card:focus-visible {
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   background: var(--peach);
   font-size: clamp(36px, calc(54 * var(--u)), 54px);
   font-weight: 700;
@@ -555,7 +663,7 @@ a.card:focus-visible {
 
   img {
     object-fit: cover;
-    object-position: 50% 20%;
+    object-position: 50% 12%;
   }
 }
 
@@ -606,7 +714,7 @@ a.card:focus-visible {
   }
 }
 
-.portrait {
+.personPortrait {
   position: relative;
   display: block;
   aspect-ratio: 1;
@@ -1107,8 +1215,9 @@ a.card:focus-visible {
 // ---- in-page jump bar ----
 .jump {
   position: sticky;
-  top: 0;
+  top: var(--jump-top, 0px);
   z-index: 15;
+  transition: top 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   border-bottom: 1px solid $line;
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(8px);
@@ -1508,7 +1617,7 @@ a.card:hover .more {
     }
   }
 
-  // Pill sits on the rail above its text, so long labels ("Phase III � Part I") never run under the title.
+  // Pill sits on the rail above its text, so long labels ("Phase III - Part I") never run under the title.
   .dot {
     position: relative;
     top: 0;
@@ -1537,5 +1646,348 @@ a.card:hover .more {
 
   .stats strong {
     font-size: clamp(26px, 3.6vw, 36px);
+  }
+}
+
+// ---- steps on tablets & phones ----
+// Tablet: two plain cards. Phone: a flat list with hairline dividers; every row has the same inset.
+@include below($bp-lg) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+      border: 1px solid $line;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .dot {
+      position: static;
+      height: 30px;
+      margin-bottom: 12px;
+      padding-inline: 12px;
+      font-size: 12px;
+      background: #fff4ec;
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  }
+}
+
+@include below($bp-sm) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-top: 1px solid $line;
+
+    li {
+      padding: 20px 0;
+      border: 0;
+      border-bottom: 1px solid $line;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    li:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// Counter tiles in the brand palette (programme pages): burgundy, orange, red and warm peach in turn.
+.statsColor li {
+  border-color: transparent;
+
+  &:nth-child(4n + 1) {
+    background: linear-gradient(135deg, #440a03, #7b1b1b);
+  }
+
+  &:nth-child(4n + 2) {
+    background: linear-gradient(135deg, #ef6711, #fb7a15);
+  }
+
+  &:nth-child(4n + 3) {
+    background: linear-gradient(135deg, #b81c1c, #dc2725);
+  }
+
+  &:nth-child(4n) {
+    background: var(--peach);
+
+    strong,
+    > span {
+      color: var(--ink);
+    }
+  }
+
+  strong,
+  > span {
+    color: #fff;
+  }
+}
+
+// The generic stat hover turns the number orange; keep coloured tiles readable.
+.statsColor li:hover strong,
+.statsColor li:hover > span {
+  color: #fff;
+}
+
+.statsColor li:nth-child(4n):hover strong,
+.statsColor li:nth-child(4n):hover > span {
+  color: var(--ink);
+}
+
+// ---- prose: a policy document, exactly as published ----
+.prose {
+  max-width: u(1000);
+
+  h2 {
+    font-size: clamp(26px, calc(40 * var(--u)), 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    margin-top: 32px;
+    font-size: fs(22, 18);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  p {
+    margin-top: 16px;
+    font-size: fs(18, 16);
+    line-height: 1.75;
+    color: var(--ink-soft);
+
+    a {
+      color: var(--orange);
+      text-decoration: underline;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  ul {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+    padding-left: 22px;
+    list-style: disc;
+
+    ul {
+      margin-top: 10px;
+      list-style: circle;
+    }
+  }
+
+  li {
+    font-size: fs(18, 16);
+    line-height: 1.7;
+    color: var(--ink-soft);
+    padding-left: 4px;
+
+    &::marker {
+      color: var(--orange);
+    }
+  }
+}
+
+// Video in a text block: 16:9, centred beside the copy.
+.video {
+  align-self: center;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+}
+
+// Cards in the brand palette, one colour each in turn (Core Values).
+.cardsColor .card {
+  border-color: transparent;
+  color: #fff;
+
+  h3,
+  p {
+    color: #fff;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+  }
+}
+
+.cardsColor > li:nth-child(3n + 1) .card {
+  background: linear-gradient(135deg, #440a03, #7b1b1b);
+}
+
+.cardsColor > li:nth-child(3n + 2) .card {
+  background: linear-gradient(135deg, #ef6711, #fb7a15);
+}
+
+.cardsColor > li:nth-child(3n) .card {
+  background: linear-gradient(135deg, #b81c1c, #dc2725);
+}
+
+// Accreditation logos: shown whole on the section background, caption beneath.
+.logoGrid {
+  display: grid;
+  gap: max(28px, u(48)) max(20px, u(32));
+  margin-top: 8px;
+  list-style: none;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  @include below($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.logoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+
+  p {
+    margin-top: 14px;
+    font-size: fs(17, 15);
+    line-height: 1.5;
+    color: var(--slate);
+  }
+}
+
+.logo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: u(160);
+  min-height: 110px;
+  transition: scale 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.logoItem .more {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--orange);
+}
+
+a.logoItem:hover .logo,
+a.logoItem:focus-visible .logo,
+.logoItem:hover .logo {
+  scale: 1.06;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoItem:hover .logo {
+    scale: 1;
+  }
+}
+
+// Four across: each card gets its own colour instead of repeating the first one on the fourth.
+.c4.cardsColor > li:nth-child(4n + 1) .card {
+  background: linear-gradient(135deg, #440a03, #7b1b1b);
+}
+
+.c4.cardsColor > li:nth-child(4n + 2) .card {
+  background: linear-gradient(135deg, #c2410c, #d95a0e);
+}
+
+.c4.cardsColor > li:nth-child(4n + 3) .card {
+  background: linear-gradient(135deg, #b81c1c, #dc2725);
+}
+
+.c4.cardsColor > li:nth-child(4n) .card {
+  background: linear-gradient(135deg, #1e2a5e, #34468f);
+}
+
+// Hover: the card lifts and a soft highlight sweeps across it.
+.cardsColor .card {
+  transition: translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+    translate: -110% 0;
+    transition: translate 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  &:hover {
+    translate: 0 -8px;
+    box-shadow: 0 16px 30px rgba(60, 20, 0, 0.28);
+
+    &::before {
+      translate: 110% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      translate: 0 0;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+// Prose beside a photo: the text takes its column rather than the reading width.
+.proseWide {
+  max-width: none;
+}
+
+// Photo beside a long text: it follows the text height instead of stopping at the generic cap.
+.split > .media:has(img) {
+  max-height: none;
+}
+
+// Inline emphasis inside prose paragraphs.
+.prose strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.accent {
+  color: #f05d1a;
+}
+
+// prose with `cols`: sub-sections side by side as cards, so the width is used instead of leaving a gap.
+.proseCols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: max(18px, u(28));
+  margin-top: 28px;
+}
+
+.proseCard {
+  padding: max(20px, u(28));
+  border: 1px solid #f0d9c6;
+  border-radius: u(10);
+  background: #fff;
+
+  h3:first-child {
+    margin-top: 0;
   }
 }

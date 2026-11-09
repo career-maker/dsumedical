@@ -1,0 +1,178 @@
+@use "@/styles/tokens" as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(20, 8, 4, 0.6);
+  animation: fade 0.25s ease-out;
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  width: min(100%, 980px);
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--cream);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  animation: rise 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+  @include below($bp-md) {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 560px);
+  }
+}
+
+.media {
+  position: relative;
+  min-height: 100%;
+  background: #2a1409;
+
+  img {
+    object-fit: cover;
+    object-position: 50% 20%;
+  }
+
+  // Dark foot so the caption holds 4.5:1 over any part of the photo.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20, 8, 4, 0.92) 0%, rgba(20, 8, 4, 0.55) 38%, rgba(20, 8, 4, 0) 70%);
+  }
+
+  @include below($bp-md) {
+    display: none;
+  }
+}
+
+.caption {
+  position: absolute;
+  inset: auto 28px 28px;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  color: #fff;
+
+  strong {
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 700;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  span {
+    font-size: 14px;
+    color: var(--peach);
+  }
+}
+
+.body {
+  min-width: 0;
+  padding: 36px 36px 12px;
+  overflow-y: auto;
+
+  h2 {
+    padding-right: 44px;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  > p {
+    margin: 8px 0 20px;
+    color: var(--slate);
+  }
+
+  // The form card inside is flat here: the dialog is already the card.
+  form {
+    max-width: none;
+    gap: 14px 16px;
+    padding: 0 0 24px;
+    background: none;
+    box-shadow: none;
+
+    input:not([type="checkbox"]),
+    select,
+    textarea {
+      padding: 12px 14px;
+      border-color: #e2cdbd;
+      border-radius: 8px;
+
+      &:focus-visible {
+        border-color: var(--orange);
+        outline: 2px solid var(--orange);
+        outline-offset: 1px;
+      }
+    }
+
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    // Full-width submit closes the form on the same grid edge as the fields.
+    button[type="submit"] {
+      justify-self: stretch;
+    }
+
+    @include below($bp-sm) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @include below($bp-sm) {
+    padding: 24px 16px 4px;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    background: var(--ink);
+    rotate: 45deg;
+    translate: -50% -50%;
+  }
+
+  &::after {
+    rotate: -45deg;
+  }
+
+  &:hover {
+    background: var(--peach);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+// Slide only: fading the panel in would make text read as low contrast while it animates.
+@keyframes rise {
+  from {
+    translate: 0 16px;
+  }
+}

@@ -1,0 +1,76 @@
+@use "@/styles/tokens" as *;
+
+$gap: 24px;
+
+// Endless strip: the list is rendered twice and slides left by exactly one copy, so the loop has no seam.
+.root {
+  overflow: hidden;
+  padding-block: 8px 20px;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+
+  @media (prefers-reduced-motion: reduce) {
+    overflow-x: auto;
+    mask-image: none;
+  }
+}
+
+.track {
+  display: flex;
+  gap: $gap;
+  width: max-content;
+  list-style: none;
+  animation: slide 40s linear infinite;
+
+  &:hover,
+  &:focus-within {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    > [aria-hidden] {
+      display: none;
+    }
+  }
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(calc(-50% - #{$gap / 2}));
+  }
+}
+
+.card {
+  flex: none;
+  width: min(320px, 78vw);
+  padding: max(22px, u(30));
+  border-radius: u(14);
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(60, 20, 0, 0.08);
+
+  h3 {
+    margin-top: 14px;
+    font-size: fs(21, 18);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: fs(17, 15);
+    line-height: 1.65;
+    color: var(--slate);
+  }
+}
+
+.label {
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--orange);
+  font-size: fs(34, 28);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}

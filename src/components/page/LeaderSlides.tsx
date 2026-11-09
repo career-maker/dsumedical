@@ -1,78 +1,63 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import type { RichTextContent } from "@/data/pages/types";
-import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
-import { RichText } from "./RichText";
+import { useEffect, useState } from "react";
 import styles from "./LeaderSlides.module.scss";
 
-type Leader = {
-  name: string;
-  role: string;
-  text?: RichTextContent;
-  image?: string;
-};
+type Slide = { title: string; body: string[]; image: string; alt?: string };
 
-export function LeaderSlides({ title, items }: { title: string; items: Leader[] }) {
-  const [active, setActive] = useState(0);
-  const select = (index: number) => setActive((index + items.length) % items.length);
+const DELAY = 7000;
 
-  if (items.length === 0) return null;
+/** Auto-advancing message slider. Pauses on hover/focus and when reduced motion is requested; slides share one grid cell so height never jumps. */
+export function LeaderSlides({ items }: { items: Slide[] }) {
+  const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const n = items.length;
+  const go = (d: number) => setI((v) => (v + d + n) % n);
+
+  useEffect(() => {
+    if (paused || n < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setI((v) => (v + 1) % n), DELAY);
+    return () => clearInterval(t);
+  }, [paused, n, i]);
 
   return (
-    <section id="leadership" className={styles.section}>
-      <div className={styles.wrap}>
-        <header className={styles.head}>
-          <h2>{title}</h2>
-        </header>
-        <div role="region" aria-roledescription="carousel" aria-label="Message from the leadership">
-          <div className={styles.stage} aria-live="polite">
-            {items.map((leader, index) => (
-              <article
-                key={`${leader.name}-${index}`}
-                className={`${styles.slide} ${index === active ? styles.on : ""}`}
-                aria-hidden={index !== active}
-                inert={index !== active}
-              >
-                <div className={styles.copy}>
-                  <h3>{leader.name}{leader.role ? `, ${leader.role}` : ""}</h3>
-                  <RichText content={leader.text} />
-                </div>
-                {leader.image && (
-                  <div className={styles.photo}>
-                    <Image
-                      src={contentImageSrc(leader.image)}
-                      alt={leader.name}
-                      fill
-                      sizes="(max-width: 960px) 80vw, 440px"
-                      unoptimized={isRemoteContentImage(leader.image)}
-                    />
-                  </div>
-                )}
-              </article>
+    <div
+      className={styles.root}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Message from the leadership"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <div className={styles.stage} aria-live={paused ? "polite" : "off"}>
+        {items.map((s, k) => (
+          <article key={s.title} className={`${styles.slide} ${k === i ? styles.on : ""}`} aria-hidden={k !== i} inert={k !== i}>
+            <div className={styles.copy}>
+              <h3>{s.title}</h3>
+              {s.body.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
+            <div className={styles.photo}>
+              <Image src={`/images/${s.image}`} alt={s.alt ?? ""} fill sizes="(max-width: 960px) 80vw, 440px" />
+            </div>
+          </article>
+        ))}
+      </div>
+      {n > 1 && (
+        <div className={styles.controls}>
+          <button type="button" onClick={() => go(-1)} aria-label="Previous message" />
+          <div className={styles.dots}>
+            {items.map((s, k) => (
+              <button key={s.title} type="button" onClick={() => setI(k)} aria-label={`Show message ${k + 1}`} aria-current={k === i} className={k === i ? styles.active : ""} />
             ))}
           </div>
-          {items.length > 1 && (
-            <div className={styles.controls}>
-              <button type="button" aria-label="Previous message" onClick={() => select(active - 1)} />
-              <div className={styles.dots}>
-                {items.map((leader, index) => (
-                  <button
-                    key={`${leader.name}-dot`}
-                    type="button"
-                    aria-label={`Show message ${index + 1}`}
-                    aria-current={index === active}
-                    className={index === active ? styles.active : ""}
-                    onClick={() => select(index)}
-                  />
-                ))}
-              </div>
-              <button type="button" aria-label="Next message" className={styles.next} onClick={() => select(active + 1)} />
-            </div>
-          )}
+          <button type="button" onClick={() => go(1)} aria-label="Next message" className={styles.next} />
         </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 }
