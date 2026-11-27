@@ -99,6 +99,10 @@ export async function Footer() {
             <Icon name="phone-btn" />
             Hospital: 080 2608 6500
           </a>
+          <a href="tel:08026086500" className={`${styles.helpPhone} ${styles.helpPhone2}`}>
+            <Icon name="phone-btn" />
+            Hospital: 080 2608 6500
+          </a>
           <ul className={styles.socials}>
             {(content?.socials ?? socials).map((s) => (
               <li key={s.label}>
