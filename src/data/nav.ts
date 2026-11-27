@@ -7,6 +7,7 @@ export const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href)
 // External systems (spreadsheet section 3.19).
 export const external = {
   erp: "https://ums.mydsi.org/",
+  icams: "https://cdsimer.orfiq.ai/login",
   aebas: "https://cdsimerhar.nmcindia.ac.in/",
   hostel: "https://myposhtell.com/",
   dsu: "https://www.dsu.edu.in/",
@@ -104,6 +105,7 @@ const admissions = L("Admissions", "/admissions", [
   L("PG Admission Process", doc.pgAdmission),
   L("Admission Enquiry", "/admissions#enquiry"),
   L("Admission Criteria", "/admissions#criteria"),
+  L("Brochure", doc.brochure),
   L("UG Student List", "/admissions", [
     L("Student List 2025-26", doc.ug2526),
     L("Student List 2024-25", doc.ug2425),
@@ -129,13 +131,14 @@ const library = L("Library", "/library");
 const gallery = L("Gallery", "/gallery");
 const msr = L("Information under MSR Clause", "/msr-clause");
 const erp = L("ERP Login", external.erp);
+const icams = L("iCAMS Login", external.icams);
 const aebas = L("AEBAS Dashboard", external.aebas);
 const hostel = L("Hostel", external.hostel);
 
 /** Mobile menu: every main menu in sheet order. */
 export const mobileMenu: NavLink[] = [
   L("Home", "/"), university, programmes, academics, departments, hospital, research, admissions,
-  nmc, career, examination, contact, library, gallery, msr, erp, aebas, hostel,
+  nmc, career, examination, contact, library, gallery, msr, erp, icams, aebas, hostel,
 ];
 
 // Desktop bar: main row splits around the logo; the rest sit in the top strip, same relative order.
@@ -145,6 +148,7 @@ export const navAdmissions = admissions;
 export const topLeft: NavLink[] = [msr];
 export const topRight: NavLink[] = [nmc, career, examination, contact, library, gallery, aebas, hostel];
 export const topErp = erp;
+export const topIcams = icams;
 // Replaces the single phone number in the header: one tab, two numbers.
 export const topEnquiry: NavLink = L("Enquiry", "/enquiry", [
   L("Student Admission Enquiry: 6366 885 501", "tel:+916366885501"),

@@ -25,6 +25,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={roboto.variable}>
       <head>
+        {/* Runs before hydration so a fast click on an enquiry link never navigates: EnquiryPopup picks up the flag/event. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'document.addEventListener("click",function(e){if(e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||location.pathname==="/enquiry")return;var t=e.target;if(!t.closest||!t.closest("[data-enquiry-popup]"))return;e.preventDefault();e.stopImmediatePropagation();window.__enquiryOpen=1;window.dispatchEvent(new Event("enquiry-open"))},true)',
+          }}
+        />
         <noscript>
           <style>{"#pl{display:none}"}</style>
         </noscript>

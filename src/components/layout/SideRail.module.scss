@@ -48,9 +48,8 @@
 
   span {
     transition: letter-spacing 0.35s;
-    // Reads bottom-to-top; only the text rotates so the gradient keeps its direction.
+    // Reads top-to-bottom; only the text is vertical so the gradient keeps its direction.
     writing-mode: vertical-rl;
-    rotate: 180deg;
   }
 }
 

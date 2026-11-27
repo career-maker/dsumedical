@@ -1,63 +1,65 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import styles from "./LeaderSlides.module.scss";
 
 type Slide = { title: string; body: string[]; image: string; alt?: string };
 
-const DELAY = 7000;
+const Leaf = () => (
+  <svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M20 35V17M20 26c-7 0-11-4-11-11 7 0 11 4 11 11ZM20 22c0-7 4-11 11-11 0 7-4 11-11 11Z" />
+  </svg>
+);
 
-/** Auto-advancing message slider. Pauses on hover/focus and when reduced motion is requested; slides share one grid cell so height never jumps. */
-export function LeaderSlides({ items }: { items: Slide[] }) {
-  const [i, setI] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const n = items.length;
-  const go = (d: number) => setI((v) => (v + d + n) % n);
+const Steth = () => (
+  <svg viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M10 6v10a7 7 0 0 0 14 0V6M8 6h4M22 6h4M17 23v3a7 7 0 0 0 14 0v-4" />
+    <circle cx="31" cy="19" r="3" />
+  </svg>
+);
 
-  useEffect(() => {
-    if (paused || n < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setI((v) => (v + 1) % n), DELAY);
-    return () => clearInterval(t);
-  }, [paused, n, i]);
-
+/** Leadership messages as two side-by-side cards on a campus-photo backdrop (stacked on small screens). Title format: "Name, Role – Org". */
+export function LeaderSlides({ id, title, items }: { id?: string; title: string; items: Slide[] }) {
   return (
-    <div
-      className={styles.root}
-      role="region"
-      aria-roledescription="carousel"
-      aria-label="Message from the leadership"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <div className={styles.stage} aria-live={paused ? "polite" : "off"}>
-        {items.map((s, k) => (
-          <article key={s.title} className={`${styles.slide} ${k === i ? styles.on : ""}`} aria-hidden={k !== i} inert={k !== i}>
-            <div className={styles.copy}>
-              <h3>{s.title}</h3>
-              {s.body.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-            <div className={styles.photo}>
-              <Image src={`/images/${s.image}`} alt={s.alt ?? ""} fill sizes="(max-width: 960px) 80vw, 440px" />
-            </div>
-          </article>
-        ))}
+    <section id={id} className={styles.section}>
+      <div className={styles.bg} aria-hidden="true">
+        <Image src="/images/leadership-campus.jpg" alt="" fill sizes="(max-width: 960px) 100vw, 60vw" />
       </div>
-      {n > 1 && (
-        <div className={styles.controls}>
-          <button type="button" onClick={() => go(-1)} aria-label="Previous message" />
-          <div className={styles.dots}>
-            {items.map((s, k) => (
-              <button key={s.title} type="button" onClick={() => setI(k)} aria-label={`Show message ${k + 1}`} aria-current={k === i} className={k === i ? styles.active : ""} />
-            ))}
-          </div>
-          <button type="button" onClick={() => go(1)} aria-label="Next message" className={styles.next} />
+      <div className={styles.wrap}>
+        <h2 className={styles.title}>{title}</h2>
+        <div className={styles.grid} role="group" aria-label={title}>
+          {items.map((s) => {
+            const [name, role = ""] = s.title.split(/,\s(.+)/);
+            // A third paragraph is the personal sign-off: shown as an italic footer line.
+            const closing = s.body.length > 2 ? s.body[s.body.length - 1] : null;
+            const body = closing ? s.body.slice(0, -1) : s.body;
+            return (
+              <article key={s.title} className={`${styles.card}`}>
+                <span className={styles.quote} aria-hidden="true">
+                  &rdquo;
+                </span>
+                <div className={styles.main}>
+                  <div className={styles.photo}>
+                    <Image src={`/images/${s.image}`} alt={s.alt ?? ""} fill sizes="(max-width: 960px) 40vw, 220px" />
+                  </div>
+                  <div className={styles.who}>
+                    <h3>{name}</h3>
+                    {role && <p className={styles.role}>{role}</p>}
+                    <hr />
+                  </div>
+                  <div className={styles.copy}>
+                    {body.map((p) => (
+                      <p key={p}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+                <footer className={styles.foot}>
+                  {closing ? <Leaf /> : <Steth />}
+                  {closing ? <p>{closing}</p> : <hr />}
+                </footer>
+              </article>
+            );
+          })}
         </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }

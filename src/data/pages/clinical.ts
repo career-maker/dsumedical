@@ -1,8 +1,10 @@
 import type { Block, PageDef, ProseItem } from "./types";
 import { doc } from "./docs";
 import { liveDepts } from "./dept-live";
+import { faculty2026 } from "../faculty-2026";
+import { superSpeciality } from "../super-speciality";
 
-export type Dept = { slug: string; name: string; tab: "pre" | "para" | "clinical" | "super" | "others"; image: string; blurb: string };
+export type Dept = { slug: string; name: string; tab: "pre" | "para" | "clinical" | "super" | "others"; image: string; blurb: string; /** Set when the item lives outside /department/<slug> (shown in lists, no department page). */ href?: string };
 
 // Category mapping is a working assumption.
 export const deptTabs = [
@@ -63,6 +65,7 @@ export const depts: Dept[] = [
   d("Endocrinology", "super", "hospital-ward.jpg", "Hormone and metabolic care."),
   d("Cardiac Anaesthesiology", "super", "hospital-ward.jpg", "Anaesthesia for cardiac surgery."),
   d("Medical Education Unit", "others", "research-clinical.jpg", "Training the trainers in medical education."),
+  { ...d("Library", "others", "life-hall.jpg", "Books, journals and digital resources for students and faculty."), href: "/library" },
   d("Skill Lab", "others", "research-labs.jpg", "Simulation-based training in clinical procedures."),
 ];
 
@@ -92,21 +95,46 @@ const cadreRank = (role: string) => {
   return 8;
 };
 
+/** People for a department page. Departments in the 2026 faculty list use it exactly as built: names from the list, photo, qualification / KMC lines and order from the live department page. Others keep the older scraped list. */
+const peopleFor = (slug: string, v: (typeof liveDepts)[string] | undefined) => {
+  const f = faculty2026[slug];
+  if (!f) return v?.people ?? [];
+  return f.map((p) => ({ name: p.name, role: p.role, text: p.text ?? null, image: p.image ?? null }));
+};
+
+// Departments whose About section shows a short paragraph with a "Read more" button for the full text.
+const aboutMore: Record<string, { short: string; full: string }> = {
+  "medical-education-unit": {
+    short:
+      "Medical Education Unit, CDSIMER organized a two days Curriculum Implementation Support Program (CISP)-2 on 29th and 30th September 2020. Observer for this program was Dr. Nachiket Shankar, St John’s Medical College, Bangalore. A total of 30 participants of different cadre attended this workshop.",
+    full: "Medical Education Unit, CDSIMER organized a two days Curriculum Implementation Support Program (CISP)-2 on 29th and 30th September 2020. Observer for this program was Dr Nachiket Shankar, St John’s Medical College, Bangalore. A total of 30 participants of different cadre attended this workshop. They were divided into five groups. The two days program started with the welcome address by Dean of CDSIMER, Dr. A. C. Ashok who stressed on the importance of CISP. This was followed by an ice breaking session by Dr. Rajagopalan S., Medical Director, CDSIMER. There were 15 sessions in this 2-day CISP as per the format given by the Medical Council of India. These sessions were taken by six facilitators under the guidance of Dr. Prashanth Kumar M., MEU Coordinator, CDSIMER and Dr Rajagopalan S., Medical Director, CDSIMER. Most of the sessions had hands on exercises. It was pleasing and encouraging to see the active participation by the participants. A rapporteur was appointed for each session and feedback was obtained from each participant. The program concluded with the vote of thanks proposed by the coordinator of MEU. The observer also congratulated the entire team for conducting the program in an organized and productive manner.",
+  },
+};
+
 const deptBlocks = (x: Dept): Block[] => {
   const v = liveDepts[x.slug];
-  const vm = (v?.sections ?? []).filter((s) => /^(vision|mission)$/i.test(s.title));
-  const rest = (v?.sections ?? []).filter((s) => !vm.includes(s));
+  const people = peopleFor(x.slug, v);
+  const ordered = !!faculty2026[x.slug]; // list order is the live site order: do not re-sort by cadre
+  const ss = superSpeciality[x.slug];
+  const vm = ss
+    ? [{ title: "Vision", paras: [ss.vision] }, { title: "Mission", bullets: ss.mission }]
+    : (v?.sections ?? []).filter((s) => /^(vision|mission)$/i.test(s.title));
+  const rest = (v?.sections ?? []).filter((s) => !/^(vision|mission)$/i.test(s.title));
   const sec = rest.flatMap((s): ProseItem[] => [{ h: s.title }, ...(s.paras ?? []).map((p) => ({ p })), ...(s.bullets ? [{ ul: s.bullets }] : [])]);
-  return [
-    { t: "text", eyebrow: "About the department", title: `About ${x.name}`, body: v?.about.length ? v.about : [x.blurb], image: v?.image ?? x.image, alt: `${x.name} department`, actions: v?.links?.map((l) => ({ label: l.label, href: l.href, variant: "outline" as const })) },
+  // Tidy layout on every department page: equal-height Vision & Mission cards, centred faculty with Load more,
+  // and long text that gets Load more / Load less instead of stretching its section.
+  const tidy = true;
+  const blocks: Block[] = [
+    { t: "text", eyebrow: "About the department", title: `About ${x.name}`, body: ss?.about ?? (v?.about.length ? v.about : [x.blurb]), more: aboutMore[x.slug], image: v?.image ?? x.image, alt: `${x.name} department`, actions: v?.links?.map((l) => ({ label: l.label, href: l.href, variant: "outline" as const })) },
     ...(vm.length ? [{ t: "cards", title: "Vision & Mission", tone: "cream", cols: vm.length > 1 ? 2 : 3, items: vm.map((s) => ({ title: s.title, text: s.paras?.join(" "), bullets: s.bullets })) } as Block] : []),
     ...(sec.length ? [{ t: "prose", tone: vm.length ? undefined : "cream", items: sec } as Block] : []),
     ...(v?.videos ? [{ t: "cards", title: "Training videos", cols: 3, items: v.videos.map(([title, id]) => ({ title, text: "Watch on YouTube", href: `https://www.youtube.com/watch?v=${id}` })) } as Block] : []),
     ...(v?.gallery ? [{ t: "gallery", title: "Gallery", groups: [{ label: x.name, images: v.gallery.filter((i): i is string => !!i).map((src, n) => ({ src, alt: `${x.name}: photo ${n + 1}` })) }] } as Block] : []),
-    ...(v?.people.length ? [{ t: "profiles", cols: 4, title: v.peopleTitle, items: [...v.people].sort((a, b) => cadreRank(a.role) - cadreRank(b.role)).map((p) => ({ name: p.name, role: p.role, text: p.text ?? undefined, image: p.image ?? undefined })) } as Block] : []),
-    { t: "links", title: "Related departments", items: depts.filter((o) => o.tab === x.tab && o.slug !== x.slug).slice(0, 4).map((o) => ({ label: o.name, href: `/department/${o.slug}` })) },
+    ...(people.length ? [{ t: "profiles", cols: 4, title: v?.peopleTitle ?? "Faculty", items: (ordered ? people : [...people].sort((a, b) => cadreRank(a.role) - cadreRank(b.role))).map((p) => ({ name: p.name, role: p.role, text: p.text ?? undefined, image: p.image ?? undefined })) } as Block] : []),
+    { t: "links", title: "Related departments", items: depts.filter((o) => o.tab === x.tab && o.slug !== x.slug).slice(0, 4).map((o) => ({ label: o.name, href: o.href ?? `/department/${o.slug}` })) },
     { t: "cta", title: `Contact the Department of ${x.name}`, text: "Send us an enquiry and we will route it to the department.", actions: [{ label: "Enquire", href: "/enquiry" }, { label: "Contact", href: "/contact/key-contacts", variant: "soft" }] },
   ];
+  return tidy ? blocks.map((b) => (b.t === "text" || b.t === "cards" || b.t === "prose" || b.t === "profiles" ? { ...b, tidy: true } : b)) : blocks;
 };
 
 export const clinical: PageDef[] = [
@@ -124,7 +152,7 @@ export const clinical: PageDef[] = [
       { t: "cta", title: "Questions about a department?", text: "Our team is happy to help.", actions: [{ label: "Contact Us", href: "/contact" }] },
     ],
   },
-  ...depts.map(deptPage),
+  ...depts.filter((x) => !x.href).map(deptPage),
   {
     slug: "hospital",
     title: "About Hospital",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Photo } from "@/components/ui/Photo";
-import { studentLife } from "@/data/news";
+import { studentLife } from "@/data/studentLife";
 import styles from "./StudentLife.module.scss";
 import { fluid } from "@/lib/sizes";
 

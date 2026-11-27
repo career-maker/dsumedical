@@ -1,0 +1,216 @@
+@use "@/styles/tokens" as *;
+
+.section {
+  padding-block: max(36px, u(64)) max(48px, u(80));
+  background: #fff;
+}
+
+.wrap {
+  @include container;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, u(400));
+  gap: max(28px, u(56));
+  align-items: start;
+
+  @include below($bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 24px;
+  }
+}
+
+.main {
+  min-width: 0;
+}
+
+.cat {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--peach);
+  font-size: fs(14, 13);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #a8480d;
+}
+
+.text {
+  font-size: fs(18, 16);
+  line-height: 1.75;
+  color: var(--ink-soft);
+
+  & + & {
+    margin-top: 16px;
+  }
+}
+
+.items {
+  margin-top: 16px;
+  padding-left: 20px;
+  list-style: disc;
+  font-size: fs(18, 16);
+  line-height: 1.7;
+  color: var(--ink-soft);
+
+  li::marker {
+    color: var(--orange);
+  }
+}
+
+.docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+// Photos keep their own shape: a single photo is shown whole; several flow in two columns, each at its natural height.
+.photos {
+  margin-top: max(24px, u(36));
+  columns: 3;
+  column-gap: 12px;
+
+  a {
+    display: block;
+    margin-bottom: 12px;
+    break-inside: avoid;
+    border-radius: u(10);
+    overflow: hidden;
+    background: #f3eee9;
+  }
+
+  // Whole photo, no cropping, but never taller than 360 px: tall photos get side bars of the tile colour.
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+  }
+
+  &.one {
+    columns: 1;
+    max-width: u(520);
+  }
+
+  @include below($bp-lg) {
+    columns: 2;
+  }
+
+  @include below($bp-sm) {
+    columns: 1;
+  }
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: max(28px, u(44));
+  padding-top: 24px;
+  border-top: 1px solid #f0e2d4;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 18px;
+    border: 1px solid #f0d9c6;
+    border-radius: u(12);
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      border-color: var(--orange);
+      box-shadow: 0 10px 22px -16px rgba(90, 40, 10, 0.5);
+    }
+  }
+
+  small {
+    font-size: fs(14, 13);
+    font-weight: 700;
+    color: var(--orange);
+  }
+
+  span {
+    font-size: fs(16, 15);
+    line-height: 1.45;
+    color: #1c2340;
+  }
+
+  .next {
+    text-align: right;
+  }
+
+  @include below($bp-sm) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.side {
+  display: grid;
+  gap: 24px;
+
+  @include below($bp-lg) {
+    margin-top: 8px;
+  }
+
+  @media (min-width: #{$bp-lg}) {
+    position: sticky;
+    top: 150px;
+  }
+}
+
+.widget {
+  padding: max(18px, u(24));
+  border: 1px solid #f3e1d3;
+  border-radius: u(14);
+  background: #fffaf6;
+
+  h2 {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--orange);
+    font-size: fs(20, 18);
+    font-weight: 700;
+    color: #1c2340;
+  }
+
+  ul {
+    display: grid;
+    gap: 2px;
+  }
+
+  li a {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0e2d4;
+    font-size: fs(16, 15);
+    line-height: 1.45;
+    color: #1c2340;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--orange);
+    }
+
+    small {
+      font-size: fs(13, 12);
+      color: #8a7a6e;
+    }
+  }
+
+  li:last-child a {
+    border-bottom: 0;
+  }
+}
+
+.all {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: fs(15, 14);
+  font-weight: 600;
+  color: var(--orange);
+}

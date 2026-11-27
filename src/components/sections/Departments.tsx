@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Photo } from "@/components/ui/Photo";
 import { crosses } from "@/data/crosses";
 import { departmentTabs, departments } from "@/data/content";
+import { navLeft, type NavLink } from "@/data/nav";
 import { depts } from "@/data/pages/clinical";
 import { photos } from "@/data/photos";
 import styles from "./Departments.module.scss";
@@ -25,10 +26,14 @@ function Chevron() {
 // Home cards: the four designed ones keep their exact art; every other department comes from the shared list.
 const designed = new Map(departments.map((d) => [d.title, d]));
 const tabIcon = { pre: "ac-mbbs", para: "d-path", clinical: "ac-pg", super: "ac-ss", others: "ac-mbbs" } as const;
-const others = ["radiodiagnosis", "anaesthesiology", "forensic-medicine-and-toxicology"];
+// Names shown on the cards are the ones used in the Departments mega menu (looked up by link), so the two never drift apart.
+const menuLabel = new Map<string, string>();
+const walk = (n: NavLink) => (n.children ? n.children.forEach(walk) : menuLabel.set(n.href, n.label));
+navLeft.filter((n) => n.label === "Departments").forEach(walk);
+const nameOf = (d: { name: string; slug: string; href?: string }) => menuLabel.get(d.href ?? `/department/${d.slug}`) ?? d.name;
 const cardsFor = (tab: string) =>
   depts
-    .filter((d) => (tab === "others" ? others.includes(d.slug) : d.tab === tab))
+    .filter((d) => d.tab === tab)
     .slice(0, 4)
     .map((d) => ({ ...d, art: designed.get(d.name) }));
 
@@ -93,8 +98,8 @@ export function Departments() {
                 <span className={styles.badge}>
                   <Icon name={d.art?.icon ?? tabIcon[d.tab]} />
                 </span>
-                <h3>{d.name}</h3>
-                <Link prefetch={false} href={`/department/${d.slug}`} className={styles.overlay} aria-label={`${d.name} department`} />
+                <h3>{nameOf(d)}</h3>
+                <Link prefetch={false} href={d.href ?? `/department/${d.slug}`} className={styles.overlay} aria-label={`${nameOf(d)} department`} />
                 <p>{d.art?.text ?? d.blurb}</p>
                 <Chevron />
               </li>

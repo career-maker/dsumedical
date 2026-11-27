@@ -23,7 +23,9 @@ for (const f of await readdir(src, { recursive: true })) {
   const meta = await sharp(from).metadata();
   for (const w of WIDTHS) {
     const width = Math.min(w, meta.width); // never upscale; smaller sources reuse their natural size
-    await sharp(from).resize({ width }).webp({ quality: w >= 1024 ? 50 : 62, effort: 6 }).toFile(path.join(out, `${base}-${w}.webp`));
+    // Homepage photos (home-*) and the enquiry popup photo (popup-*) keep near-original quality; everything else uses the lighter setting.
+    const quality = /^(home|popup)-/.test(path.basename(base)) ? (width > 1500 ? 90 : 95) : w >= 1024 ? 50 : 62;
+    await sharp(from).resize({ width }).webp({ quality, effort: 6 }).toFile(path.join(out, `${base}-${w}.webp`));
     n++;
   }
 }

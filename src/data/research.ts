@@ -8,10 +8,10 @@ export const researchChecks = [
 ];
 
 export const researchTiles = [
-  { photo: "home-research-labs", label: "Research Laboratories", alt: "Researcher looking through a microscope", cover: false },
-  { photo: "home-research-projects", label: "Ongoing Projects", alt: "Doctors reviewing project data together", cover: false },
-  { photo: "home-research-clinical", label: "Clinical Research", alt: "Scientist in protective gear using a microscope", cover: false },
-  { photo: "home-research-publications", label: "Research Publications", alt: "Open journal beside laboratory equipment", cover: false },
-  { photo: "home-research-conferences", label: "Conferences & Workshops", alt: "Audience at a medical conference", cover: false },
-  { photo: "home-research-grants", label: "Research Grants", alt: "Researcher at a microscope in a blue-lit lab", cover: false },
+  { photo: "home-research-labs", label: "Research Laboratories", alt: "Students and a researcher at laboratory benches with microscopes", cover: false },
+  { photo: "home-research-projects", label: "Ongoing Projects", alt: "Two students working on laptops", cover: false },
+  { photo: "home-research-clinical", label: "Clinical Research", alt: "Researcher in a mask handling a sample in a safety cabinet while students watch", cover: false },
+  { photo: "home-research-publications", label: "Research Publications", alt: "Faculty guiding students at a microscope", cover: false },
+  { photo: "home-research-conferences", label: "Conferences & Workshops", alt: "Students in a lecture, one raising a hand", cover: false },
+  { photo: "home-research-grants", label: "Research Grants", alt: "Researcher showing a result to colleagues in the laboratory", cover: false },
 ] as const;

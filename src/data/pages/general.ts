@@ -187,7 +187,6 @@ export const general: PageDef[] = [
           ["Hospital Enquiry", "080 26086500", "—"],
         ],
       },
-      { t: "links", title: "Contact", items: [{ label: "Postal Address", href: "/contact/postal-address" }, { label: "Maps & Directions", href: "/contact/maps-and-directions" }] },
     ],
   },
   {
@@ -210,7 +209,6 @@ export const general: PageDef[] = [
     heroAlt: "CDSIMER campus",
     blocks: [
       { t: "map", title: "Campus location", lead: "Devarakaggalahalli, Kanakapura Road, Bengaluru South District, Karnataka - 562112.", query: "Dr. Chandramma Dayananda Sagar Institute of Medical Education and Research" },
-      { t: "cta", title: "Plan a visit", text: "Schedule a campus visit with our counselors.", actions: [{ label: "Campus Tour", href: "/campus-tour" }] },
     ],
   },
   {
@@ -388,7 +386,7 @@ export const general: PageDef[] = [
         items: [
           { title: "Year 2021", type: "PDF", href: doc.cme2021 },
           { title: "Year 2022", type: "PDF", href: doc.cme2022 },
-          { title: "Year 2023", type: "LINK", href: "https://drive.google.com/file/d/1NcBIRq4EfjxEv_NGEpSeVlesj6eaiGgB/view?usp=sharing" },
+          { title: "Year 2023", type: "PDF", href: doc.cme2023 },
           { title: "Year 2024", type: "PDF", href: doc.cme2024 },
         ],
       },
@@ -454,17 +452,17 @@ export const general: PageDef[] = [
     heroAlt: "Students together on campus",
     blocks: [
       { t: "cards", title: "Life on campus", cols: 3, items: [{ title: "Hostel", text: "Comfortable on-campus living.", image: "life-hostel.jpg", href: external.hostel }, { title: "Library", text: "Study and research spaces.", image: "life-library.jpg", href: "/library" }, { title: "Sports", text: "Facilities and teams.", image: "life-sports.jpg" }] },
-      { t: "links", title: "Explore", items: [{ label: "Gallery", href: "/gallery" }, { label: "Campus Tour", href: "/campus-tour" }, { label: "News & Events", href: "/news" }] },
+      { t: "links", title: "Explore", items: [{ label: "Gallery", href: "/gallery" }, { label: "Campus Tour", href: "/campus-tour" }, { label: "News & Events", href: "/events" }] },
     ],
   },
   {
-    slug: "news",
+    slug: "events",
     title: "News & Events",
     eyebrow: "Updates",
-    lead: "Latest from academics, hospital, research and campus events.",
+    lead: "Events, activities and achievements at CDSIMER.",
     hero: "news-1.jpg",
     heroAlt: "Conference audience",
-    blocks: [{ t: "news" }],
+    blocks: [{ t: "events" }],
   },
   {
     slug: "privacy",

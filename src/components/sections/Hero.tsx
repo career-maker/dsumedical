@@ -9,28 +9,22 @@ import styles from "./Hero.module.scss";
 
 const slides = [
   {
-    img: "hero.jpg",
-    alt: "Smiling medical student holding textbooks on the CDSIMER campus",
+    img: "home-hero.jpg",
+    alt: "Smiling medical student reading a textbook outside the CDSIMER building",
     title: ["Future Doctors.", "Real Clinical Exposure.", "Transformative Research."],
     actions: [["Apply Now", "/admissions"], ["Explore Programs", "/programs"], ["Book an Appointment", "/appointment"]],
   },
   {
-    img: "journey-hospital.jpg",
-    alt: "CDSIMER teaching hospital building",
+    img: "home-hero-2.jpg",
+    alt: "CDSIMER medical students studying together in the library",
     title: ["900+ Bed Teaching Hospital.", "Learn at the Bedside.", "Care that Counts."],
     actions: [["Visit Hospital", "/hospital"], ["Our Departments", "/department"], ["Book an Appointment", "/appointment"]],
   },
   {
-    img: "journey-research.jpg",
-    alt: "Researchers working with microscopes in a CDSIMER laboratory",
+    img: "home-hero-3.jpg",
+    alt: "Students attending a lecture in a CDSIMER lecture hall",
     title: ["Research that Heals.", "Labs that Inspire.", "Ideas that Travel."],
     actions: [["Explore Research", "/research"], ["Research Centres", "/research"], ["Book an Appointment", "/appointment"]],
-  },
-  {
-    img: "life-group.jpg",
-    alt: "Students and staff gathered on the CDSIMER campus",
-    title: ["A Campus Built to Grow.", "Life Beyond the Lecture.", "Your Journey Starts Here."],
-    actions: [["Campus Life", "/student-life"], ["Apply Now", "/admissions"], ["Book an Appointment", "/appointment"]],
   },
 ];
 const INTERVAL_MS = 5000;

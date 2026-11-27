@@ -1,0 +1,43 @@
+@use "@/styles/tokens" as *;
+
+.view {
+  // Same height in every state the content can be in, so nothing jumps while the button is pressed.
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.shut .view {
+  position: relative;
+  max-height: var(--clamp, 420px);
+  overflow: hidden;
+
+  // Fade the cut-off edge into the background.
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+
+.open .view {
+  max-height: min(70vh, 720px);
+  overflow-y: auto;
+  scrollbar-width: none; // the area scrolls, the bar stays out of sight
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.toggle {
+  display: block;
+  margin: 18px auto 0;
+  padding: 10px 26px;
+  border: 1px solid var(--orange);
+  border-radius: 999px;
+  background: #fff;
+  font-size: fs(16, 15);
+  font-weight: 600;
+  color: var(--orange);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--orange);
+    color: #fff;
+  }
+}

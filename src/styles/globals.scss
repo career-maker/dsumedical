@@ -94,19 +94,6 @@ button img {
 }
 
 @media (hover: hover) {
-  // Text links: underline draws in from the left.
-  :where(a:not(:has(img, svg)):not([class*="btn"])) {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0 100%;
-    background-size: 0 1px;
-    background-repeat: no-repeat;
-    padding-bottom: 2px;
-
-    &:hover {
-      background-size: 100% 1px;
-    }
-  }
-
   // Icon / logo-only links.
   a:has(img):not([class*="btn"]):hover img,
   button:hover > img {
@@ -140,7 +127,15 @@ button img {
       svg,
       img {
         rotate: 90deg;
+        opacity: 1;
       }
+    }
+
+    // The trailing icon (dots, chevron) turns a quarter turn on hover, eased like the DSU online site.
+    svg,
+    img {
+      opacity: 0.85;
+      transition: rotate 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s;
     }
 
     &:active {

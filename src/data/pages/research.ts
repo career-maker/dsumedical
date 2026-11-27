@@ -1,4 +1,5 @@
 import type { Block, PageDef } from "./types";
+import { publications2526, publicationsCols, publicationsTitle } from "./publications-2025-26";
 import { ongoingRows, publications, studentRows } from "./research-data";
 
 // One template for every research page: the same hero, then a single content section.
@@ -43,7 +44,7 @@ export const research: PageDef[] = [
     ],
   },
   researchPage("staff-publications", "Staff Publications", "Research publications and ongoing research activities by CDSIMER faculty, after joining the institution.", [
-    { t: "table", title: "Research publications after joining CDSIMER", cols: pubCols, rows: publications },
+    { t: "table", title: publicationsTitle, cols: publicationsCols, rows: publications2526 },
   ]),
   researchPage("published-articles", "Published Articles", "Research publications and ongoing research activities by CDSIMER faculty, after joining the institution.", [
     { t: "table", title: "Published articles", cols: pubCols, rows: publications },

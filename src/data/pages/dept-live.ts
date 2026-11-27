@@ -1473,7 +1473,7 @@ export const liveDepts: Record<string, LiveDept> = {
  },
  "medical-education-unit": {
   "about": [
-   "The Department of Medical Education has commenced as a fledging department with an aim to train the trainers. The faculty have received basic training in Medical Education at nodal centers and is now capable of conducting courses for new teachers in Medical Sciences that are recognized by the Medical Council. The Department aims to develop in the course of time as a nodal center and train faculty from other colleges both in basic and advanced courses in Medical Education which are now deemed necessary by the Medical Council of India. Medical Education Unit, CDSIMER organized a two days Curriculum Implementation Support Program (CISP)-2 on 29 th and 30 th September 2020 . Observer for this program was Dr. Nachiket Shankar, St John’s Medical College, Bangalore. A total of 30 participants of different cadre attended this workshop."
+   "The Department of Medical Education has commenced as a fledging department with an aim to train the trainers. The faculty have received basic training in Medical Education at nodal centers and is now capable of conducting courses for new teachers in Medical Sciences that are recognized by the Medical Council. The Department aims to develop in the course of time as a nodal center and train faculty from other colleges both in basic and advanced courses in Medical Education which are now deemed necessary by the Medical Council of India."
   ],
   "sections": [
    {
@@ -1486,15 +1486,6 @@ export const liveDepts: Record<string, LiveDept> = {
     "title": "Mission",
     "paras": [
      "To promote research and related academic activities in the field of Medical Education."
-    ]
-   },
-   {
-    "title": "Curriculum Implementation Support Program (CISP)-2, 29 and 30 September 2020",
-    "paras": [
-     "The Medical Education Unit, CDSIMER organized a two days Curriculum Implementation Support Program (CISP)-2 on 29th and 30th September 2020. Observer for this program was Dr. Nachiket Shankar, St John’s Medical College, Bangalore. A total of 30 participants of different cadre attended this workshop. They were divided into five groups.",
-     "The two days program started with the welcome address by Dean of CDSIMER, Dr. A. C. Ashok, who stressed on the importance of CISP. This was followed by an ice breaking session by Dr. Rajagopalan S., Medical Director, CDSIMER.",
-     "There were 15 sessions in this 2-day CISP as per the format given by the Medical Council of India. These sessions were taken by six facilitators under the guidance of Dr. Prashanth Kumar M., MEU Coordinator, CDSIMER and Dr. Rajagopalan S., Medical Director, CDSIMER. Most of the sessions had hands on exercises. It was pleasing and encouraging to see the active participation by the participants.",
-     "A rapporteur was appointed for each session and feedback was obtained from each participant. The program concluded with the vote of thanks proposed by the coordinator of MEU. The observer also congratulated the entire team for conducting the program in an organized and productive manner."
     ]
    }
   ],

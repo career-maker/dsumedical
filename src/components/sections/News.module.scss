@@ -1,14 +1,15 @@
 @use "@/styles/tokens" as *;
 
 .section {
-  height: u(1054);
+  padding-bottom: u(110);
   background: #fff;
 }
 
+// Title, intro and tabs are placed absolutely; the cards then flow below them, so the section is only as tall as its content.
 .inner {
   @include container;
   position: relative;
-  height: 100%;
+  padding-top: u(374);
 }
 
 .title {
@@ -48,8 +49,10 @@
   align-items: center;
   justify-content: center;
   gap: u(12);
-  width: u(186);
+  min-width: u(186);
   height: u(52);
+  padding-inline: u(22);
+  white-space: nowrap;
   border: 1px solid #d5d3d3;
   border-radius: u(4);
   background: #fff;
@@ -59,16 +62,30 @@
   letter-spacing: -0.02em;
 }
 
-.on {
+.on,
+.tab:hover {
   border-color: transparent;
   background: var(--gradient-cta);
   color: #fff;
 }
 
+// Orange icon on the white tab, white icon once the tab is selected or hovered (transparent PNGs, so no box behind them).
+.icoW {
+  display: none;
+}
+
+.on .icoO,
+.tab:hover .icoO {
+  display: none;
+}
+
+.on .icoW,
+.tab:hover .icoW {
+  display: block;
+}
+
 .cards {
-  position: absolute;
-  top: u(374);
-  left: u(2);
+  margin-left: u(2);
   display: grid;
   grid-template-columns: repeat(3, u(547));
   gap: u(18);
@@ -161,6 +178,11 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     height: auto;
+    padding-top: 0;
+  }
+
+  .cards {
+    margin-left: 0;
   }
 
   .title,
@@ -250,12 +272,11 @@
 
     .tab {
       width: auto;
+      min-width: 0;
       min-height: 48px;
+      padding-inline: 10px;
       font-size: 16px;
-    }
-
-    .tab:last-child {
-      grid-column: 1 / -1;
+      white-space: normal; // two lines are fine in the narrow 2 x 2 grid
     }
   }
 
@@ -309,4 +330,45 @@
     @include rail-off(1);
     gap: 24px;
   }
+}
+
+// Events tab: text-only cards (no photo), same three-column grid as the news cards.
+.event {
+  display: flex;
+  flex-direction: column;
+  gap: u(14);
+  min-height: u(360);
+  padding: u(32);
+  border: 1px solid #f3e1d3;
+  border-radius: u(14);
+  background: #fff;
+  box-shadow: 0 u(10) u(24) rgba(90, 40, 10, 0.08);
+
+  h3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+    font-size: max(16px, u(20));
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+}
+
+.eventDate {
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--peach);
+  font-size: max(13px, u(14));
+  font-weight: 700;
+  color: #dc2725;
+}
+
+.eventMore {
+  margin-top: auto;
+  font-size: max(14px, u(15));
+  font-weight: 700;
+  color: var(--orange);
 }

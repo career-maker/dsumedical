@@ -11,6 +11,18 @@ const Enquiry = dynamic(() => import("@/components/page/Explorers").then((m) => 
 
 const KEY = "enquiry-popup-shown";
 
+/** Runs cb once the page preloader (#pl) has lifted, so the dialog never opens under or inside the loading screen. */
+function afterPreloader(cb: () => void) {
+  const gone = () => {
+    const pl = document.getElementById("pl");
+    if (!pl) return true;
+    const cs = getComputedStyle(pl);
+    return cs.display === "none" || cs.visibility === "hidden" || cs.opacity === "0";
+  };
+  const tick = () => (gone() ? cb() : requestAnimationFrame(tick));
+  tick();
+}
+
 /** Admission enquiry dialog that opens 3 seconds after a visit begins (once per browser session). */
 export function EnquiryPopup() {
   const pathname = usePathname();
@@ -25,13 +37,28 @@ export function EnquiryPopup() {
     } catch {}
     if (seen) return;
     const t = setTimeout(() => {
-      setOpen(true);
-      try {
-        sessionStorage.setItem(KEY, "1");
-      } catch {}
+      afterPreloader(() => {
+        setOpen(true);
+        try {
+          sessionStorage.setItem(KEY, "1");
+        } catch {}
+      });
     }, 3000);
     return () => clearTimeout(t);
   }, [pathname]);
+
+  // Links marked data-enquiry-popup open the dialog instead of navigating. The click is caught by an inline script in layout.tsx
+  // (capture phase, active before hydration; plain link still works without JS, on /enquiry, and with Ctrl/Cmd-click).
+  useEffect(() => {
+    const w = window as unknown as { __enquiryOpen?: number };
+    const show = () => {
+      w.__enquiryOpen = 0;
+      afterPreloader(() => setOpen(true));
+    };
+    if (w.__enquiryOpen) show(); // clicked before this component hydrated
+    window.addEventListener("enquiry-open", show);
+    return () => window.removeEventListener("enquiry-open", show);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -47,7 +74,7 @@ export function EnquiryPopup() {
       <div ref={panel} className={styles.panel} role="dialog" aria-modal="true" aria-label="Admission enquiry" data-lenis-prevent onClick={(e) => e.stopPropagation()}>
         <button type="button" className={styles.close} aria-label="Close" onClick={() => setOpen(false)} />
         <aside className={styles.media}>
-          <Image src="/images/contact-message.jpg" alt="" fill sizes="(max-width: 900px) 0px, 380px" />
+          <Image src="/images/popup-enquiry.jpg" alt="" fill sizes="(max-width: 900px) 0px, 380px" />
           <div className={styles.caption}>
             <strong>Begin your medical career at CDSIMER</strong>
             <span>NAAC A+ · NABH · NABL accredited</span>

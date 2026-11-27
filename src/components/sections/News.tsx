@@ -3,15 +3,21 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
-import Image from "next/image";
-import { news, newsTabs } from "@/data/news";
+import { homeEvents } from "@/data/events-latest";
+import type { IconName } from "@/data/iconMeta";
 import styles from "./News.module.scss";
-import { fluid } from "@/lib/sizes";
+
+// The four categories of the existing CDSIMER events page; the home grid shows the three newest of each.
+const tabs: { id: keyof typeof homeEvents; label: string; icon: IconName }[] = [
+  { id: "activity", label: "Faculty Activity", icon: "n-events" },
+  { id: "studentActivity", label: "Student Activity", icon: "n-acad" },
+  { id: "facultyAchievements", label: "Faculty Achievements", icon: "n-res" },
+  { id: "studentAchievements", label: "Student Achievements", icon: "n-hosp" },
+];
 
 export function News() {
-  const [tab, setTab] = useState("all");
-  // The home grid is a fixed 3-column layout: show the three newest of the tab; /news lists everything.
-  const items = (tab === "all" ? news : news.filter((n) => n.tag === tab)).slice(0, 3);
+  const [tab, setTab] = useState<keyof typeof homeEvents>("activity");
+  const items = homeEvents[tab];
 
   return (
     <section className={styles.section} aria-labelledby="news-title">
@@ -23,8 +29,8 @@ export function News() {
           Stay informed with the latest updates, academic achievements, research breakthroughs, hospital initiatives, and
           upcoming events at CDSIMER.
         </p>
-        <div className={styles.tabs} role="tablist" aria-label="News categories">
-          {newsTabs.map((t) => (
+        <div className={styles.tabs} role="tablist" aria-label="Event categories">
+          {tabs.map((t) => (
             <button
               key={t.id}
               id={`news-tab-${t.id}`}
@@ -35,32 +41,25 @@ export function News() {
               className={`${styles.tab} ${tab === t.id ? styles.on : ""}`}
               onClick={() => setTab(t.id)}
             >
-              <Icon name={t.icon} />
+              <Icon name={t.icon} className={styles.icoO} />
+              <Icon name={`${t.icon}-w` as IconName} className={styles.icoW} />
               {t.label}
             </button>
           ))}
         </div>
 
         <div role="tabpanel" id="news-panel" aria-labelledby={`news-tab-${tab}`}>
-        {items.length > 0 ? (
           <ul className={styles.cards}>
-            {items.map((n) => (
-              <li key={n.slug} className={styles.card}>
-                <div className={styles.photo}>
-                  <Image src={`/images/${n.photo}`} alt={n.alt} fill sizes={`(max-width: 768px) 100vw, ${fluid(640)}`} />
-                </div>
-                {n.date && <time className={styles.date} dateTime={n.iso}>{n.date}</time>}
-                <h3>{n.title}</h3>
-                <p>{n.text}</p>
-                <Link prefetch={false} href={`/news/${n.slug}`} className={styles.more} aria-label={`Read more: ${n.title}`}>
-                  READ MORE &gt;
+            {items.map((e) => (
+              <li key={e.title} className={styles.event}>
+                {e.date && <time className={styles.eventDate} dateTime={e.iso}>{e.date}</time>}
+                <h3>{e.title}</h3>
+                <Link prefetch={false} href="/events" className={styles.eventMore} aria-label="View all events">
+                  VIEW ALL EVENTS &gt;
                 </Link>
               </li>
             ))}
           </ul>
-        ) : (
-          <p className={styles.empty}>No updates in this category yet.</p>
-        )}
         </div>
       </div>
     </section>

@@ -9,7 +9,7 @@ const quickLinks = [
   { label: "Academics", href: "/programs" },
   { label: "Hospital", href: "/hospital" },
   { label: "Research", href: "/research" },
-  { label: "News & Events", href: "/news" },
+  { label: "News & Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Admissions", href: "/admissions" },
   { label: "Contact", href: "/contact" },
@@ -66,7 +66,9 @@ export function Footer() {
             <Icon name="phone-footer" />
             Hospital Enquiry: 080 2608 6500
           </a>
-          <p className={styles.kea}>KEA (CET) CODE: M083</p>
+          <p className={styles.kea}>
+            KEA (CET) CODE: <strong>M083</strong>
+          </p>
         </FoldCol>
         <div className={styles.about}>
           <Image src="/images/logo-cdsimer-footer.png" alt="CDSIMER" width={237} height={95} className={styles.logo} />
@@ -82,6 +84,10 @@ export function Footer() {
           <a href="tel:+916366885501" className={styles.helpPhone}>
             <Icon name="phone-btn" />
             +91 6366885501
+          </a>
+          <a href="tel:08026086500" className={`${styles.helpPhone} ${styles.helpPhone2}`}>
+            <Icon name="phone-btn" />
+            Hospital: 080 2608 6500
           </a>
           <ul className={styles.socials}>
             {socials.map((s) => (
@@ -101,7 +107,7 @@ export function Footer() {
           <p className={styles.policies}>
             <Link prefetch={false} href="#">Privacy Policy</Link>
             <span aria-hidden="true">|</span>
-            <Link prefetch={false} href="#">Terms&amp;Conditions</Link>
+            <Link prefetch={false} href="#">Terms &amp; Conditions</Link>
           </p>
           <p className={styles.credit}>
             Designed By:{" "}
