@@ -15,5 +15,5 @@
 .img {
   position: absolute;
   max-width: none;
-  object-fit: fill;
+  object-fit: cover; // a slightly different ratio crops a little instead of stretching the photo
 }

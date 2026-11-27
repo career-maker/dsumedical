@@ -3,10 +3,15 @@ import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
 import type { Block, ProseItem, RichTextContent } from "@/data/pages/types";
 import { Counter } from "@/components/ui/Counter";
-import { DeptExplorer, Enquiry, Gallery, NewsExplorer } from "./Explorers";
+import { DeptExplorer, Enquiry, Gallery } from "./Explorers";
 import { AccreditationLogos, legacyAccreditationLogos } from "./AccreditationLogos";
 import { Carousel } from "./Carousel";
+import { Clamp } from "@/components/ui/Clamp";
+import { EventDetail } from "./EventDetail";
+import { EventsExplorer } from "./EventsExplorer";
 import { LeaderSlides } from "./LeaderSlides";
+import { ProfileCards } from "./ProfileCards";
+import { ReadMoreFull, ReadMoreProvider, ReadMoreToggle } from "./ReadMore";
 import marquee from "./Marquee.module.scss";
 import { VideoFrame } from "./VideoFrame";
 import { PhaseGrid } from "./PhaseGrid";
@@ -14,36 +19,31 @@ import { JumpNav } from "./JumpNav";
 import { InnerMotion } from "./InnerMotion";
 import { AdministrationCarousel } from "./AdministrationCarousel";
 import { LeadershipSlides } from "./LeadershipSlides";
-import { RichText } from "./RichText";
+import { RichText, richTextToPlainText } from "./RichText";
 import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import styles from "./Blocks.module.scss";
 
-function Head({ title, lead, id, accent = false }: { title: string; lead?: RichTextContent; id?: string; accent?: boolean }) {
+function Head({ title, lead, id, accent = false, center }: { title: string; lead?: RichTextContent; id?: string; accent?: boolean; center?: boolean }) {
   return (
-    <header className={`${styles.head} ${accent ? styles.headAccent : ""}`}>
+    <header className={`${styles.head} ${accent ? styles.headAccent : ""} ${center ? styles.headCenter : ""}`}>
       <h2 id={id}>{title}</h2>
       <RichText content={lead} />
     </header>
   );
 }
 
+/** Wraps long content in Load more / Load less when the page uses the tidy layout. */
+const Tidy = ({ on, max, children }: { on?: boolean; max?: number; children: React.ReactNode }) => (on ? <Clamp collapsed={max}>{children}</Clamp> : <>{children}</>);
+
 const slug = (t: string) => t.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-function Section({ block, children, wide }: { block: { id?: string; tone?: "cream" }; children: React.ReactNode; wide?: boolean }) {
+function Section({ block, children, wide, className = "" }: { block: { id?: string; tone?: "cream" }; children: React.ReactNode; wide?: boolean; className?: string }) {
   return (
-    <section id={block.id} className={`${styles.section} ${block.tone === "cream" ? styles.cream : ""}`}>
+    <section id={block.id} className={`${styles.section} ${block.tone === "cream" ? styles.cream : ""} ${className}`}>
       <div className={`${styles.wrap} ${wide ? styles.wide : ""}`}>{children}</div>
     </section>
   );
 }
-
-const initials = (n: string) =>
-  n
-    .split(/\s+/)
-    .filter((w) => /^[A-Z]/.test(w))
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("");
 
 /** Outline/glass buttons are white-on-translucent (hero only); swap for light backgrounds. */
 const onLight = (v?: "primary" | "outline" | "glass" | "soft") => (v === "outline" || v === "glass" ? "gray" : (v ?? "primary"));
@@ -170,13 +170,16 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
   switch (b.t) {
     case "text": {
       const image = b.center ? undefined : b.image ?? auto;
-      return (
-        <Section block={b}>
+      const content = (
+        <>
           <div className={`${styles.split} ${image || b.video ? "" : styles.single} ${b.center ? styles.centered : ""} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
-              <RichText content={b.body} unorderedListClassName={styles.bullets} />
+              <Tidy on={b.tidy} max={360}>
+                <RichText content={b.body} unorderedListClassName={styles.bullets} />
+              </Tidy>
+              {b.more && <ReadMoreToggle short={b.more.short} />}
               {b.bullets && (
                 <ul className={styles.bullets}>
                   {b.bullets.map((x) => (
@@ -205,8 +208,10 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
               </div>
             )}
           </div>
-        </Section>
+          {b.more && <ReadMoreFull full={b.more.full} />}
+        </>
       );
+      return <Section block={b}>{b.more ? <ReadMoreProvider>{content}</ReadMoreProvider> : content}</Section>;
     }
     case "cards": {
       if (b.logos)
@@ -261,14 +266,17 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                   <div className={styles.cardBody}>
                     {c.tag && <span className={styles.tag}>{c.tag}</span>}
                     <h3>{c.title}</h3>
-                    <RichText content={c.text} />
-                    {c.bullets && (
-                      <ul className={styles.cardList}>
-                        {c.bullets.map((x) => (
-                          <li key={x}>{x}</li>
-                        ))}
-                      </ul>
-                    )}
+                    {/* Tidy: each card limits its own text; only a card whose text is longer than the box gets Load more. */}
+                    <Tidy on={b.tidy} max={220}>
+                      <RichText content={c.text} />
+                      {c.bullets && (
+                        <ul className={styles.cardList}>
+                          {c.bullets.map((x) => (
+                            <li key={x}>{x}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </Tidy>
                     {c.href && <span className={styles.more}>{b.more ?? "Learn more"} →</span>}
                   </div>
                 </>
@@ -361,20 +369,9 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
         );
       }
       return (
-        <Section block={b}>
-          <Head title={b.title} lead={b.lead} />
-          <ul className={`${styles.grid} ${styles[`c${b.cols ?? 3}`]} ${b.items.length === 1 ? styles.singleProfile : ""}`}>
-            {b.items.map((p) => (
-              <li key={p.name} className={`${styles.profile} ${p.image ? "" : styles.plain}`}>
-                <span className={styles.avatar} aria-hidden="true">
-                  {p.image ? <Image src={contentImageSrc(p.image)} alt="" fill sizes="(max-width: 640px) 100vw, 420px" unoptimized={isRemoteContentImage(p.image)} /> : initials(p.name) || p.name[0]}
-                </span>
-                <h3>{p.name}</h3>
-                <p className={styles.role}>{p.role}</p>
-                <RichText content={p.text} />
-              </li>
-            ))}
-          </ul>
+        <Section block={b} className={styles.facultySection}>
+          <Head title={b.title} lead={b.lead} center={b.tidy} />
+          <ProfileCards items={b.items.map((p) => ({ ...p, text: richTextToPlainText(p.text) }))} tidy={b.tidy} />
         </Section>
       );
     case "docs":
@@ -500,7 +497,9 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                   </div>
                 </>
               ) : (
-                <ProseItems items={b.items} />
+                <Tidy on={b.tidy}>
+                  <ProseItems items={b.items} />
+                </Tidy>
               )}
             </div>
             {b.image && (
@@ -528,10 +527,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       );
     case "slides":
       return (
-        <Section block={b}>
-          <Head title={b.title} lead={b.lead} />
-          <LeaderSlides items={b.items} />
-        </Section>
+        <LeaderSlides id={b.id} title={b.title} items={b.items} />
       );
     case "gallery":
       return (
@@ -574,9 +570,6 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
           <div className={styles.map}>
             <iframe title={b.title} loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={`https://www.google.com/maps?q=${encodeURIComponent(b.query)}&output=embed`} />
           </div>
-          <div className={styles.row}>
-            <Button href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.query)}`}>Open in Google Maps</Button>
-          </div>
         </Section>
       );
     case "links":
@@ -598,10 +591,12 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
           <DeptExplorer />
         </Section>
       );
-    case "news":
+    case "event":
+      return <EventDetail id={b.id} />;
+    case "events":
       return (
         <Section block={{}}>
-          <NewsExplorer />
+          <EventsExplorer />
         </Section>
       );
     case "cta":

@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      { source: "/news", destination: "/events", permanent: false },
       { source: "/about", destination: "/university/about", permanent: false },
       { source: "/brochure", destination: "/docs/admission-brochure.pdf", permanent: false },
       { source: "/prospectus", destination: "/docs/admission-brochure.pdf", permanent: false },

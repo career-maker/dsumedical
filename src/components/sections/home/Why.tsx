@@ -13,10 +13,9 @@ const SLIDE_MS = 2000;
 // Sample video; replace with the CDSIMER campus video's YouTube ID.
 const VIDEO_ID = "10yxPMitlJs";
 const slides = [
-  { src: "why-girl", alt: "Smiling medical student holding a folder" },
-  { src: "academics-girl.jpg", alt: "Smiling postgraduate student holding books" },
-  { src: "life-students.jpg", alt: "Students chatting on campus steps" },
-  { src: "life-group.jpg", alt: "Group photo of students and staff" },
+  { src: "why-girl", alt: "Medical students studying together on a laptop in the library" },
+  { src: "home-why-2.jpg", alt: "Two students smiling at a laptop in a lecture hall" },
+  { src: "home-why-3.jpg", alt: "A lecture in progress in the CDSIMER auditorium" },
 ];
 
 function Arrow({ flip }: { flip?: boolean }) {

@@ -12,9 +12,9 @@ export const community = {
     { icon: "c-prev", strong: "Preventive Care &", rest: "Early Disease Detection" },
   ] as { icon: IconName; strong: string; inline?: string; rest: string }[],
   photos: [
-    { photo: "home-community-1", alt: "Doctor checking an elderly patient's blood pressure" },
-    { photo: "home-community-2", alt: "Villagers gathered at a health awareness camp" },
-    { photo: "home-community-3", alt: "Patients waiting at a free medical camp" },
-    { photo: "home-community-4", alt: "Doctor attending patients beside a mobile health bus" },
+    { photo: "home-community-1", alt: "Doctor taking a blood sample from a patient" },
+    { photo: "home-community-2", alt: "Doctors and students attending patients at a community health camp" },
+    { photo: "home-community-3", alt: "Doctors and students reviewing scans on a computer" },
+    { photo: "home-community-4", alt: "Medical students and a doctor working together at a laptop" },
   ],
 };

@@ -13,7 +13,7 @@ export function NavProgress() {
     const onClick = (e: MouseEvent) => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const a = (e.target as Element).closest("a");
-      if (!a || (a.target && a.target !== "_self") || a.hasAttribute("download")) return;
+      if (!a || a.hasAttribute("data-enquiry-popup") || (a.target && a.target !== "_self") || a.hasAttribute("download")) return;
       const url = new URL(a.href, location.href);
       if (url.origin !== location.origin || url.pathname === location.pathname) return;
       setState("loading");
@@ -23,10 +23,12 @@ export function NavProgress() {
     return () => document.removeEventListener("click", onClick, true);
   }, []);
 
-  // New route rendered: finish the bar, then hide it.
-  useEffect(() => {
-    setState((s) => (s === "loading" ? "done" : s));
-  }, [pathname]);
+  // New route rendered: finish the bar, then hide it (state adjusted during render, not in an effect).
+  const [shownPath, setShownPath] = useState(pathname);
+  if (shownPath !== pathname) {
+    setShownPath(pathname);
+    if (state === "loading") setState("done");
+  }
 
   useEffect(() => {
     if (state === "idle") return;

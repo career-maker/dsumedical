@@ -1,0 +1,149 @@
+@use "@/styles/tokens" as *;
+
+// Flat colour tile + cutout, name and small-caps designation underneath (no box around the card).
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: none;
+}
+
+// Site colours only, cycling across the grid.
+.t0 {
+  --a: #ff9a3c;
+  --b: #ef6711;
+}
+
+.t1 {
+  --a: #b81c1c;
+  --b: #7b1b1b;
+}
+
+.t2 {
+  --a: #ffd9bd;
+  --b: #ffb68a;
+}
+
+.t3 {
+  --a: #fb7a15;
+  --b: #dc2725;
+}
+
+.t4 {
+  --a: #f8d3b2;
+  --b: #e9a874;
+}
+
+// The colour panel covers only the lower part of the tile; the person stands on its bottom edge and rises above it.
+.stage {
+  position: relative;
+  aspect-ratio: 1;
+  // The person may rise above the tile (top) but never beyond its left, right or bottom edge, also while it grows on hover.
+  clip-path: inset(-40% 0 0 0);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 42% 0 0;
+    border-radius: u(8);
+    background: linear-gradient(165deg, var(--a) 0%, var(--b) 100%);
+    background-size: 100% 160%;
+    background-position: 0 0;
+    transition: background-position 0.6s ease;
+  }
+}
+
+.figure {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100%; // shoulders run edge to edge of the panel, no colour gap at the sides
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  clip-path: inset(0 round 0 0 8px 8px); // bottom corners follow the panel corners
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// No photo yet: a head-and-shoulders silhouette in a warm neutral tone, half on the panel and half above it.
+.ghost {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 66%;
+  aspect-ratio: 1;
+  translate: -50% 0;
+  background: #dfbea4; // a warm neutral that reads on every tile colour and on the page background
+  -webkit-mask: url("/images/faculty-silhouette.svg") bottom / contain no-repeat;
+  mask: url("/images/faculty-silhouette.svg") bottom / contain no-repeat;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    .stage::before {
+      background-position: 0 100%;
+    }
+
+    .figure {
+      transform: translateX(-50%) scale(1.03);
+    }
+  }
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding-top: max(14px, u(18));
+
+  h3 {
+    font-size: fs(20, 17);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1c2340;
+  }
+}
+
+.role {
+  font-size: fs(12, 11);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.facts {
+  display: grid;
+  gap: 2px;
+  margin-top: 4px;
+  font-size: fs(14, 13);
+  line-height: 1.5;
+  color: var(--slate);
+
+  div {
+    display: flex;
+    gap: 6px;
+  }
+
+  dt {
+    flex: none;
+    white-space: nowrap;
+
+    &::after {
+      content: ":";
+    }
+  }
+
+  dd {
+    min-width: 0;
+    font-weight: 500;
+    color: #2a2a2a;
+    overflow-wrap: anywhere;
+  }
+}

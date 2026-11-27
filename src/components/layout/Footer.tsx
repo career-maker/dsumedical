@@ -12,7 +12,7 @@ const quickLinks = [
   { label: "Academics", href: "/programs" },
   { label: "Hospital", href: "/hospital" },
   { label: "Research", href: "/research" },
-  { label: "News & Events", href: "/news" },
+  { label: "News & Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Admissions", href: "/admissions" },
   { label: "Contact", href: "/contact" },
@@ -77,7 +77,9 @@ export async function Footer() {
             <Icon name="phone-footer" />
             Hospital Enquiry: 080 2608 6500
           </a>
-          <p className={styles.kea}>KEA (CET) CODE: M083</p>
+          <p className={styles.kea}>
+            KEA (CET) CODE: <strong>M083</strong>
+          </p>
         </FoldCol>
         <div className={styles.about}>
           <Image src={aboutLogo} alt="CDSIMER" width={237} height={95} className={styles.logo} unoptimized={isRemoteContentImage(aboutLogo)} />
@@ -92,6 +94,10 @@ export async function Footer() {
           <a href={tel(helplinePhone)} className={styles.helpPhone}>
             <Icon name="phone-btn" />
             {helplinePhone}
+          </a>
+          <a href="tel:08026086500" className={`${styles.helpPhone} ${styles.helpPhone2}`}>
+            <Icon name="phone-btn" />
+            Hospital: 080 2608 6500
           </a>
           <ul className={styles.socials}>
             {(content?.socials ?? socials).map((s) => (
@@ -111,7 +117,7 @@ export async function Footer() {
           <p className={styles.policies}>
             <SmartLink href={content?.privacyAction.href ?? "/privacy"}>{content?.privacyAction.label ?? "Privacy Policy"}</SmartLink>
             <span aria-hidden="true">|</span>
-            <SmartLink href={content?.termsAction.href ?? "/terms"}>{content?.termsAction.label ?? "Terms&Conditions"}</SmartLink>
+            <SmartLink href={content?.termsAction.href ?? "/terms"}>{content?.termsAction.label ?? "Terms & Conditions"}</SmartLink>
           </p>
           <p className={styles.credit}>
             {content?.designerName ?? "Designed By:"}{" "}

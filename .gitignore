@@ -57,3 +57,7 @@ next-env.d.ts
 
 # backend-handoff changelog PDF (local only, never commit or deploy)
 /changelog/
+
+# Local screenshots and Python cache
+/image*.png
+__pycache__/

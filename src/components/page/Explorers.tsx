@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { SubmitButton } from "@/components/ui/Button";
 import { deptTabs, depts } from "@/data/pages/clinical";
-import { news, newsTabs } from "@/data/home";
-import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 import dept from "./DeptIndex.module.scss";
 import styles from "./Explorers.module.scss";
+import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
 
 type Tab = { id: string; label: string };
 
@@ -42,7 +41,7 @@ export function DeptExplorer() {
         <ul className={dept.grid}>
           {list.map((d) => (
             <li key={d.slug}>
-              <Link prefetch={false} href={`/department/${d.slug}`} className={dept.card}>
+              <Link prefetch={false} href={d.href ?? `/department/${d.slug}`} className={dept.card}>
                 <span className={dept.img}>
                   <Image src={contentImageSrc(d.image)} alt="" fill sizes="(max-width: 1280px) 50vw, 360px" unoptimized={isRemoteContentImage(d.image)} />
                 </span>
@@ -60,44 +59,6 @@ export function DeptExplorer() {
         </ul>
       </div>
     </div>
-  );
-}
-
-export function NewsExplorer() {
-  const [tab, setTab] = useState("all");
-  // Category links elsewhere point at /news#events etc.
-  useEffect(() => {
-    const id = location.hash.slice(1);
-    if (newsTabs.some((t) => t.id === id)) setTab(id);
-  }, []);
-  const items = tab === "all" ? news : news.filter((n) => n.tag === tab);
-  return (
-    <>
-      <Tabs tabs={newsTabs} value={tab} onChange={setTab} label="News categories" name="news" />
-      <div role="tabpanel" id="news-panel" aria-labelledby={`news-tab-${tab}`}>
-      {items.length ? (
-        <ul className={styles.cards}>
-          {items.map((n) => (
-            <li key={n.slug}>
-              <Link prefetch={false} href={`/news/${n.slug}`} className={styles.card}>
-                <span className={styles.img}>
-                  <Image src={`/images/${n.photo}`} alt={n.alt} fill sizes="(max-width: 1280px) 50vw, 404px" />
-                </span>
-                <span className={styles.body}>
-                  {n.date && <time dateTime={n.iso}>{n.date}</time>}
-                  <h3>{n.title}</h3>
-                  <p>{n.text}</p>
-                  <span className={styles.more}>Read more →</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No updates in this category yet.</p>
-      )}
-      </div>
-    </>
   );
 }
 

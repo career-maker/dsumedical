@@ -1,5 +1,6 @@
 import { academic } from "./academic";
 import { clinical } from "./clinical";
+import { eventPages } from "./event-pages";
 import { general } from "./general";
 import { research } from "./research";
 import { university } from "./university";
@@ -14,11 +15,15 @@ const titleCase = (s: string) =>
   });
 
 const raw: PageDef[] = [...university, ...academic, ...clinical, ...research, ...general];
-export const pages: PageDef[] = raw.map((p) => ({
-  ...p,
-  title: titleCase(p.title),
-  blocks: p.blocks.map((b) => ("title" in b && typeof b.title === "string" ? { ...b, title: titleCase(b.title) } : b)) as PageDef["blocks"],
-}));
+export const pages: PageDef[] = [
+  ...raw.map((p) => ({
+    ...p,
+    title: titleCase(p.title),
+    blocks: p.blocks.map((b) => ("title" in b && typeof b.title === "string" ? { ...b, title: titleCase(b.title) } : b)) as PageDef["blocks"],
+  })),
+  // Event inner pages keep their own headings (they are event names, not page labels).
+  ...eventPages,
+];
 const bySlug = new Map(pages.map((p) => [p.slug, p]));
 
 export const getPage = (slug: string) => bySlug.get(slug);

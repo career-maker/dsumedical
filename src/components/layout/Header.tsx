@@ -1,9 +1,10 @@
+import { EnquiryRotator } from "./EnquiryRotator";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { external, mobileMenu, navAdmissions, navLeft, navRight, topEnquiry, topErp, topLeft, topRight } from "@/data/nav";
+import { external, mobileMenu, navAdmissions, navLeft, navRight, topEnquiry, topErp, topIcams, topLeft, topRight } from "@/data/nav";
 import type { NavLink } from "@/data/nav";
 import { HeaderScroll } from "./HeaderScroll";
 import { NavDrop } from "./NavDrop";
@@ -73,7 +74,7 @@ export async function Header() {
             <li className={`${styles.item} ${styles.topItem}`}>
               <SmartLink href={topEnquiry.href} className={styles.topLink}>
                 <Icon name="phone-header" className={styles.phoneIcon} />
-                {topEnquiry.label}
+                <EnquiryRotator items={(topEnquiry.children ?? []).map((c) => c.label)} />
                 <Icon name="chevron-down" />
               </SmartLink>
               <NavDrop items={topEnquiry.children ?? []} />
@@ -90,8 +91,13 @@ export async function Header() {
               </li>
             ))}
             <li>
-              <SmartLink href={erp.href} className={styles.erp}>
-                <Icon name="erp" /> {erp.label}
+              <SmartLink href={topIcams.href} className={styles.erp}>
+                <Icon name="erp" /> {topIcams.label}
+              </SmartLink>
+            </li>
+            <li>
+              <SmartLink href={topErp.href} className={styles.erp}>
+                <Icon name="erp" /> {topErp.label}
               </SmartLink>
             </li>
           </ul>

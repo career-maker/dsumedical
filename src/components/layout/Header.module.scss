@@ -44,6 +44,7 @@
 .topList {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 
   > li + li::before {
     content: "";
@@ -53,6 +54,57 @@
     margin: 0 u(13);
     background: rgba(255, 255, 255, 0.7);
     vertical-align: middle;
+  }
+}
+
+// Enquiry numbers: one visible at a time, each pushing the last out to the right. Both share one grid cell.
+.rot {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.rotItem {
+  grid-area: 1 / 1;
+
+  b {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+}
+
+.rotIn {
+  animation: rot-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rotOut {
+  animation: rot-out 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rotOff {
+  visibility: hidden;
+}
+
+@keyframes rot-in {
+  from {
+    translate: -100% 0;
+  }
+}
+
+@keyframes rot-out {
+  to {
+    translate: 100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotIn,
+  .rotOut {
+    animation: none;
+  }
+
+  .rotOut {
+    visibility: hidden;
   }
 }
 
@@ -308,7 +360,14 @@
   align-items: center;
 }
 
+// Desktop: CDSIMER left, DSU right (order only; DOM order kept for mobile).
 .logoR {
+  order: -1;
+  justify-self: start;
+}
+
+.logoL {
+  order: 1;
   justify-self: end;
 }
 
@@ -354,7 +413,9 @@
     display: none;
   }
 
+  .logoL,
   .logoR {
+    order: 0;
     justify-self: start;
   }
 
@@ -509,9 +570,5 @@
 
   &::after {
     content: " →";
-  }
-
-  &:hover {
-    text-decoration: underline;
   }
 }

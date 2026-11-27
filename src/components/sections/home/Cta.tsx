@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { doc } from "@/data/pages/docs";
 import styles from "./Cta.module.scss";
 
 export function Cta() {
@@ -17,7 +18,7 @@ export function Cta() {
           <Button href="/admissions" variant="primary" width={160}>
             Apply Now
           </Button>
-          <Button href="/prospectus" variant="soft" icon={<Icon name="cta-download" />} width={254}>
+          <Button href={doc.brochure} variant="soft" icon={<Icon name="cta-download" />} width={254}>
             Download Prospectus
           </Button>
           <Button href="/contact" variant="gray" icon={<Icon name="cta-phone" />} width={314}>

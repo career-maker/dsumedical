@@ -14,7 +14,7 @@ export function SideRail() {
   const newTab = (href: string) => href.startsWith("http") || href.startsWith("/docs/");
   return (
     <aside className={styles.rail} aria-label="Quick actions">
-      <Link prefetch={false} href="/enquiry" className={styles.enquire}>
+      <Link prefetch={false} href="/enquiry" className={styles.enquire} data-enquiry-popup>
         <span>Enquire Now</span>
       </Link>
       <ul className={styles.panel}>

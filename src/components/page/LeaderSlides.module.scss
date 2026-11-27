@@ -1,170 +1,227 @@
 @use "@/styles/tokens" as *;
 
-.stage {
-  display: grid;
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: max(52px, u(90));
+  background: linear-gradient(180deg, #fff1e6 0%, #fff8f2 38%, #fff 100%);
+  scroll-margin-top: 60px;
 }
 
-.slide {
-  grid-area: 1 / 1;
+// Campus photo top right, faded into the page tint on its left and bottom edges.
+.bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(62%, 1150px);
+  aspect-ratio: 3 / 1;
+  pointer-events: none;
+  mask-image: linear-gradient(to right, transparent 0, #000 45%), linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+
+  img {
+    object-fit: cover;
+    object-position: 60% 40%;
+  }
+
+  @include below($bp-md) {
+    width: 100%;
+    opacity: 0.35;
+  }
+}
+
+.wrap {
+  @include container;
+  position: relative;
+
+  @include below($bp-lg) {
+    padding-inline: 24px;
+  }
+}
+
+// Same typography as every other section title (see .head h2 in Blocks.module.scss).
+.title {
+  margin-bottom: max(32px, u(110));
+  font-size: clamp(28px, calc(48 * var(--u)), 48px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--ink);
+
+  &::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: max(12px, u(16));
+    border-radius: 2px;
+    background: var(--gradient-cta);
+  }
+
+  @include below($bp-md) {
+    margin-bottom: 28px;
+  }
+}
+
+.grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, u(440));
-  gap: max(32px, u(80));
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  translate: 24px 0;
-  transition: opacity 0.6s, translate 0.6s, visibility 0s 0.6s;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: max(24px, u(40));
+  align-items: stretch;
 
   @include below($bp-md) {
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-  }
-
-  &.on {
-    opacity: 1;
-    visibility: visible;
-    translate: 0 0;
-    transition: opacity 0.6s, translate 0.6s;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-    translate: 0 0;
   }
 }
 
-.copy {
-  min-width: 0;
+.card {
+  --accent: var(--orange);
+  --tint: #fff1e6;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: max(22px, u(36));
+  border: 1px solid #f4e3d3;
+  border-radius: u(26);
+  overflow: hidden;
+  background: linear-gradient(160deg, #fff 55%, var(--tint) 100%);
+  box-shadow: 0 24px 50px -28px rgba(60, 30, 10, 0.4);
 
-  h3 {
-    font-size: clamp(24px, calc(36 * var(--u)), 36px);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
+  // Soft wave in the bottom-right corner.
+  &::after {
+    content: "";
+    position: absolute;
+    right: -10%;
+    bottom: -40px;
+    width: 55%;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--tint);
+    pointer-events: none;
   }
+}
 
-  p {
-    margin-top: 16px;
-    font-size: fs(18, 16);
-    line-height: 1.7;
-    color: var(--ink-soft);
-  }
+.quote {
+  position: absolute;
+  top: 6px;
+  right: 28px;
+  font-family: Georgia, serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+// Photo floats left so the message wraps beside it, then under it.
+.main {
+  position: relative;
+  display: flow-root;
 }
 
 .photo {
   position: relative;
-  justify-self: center;
-  width: 100%;
-  max-width: 440px;
+  float: left;
+  margin: 0 max(18px, u(28)) 26px 0;
+  width: clamp(130px, u(205), 205px);
   aspect-ratio: 4 / 5;
-  border-radius: u(14);
+  border-radius: u(22);
   overflow: hidden;
   background: var(--peach);
-  // Offset orange frame outside the photo, plus a fine white inner keyline.
-  outline: 2px solid var(--orange);
-  outline-offset: 10px;
-  box-shadow: 0 18px 40px -18px rgba(60, 30, 10, 0.35);
-  transition: outline-offset 0.45s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s;
+  box-shadow: 0 14px 28px -16px rgba(0, 0, 0, 0.45);
 
   img {
     object-fit: cover;
     object-position: 50% 15%;
-    transition: scale 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  // Curved accent swoosh along the bottom edge.
   &::after {
     content: "";
     position: absolute;
-    inset: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: calc(u(14) - 6px);
-    pointer-events: none;
-    transition: inset 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    &:hover {
-      outline-offset: 16px;
-      translate: 0 -6px;
-      box-shadow: 0 28px 50px -18px rgba(60, 30, 10, 0.45);
-
-      img {
-        scale: 1.06;
-      }
-
-      &::after {
-        inset: 16px;
-      }
-    }
-  }
-
-  @include below($bp-md) {
-    order: -1;
-    max-width: 320px;
+    inset: auto -10% -22px -10%;
+    height: 56px;
+    border-radius: 50%;
+    border-top: 5px solid var(--accent);
+    background: #fff;
+    rotate: -6deg;
   }
 }
 
-.controls {
+.who {
+  min-width: 0;
+  padding-top: 8px;
+  margin-bottom: 16px;
+
+  h3 {
+    font-size: clamp(22px, calc(32 * var(--u)), 32px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #1c2340;
+  }
+
+  hr {
+    width: 52px;
+    margin: 18px 0 0;
+    border: 0;
+    border-top: 3px solid var(--accent);
+  }
+}
+
+.role {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 16%, #fff);
+  font-size: fs(17, 14);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.copy {
+  position: relative;
+
+  p {
+    font-size: fs(17, 16);
+    line-height: 1.7;
+    color: var(--ink-soft);
+
+    & + p {
+      margin-top: 14px;
+    }
+  }
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 18px;
-  margin-top: 28px;
+  margin-top: auto;
+  padding-top: 6px;
+  color: var(--accent);
 
-  > button {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--orange);
-    border-radius: 50%;
-    background: #fff;
-    color: var(--orange);
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 9px;
-      height: 9px;
-      border-left: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-      translate: -35% -50%;
-      rotate: 45deg;
-    }
-
-    &:hover {
-      background: var(--orange);
-      color: #fff;
-    }
+  svg {
+    flex: none;
   }
 
-  .next::before {
-    translate: -65% -50%;
-    rotate: -135deg;
+  p {
+    font-size: fs(17, 16);
+    font-style: italic;
+    font-weight: 700;
+    color: #1c2340;
   }
-}
 
-.dots {
-  display: flex;
-  gap: 10px;
-
-  button {
-    width: 10px;
-    height: 10px;
-    padding: 0;
+  hr {
+    flex: 1;
     border: 0;
-    border-radius: 999px;
-    background: #e3d3c4;
-    cursor: pointer;
-    transition: width 0.3s, background-color 0.3s;
-
-    &.active {
-      width: 28px;
-      background: var(--orange);
-    }
+    border-top: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   }
 }

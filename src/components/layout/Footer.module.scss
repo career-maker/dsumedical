@@ -77,6 +77,11 @@
   margin-top: u(20);
   font-size: u(18);
   font-weight: 500;
+
+  strong {
+    font-weight: 700;
+    color: var(--orange);
+  }
 }
 
 .about {
@@ -141,9 +146,17 @@
   letter-spacing: 0;
 }
 
+// Second number (hospital) sits beside the admissions one; the social icons move right to make room.
+.helpPhone2 {
+  left: u(626);
+  width: u(252);
+  padding-left: u(14);
+  font-size: u(17);
+}
+
 .socials {
   top: u(42);
-  left: u(748);
+  left: u(902);
   display: flex;
   align-items: center;
   gap: u(18);

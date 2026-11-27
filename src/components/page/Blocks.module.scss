@@ -29,6 +29,16 @@ $shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 // ---- section heading ----
+// Centred section heading (tidy layout): the title, its orange rule and the intro line sit in the middle.
+.headCenter {
+  margin-inline: auto;
+  text-align: center;
+
+  h2::after {
+    margin-inline: auto;
+  }
+}
+
 .head {
   max-width: u(880);
   margin-bottom: max(28px, u(44));
@@ -583,87 +593,105 @@ a.card:focus-visible {
   color: var(--orange);
 }
 
-// ---- profiles ----
-.profile {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border: 1px solid $line;
-  border-radius: u(10);
-  background: #fff;
+// ---- profiles (faculty cards) ----
+// Section backdrop: soft peach wash with a faint wave at the top right.
+.facultySection {
+  position: relative;
   overflow: hidden;
-  box-shadow: $shadow;
+  background:
+    radial-gradient(120% 70% at 100% 0%, rgba(255, 214, 184, 0.55) 0%, rgba(255, 214, 184, 0) 55%),
+    linear-gradient(180deg, #fff6ef 0%, #fffaf6 45%, #fff 100%);
 
-  h3 {
-    margin-top: 18px;
-    padding-inline: max(18px, u(24));
-    font-size: fs(21, 18);
-    font-weight: 700;
-    line-height: 1.3;
-  }
-
-  p {
-    padding-inline: max(18px, u(24));
-    margin-top: 6px;
-    font-size: fs(16, 15);
-    line-height: 1.6;
-    color: var(--slate);
-  }
-
-  > :last-child {
-    padding-bottom: max(20px, u(26));
-  }
-}
-
-// No photo yet: compact row with a small initials badge instead of an empty portrait.
-.plain {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-content: start;
-  align-items: center;
-  gap: 2px 18px;
-  padding: max(18px, u(24));
-
-  .avatar {
-    grid-row: span 3;
-    width: 68px;
-    aspect-ratio: 1;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -22%;
+    right: -8%;
+    width: 52%;
+    aspect-ratio: 2.2 / 1;
     border-radius: 50%;
-    font-size: 22px;
-    color: var(--orange);
-  }
-
-  h3,
-  p {
-    padding-inline: 0;
-    margin-top: 0;
-  }
-
-  > :last-child {
-    padding-bottom: 0;
+    border: 1px solid rgba(239, 103, 17, 0.12);
+    box-shadow: 0 0 0 26px rgba(239, 103, 17, 0.03), 0 0 0 54px rgba(239, 103, 17, 0.025);
+    rotate: -12deg;
+    pointer-events: none;
   }
 }
 
-.role {
-  color: var(--orange) !important;
-  font-weight: 500;
-}
-
-// Portrait slot: photo when supplied, soft initials until then.
-.avatar {
+// Five across on desktop, scroll-snap carousel below the large breakpoint; every card the same height.
+.profileRow {
   position: relative;
   display: grid;
-  place-items: center;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  background: var(--peach);
-  font-size: clamp(36px, calc(54 * var(--u)), 54px);
-  font-weight: 700;
-  color: rgba(239, 103, 17, 0.55);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: max(16px, u(24));
 
-  img {
-    object-fit: cover;
-    object-position: 50% 12%;
+  > li {
+    min-width: 0;
+  }
+
+  @include below($bp-lg) {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 6px 4px 14px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > li {
+      flex: 0 0 min(78%, 300px);
+      height: auto; // let the flex row stretch every card to the tallest one
+      scroll-snap-align: start;
+    }
+  }
+}
+
+// Tidy layout (desktop): ten columns, each card spans two, so a short row of cards sits in the middle at the normal card size.
+// The cards past the first two rows stay hidden until Load more; on tablet and phone the carousel shows them all.
+@media (min-width: #{$bp-lg}) {
+  .profileTidy {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+
+    > li {
+      grid-column: span 2;
+    }
+
+    &[data-collapsed] > li[data-extra] {
+      display: none;
+    }
+  }
+}
+
+.loadMore {
+  display: none;
+
+  @media (min-width: #{$bp-lg}) {
+    display: block;
+    margin: max(22px, u(32)) auto 0;
+    padding: 10px 26px;
+    border: 1px solid var(--orange);
+    border-radius: 999px;
+    background: #fff;
+    font-size: fs(16, 15);
+    font-weight: 600;
+    color: var(--orange);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--orange);
+      color: #fff;
+    }
+  }
+}
+
+.profileNav {
+  display: none;
+
+  @include below($bp-lg) {
+    display: flex;
+    margin-top: 6px;
   }
 }
 
@@ -1065,6 +1093,12 @@ a.card:focus-visible {
     color: var(--orange);
   }
 
+  // Phone numbers and e-mail addresses stay on one line.
+  td a[href^="tel:"],
+  td a[href^="mailto:"] {
+    white-space: nowrap;
+  }
+
   @include below($bp-sm) {
     min-width: 0;
 
@@ -1397,13 +1431,13 @@ a.card:hover .more {
 
 // li-level items use transform/shadow (the scroll reveal owns `translate` on the same element).
 .stats li,
-.profile,
+.doc,
 .steps li {
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.3s;
 }
 
 .stats li:hover,
-.profile:hover {
+.doc:hover {
   transform: translateY(-5px);
   border-color: rgba(239, 103, 17, 0.5);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
@@ -1415,19 +1449,6 @@ a.card:hover .more {
 
 .stats li:hover strong {
   color: var(--orange);
-}
-
-.stats.statsColor li:hover strong,
-.stats.statsColor li:hover > span {
-  color: inherit;
-}
-
-.profile .avatar img {
-  transition: scale 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.profile:hover .avatar img {
-  scale: 1.07;
 }
 
 .steps li:hover .dot {

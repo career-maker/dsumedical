@@ -1,0 +1,29 @@
+@use "@/styles/tokens" as *;
+
+.root {
+  p {
+    margin-top: 16px;
+  }
+}
+
+.toggle {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: fs(17, 16);
+  font-weight: 600;
+  color: var(--orange);
+  cursor: pointer;
+}
+
+// Full text under the text + photo row, spanning the content width.
+.full {
+  margin-top: max(24px, 3vw);
+
+  p {
+    font-size: fs(18, 16);
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+}

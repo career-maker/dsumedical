@@ -26,9 +26,13 @@ export function ShareMenu() {
   const [title, setTitle] = useState("CDSIMER");
   const [copied, setCopied] = useState(false);
 
+  // Read the URL and title once the new route has painted (document.title is set after render).
   useEffect(() => {
-    setUrl(location.href);
-    setTitle(document.title);
+    const id = requestAnimationFrame(() => {
+      setUrl(location.href);
+      setTitle(document.title);
+    });
+    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
   const u = encodeURIComponent(url);

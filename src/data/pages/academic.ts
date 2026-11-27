@@ -128,7 +128,6 @@ export const academic: PageDef[] = [
           { title: "Ph.D", text: "Doctoral research supported by labs, mentors and an ethics committee.", href: "/programs/ph-d", tag: "Research", image: "research-labs.jpg" },
         ],
       },
-      { t: "links", title: "Also explore", items: [{ label: "Academics & calendar", href: "/academics" }, { label: "Departments", href: "/department" }, { label: "Admissions", href: "/admissions" }] },
       { t: "cta", title: "Not sure where to start?", text: "Talk to an admission counselor.", actions: [{ label: "Enquire Now", href: "/enquiry" }] },
     ],
   },

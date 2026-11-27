@@ -1,0 +1,137 @@
+@use "@/styles/tokens" as *;
+
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: max(16px, u(24));
+  align-items: start;
+  padding: max(18px, u(24));
+  border: 1px solid #f3e1d3;
+  border-radius: u(14);
+  background: #fff;
+  box-shadow: 0 10px 24px -20px rgba(90, 40, 10, 0.45);
+  transition: border-color 0.3s, box-shadow 0.3s;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgba(239, 103, 17, 0.4);
+      box-shadow: 0 16px 30px -20px rgba(90, 40, 10, 0.5);
+    }
+  }
+
+  @include below($bp-sm) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+// Date block in the site's peach and orange; "Event" stands in when the text carries no date.
+.when {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(70px, u(86), 86px);
+  padding: 10px 6px;
+  border-radius: u(10);
+  background: var(--peach);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--orange);
+
+  strong {
+    font-size: fs(30, 26);
+    font-weight: 800;
+  }
+
+  span {
+    font-size: fs(15, 14);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  small {
+    margin-top: 2px;
+    font-size: fs(13, 12);
+    font-weight: 600;
+    color: #a8480d;
+  }
+
+  @include below($bp-sm) {
+    flex-direction: row;
+    gap: 8px;
+    width: auto;
+    justify-self: start;
+    padding: 6px 12px;
+
+    strong {
+      font-size: 20px;
+    }
+
+    small {
+      margin: 0;
+    }
+  }
+}
+
+.nodate {
+  padding: 8px 0;
+  font-size: fs(13, 12) !important;
+}
+
+.body {
+  min-width: 0;
+
+  h3 {
+    font-size: fs(18, 16);
+    font-weight: 400; // event text reads as body copy, not as a heading
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: fs(16, 15);
+    line-height: 1.65;
+    color: var(--slate);
+  }
+
+  ul {
+    margin-top: 10px;
+    padding-left: 18px;
+    list-style: disc;
+    font-size: fs(16, 15);
+    line-height: 1.65;
+    color: var(--slate);
+
+    li {
+      margin-top: 4px;
+      padding-left: 2px;
+    }
+
+    li::marker {
+      color: var(--orange);
+    }
+  }
+}
+
+.more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: fs(15, 14);
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.readMore {
+  margin-top: 14px;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

@@ -137,7 +137,7 @@ export function Academics() {
           })}
         </ul>
 
-        <Photo name="home-academics" alt="Smiling postgraduate student holding books" sizes={fluid(374)} className={styles.photo} />
+        <Photo name="home-academics" alt="Smiling medical student writing notes at a library desk" sizes={fluid(374)} className={styles.photo} />
 
         <div id="program-panel" role="tabpanel" aria-labelledby={`tab-${activeId}`} className={styles.card}>
           <Image src="/images/academics-card.jpg" alt="" fill sizes={fluid(677)} className={styles.cardBg} />
