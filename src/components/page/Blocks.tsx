@@ -172,7 +172,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
       const image = b.center ? undefined : b.image ?? auto;
       const content = (
         <>
-          <div className={`${styles.split} ${image || b.video ? "" : styles.single} ${b.center ? styles.centered : ""} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
+          <div className={`${styles.split} ${image || b.video || b.videoSrc ? "" : styles.single} ${b.center ? styles.centered : ""} ${b.flip ? styles.flip : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.legacyLayout : ""}`}>
             <div className={styles.copy} data-rv>
               {b.eyebrow && <p className={styles.eyebrow}>{b.eyebrow}</p>}
               <h2>{b.title}</h2>
@@ -202,7 +202,13 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                 <VideoFrame id={b.video} title={b.title} />
               </div>
             )}
-            {!b.video && image && (
+            {!b.video && b.videoSrc && (
+              <div className={`${styles.media} ${styles.video}`} data-rv>
+                {/* Uploaded video: only metadata loads until play; poster shows meanwhile. */}
+                <video className={styles.videoFile} src={b.videoSrc} poster={b.videoPoster} controls preload="metadata" playsInline aria-label={b.title} />
+              </div>
+            )}
+            {!b.video && !b.videoSrc && image && (
               <div className={`${styles.media} ${b.fit ? styles[b.fit] : ""} ${b.id === "legacy-of-late-sri-r-dayananda-sagar" ? styles.art : ""}`} data-rv>
                 <Image src={contentImageSrc(image)} alt={b.alt ?? ""} fill sizes={b.fit ? "(max-width: 1280px) 100vw, 620px" : "(max-width: 1280px) 100vw, 700px"} unoptimized={isRemoteContentImage(image)} />
               </div>

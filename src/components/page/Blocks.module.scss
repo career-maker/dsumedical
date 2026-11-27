@@ -1835,6 +1835,14 @@ a.card:hover .more {
   aspect-ratio: 16 / 9;
 }
 
+.videoFile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
 // Cards in the brand palette, one colour each in turn (Core Values).
 .cardsColor .card {
   border-color: transparent;
