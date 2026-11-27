@@ -230,16 +230,16 @@ export const university: PageDef[] = [
         title: "Policies & committees",
         cols: 3,
         items: [
-          { title: "PwBD Committee", text: "Support and accessibility for persons with benchmark disabilities.", href: "/university/policies/pwbd-committee" },
-          { title: "Anti-Ragging Policy", text: "Definition, punishable offences and the institution’s stance on ragging.", href: "/university/policies/anti-ragging" },
+          { title: "PwBD Committee", text: "Support and accessibility for persons with benchmark disabilities.", href: "/university/policies/pw-bd-committee" },
+          { title: "Anti-Ragging Policy", text: "Definition, punishable offences and the institution’s stance on ragging.", href: "/university/policies/anti-ragging-policy" },
           { title: "Anti-Ragging Committee", text: "Helpline, undertaking and action against ragging.", href: "/university/anti-ragging-committee" },
           { title: "Prevention of Sexual Harassment", text: "A safe workplace under the 2013 Act.", href: "/university/policies/prevention-of-sexual-harassment" },
-          { title: "Grievance Redressal Committee", text: "How grievances of students, parents and staff are handled.", href: "/university/policies/grievance-redressal" },
+          { title: "Grievance Redressal Committee", text: "How grievances of students, parents and staff are handled.", href: "/university/policies/grievance-redressal-committee" },
         ],
       },
     ],
   },
-  policyPage("university/policies/pwbd-committee", "PwBD Committee", "Persons with Benchmarks Disabilities (PwBD) committee.", [
+  policyPage("university/policies/pw-bd-committee", "PwBD Committee", "Persons with Benchmarks Disabilities (PwBD) committee.", [
     {
       t: "table",
       title: "Persons with Benchmarks Disabilities (PwBD) committee",
@@ -253,7 +253,7 @@ export const university: PageDef[] = [
       ],
     },
   ]),
-  policyPage("university/policies/anti-ragging", "Anti-Ragging Policy", "Anti-Ragging Policy of CDSIMER.", [
+  policyPage("university/policies/anti-ragging-policy", "Anti-Ragging Policy", "Anti-Ragging Policy of CDSIMER.", [
     {
       t: "prose",
       title: "Anti- Ragging Policy",
@@ -323,7 +323,7 @@ export const university: PageDef[] = [
       items: [{ p: "For complaints, write to the Internal Committee (IC) at [posh.cdsimer@dsu.edu.in](mailto:posh.cdsimer@dsu.edu.in)." }],
     },
   ]),
-  policyPage("university/policies/grievance-redressal", "Grievance Redressal Committee", "Grievance Redressal Committee of CDSIMER.", [
+  policyPage("university/policies/grievance-redressal-committee", "Grievance Redressal Committee", "Grievance Redressal Committee of CDSIMER.", [
     {
       t: "prose",
       title: "Grievance Redressal Committee",

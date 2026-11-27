@@ -4,9 +4,9 @@ import { CmsPage, generateCmsMetadata } from "@/components/page/CmsPage";
 export const dynamic = "force-dynamic";
 
 export function generateMetadata(): Promise<Metadata> {
-  return generateCmsMetadata({ apiId: "ongoing-research-activities", slug: "research/ongoing-activities" });
+  return generateCmsMetadata({ apiId: "student-research-activities", slug: "research/student-research-activities" });
 }
 
 export default function Page() {
-  return <CmsPage apiId="ongoing-research-activities" slug="research/ongoing-activities" />;
+  return <CmsPage apiId="student-research-activities" slug="research/student-research-activities" />;
 }

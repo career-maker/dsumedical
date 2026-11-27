@@ -17,6 +17,22 @@ const nextConfig: NextConfig = {
       { source: "/about", destination: "/university/about", permanent: false },
       { source: "/brochure", destination: "/docs/admission-brochure.pdf", permanent: false },
       { source: "/prospectus", destination: "/docs/admission-brochure.pdf", permanent: false },
+      { source: "/research/ongoing-activities", destination: "/research/ongoing-research-activities", permanent: true },
+      { source: "/research/student-activities", destination: "/research/student-research-activities", permanent: true },
+      { source: "/university/policies/anti-ragging", destination: "/university/policies/anti-ragging-policy", permanent: true },
+      { source: "/university/policies/grievance-redressal", destination: "/university/policies/grievance-redressal-committee", permanent: true },
+      { source: "/university/policies/pwbd-committee", destination: "/university/policies/pw-bd-committee", permanent: true },
+      { source: "/university/policies/anti-ragging-committee", destination: "/university/anti-ragging-committee", permanent: true },
+      { source: "/department/gastroenterology", destination: "/department/general-medicine", permanent: true },
+      // Truncated links present in CMS content.
+      { source: "/admiss", destination: "/admissions", permanent: true },
+      { source: "/admissi", destination: "/admissions", permanent: true },
+      { source: "/admissio", destination: "/admissions", permanent: true },
+      { source: "/admission", destination: "/admissions", permanent: true },
+      { source: "/enquir", destination: "/enquiry", permanent: true },
+      { source: "/enquire", destination: "/enquiry", permanent: true },
+      { source: "/progra", destination: "/programs", permanent: true },
+      { source: "/program", destination: "/programs", permanent: true },
     ];
   },
   // Beta stage: block indexing at the HTTP level too.

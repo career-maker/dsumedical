@@ -29,10 +29,10 @@ const university = L("University", "/university", [
   L("DSU Act", doc.dsuAct),
   L("GoK Notification", doc.gokNotification),
   L("Policies", "/university/policies", [
-    L("PwBD Committee", "/university/policies/pwbd-committee"),
-    L("Anti-Ragging Policy", "/university/policies/anti-ragging"),
+    L("PwBD Committee", "/university/policies/pw-bd-committee"),
+    L("Anti-Ragging Policy", "/university/policies/anti-ragging-policy"),
     L("Prevention of Sexual Harassment", "/university/policies/prevention-of-sexual-harassment"),
-    L("Grievance Redressal Committee", "/university/policies/grievance-redressal"),
+    L("Grievance Redressal Committee", "/university/policies/grievance-redressal-committee"),
   ]),
   nmc,
   L("Vision and Mission", doc.visionMission),
