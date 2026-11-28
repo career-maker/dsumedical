@@ -274,7 +274,7 @@ function Render({ b, auto, useFallbackImages }: { b: Block; auto?: string; useFa
                     <h3>{c.title}</h3>
                     {/* Tidy: each card limits its own text; only a card whose text is longer than the box gets Load more. */}
                     <Tidy on={b.tidy} max={220}>
-                      <RichText content={c.text} />
+                      <RichText content={c.text} unorderedListClassName={styles.cardList} />
                       {c.bullets && (
                         <ul className={styles.cardList}>
                           {c.bullets.map((x) => (

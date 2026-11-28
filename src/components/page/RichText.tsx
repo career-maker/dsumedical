@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import type { RichTextContent, RichTextNode } from "@/data/pages/types";
 import { contentImageSrc, isRemoteContentImage } from "@/lib/content-media";
+import styles from "./RichText.module.scss";
 
 type Content = RichTextContent | string[];
 
@@ -57,9 +58,10 @@ function renderNode(node: RichTextNode, key: string, className?: string, unorder
       return <h6 key={key} className={className}>{children}</h6>;
     }
     case "list":
+      // Lists always get visible markers (globals.scss strips them); a caller's class replaces the default.
       return node.format === "ordered"
-        ? <ol key={key} className={className}>{children}</ol>
-        : <ul key={key} className={unorderedListClassName ?? className}>{children}</ul>;
+        ? <ol key={key} className={[styles.ol, className].filter(Boolean).join(" ")}>{children}</ol>
+        : <ul key={key} className={unorderedListClassName ?? [styles.ul, className].filter(Boolean).join(" ")}>{children}</ul>;
     case "list-item":
       return <li key={key}>{children}</li>;
     case "quote":
